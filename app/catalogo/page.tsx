@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CatalogoFilters } from "@/components/product/CatalogoFilters";
@@ -22,14 +24,19 @@ async function getProducts(params: SearchParams) {
 
   if (params.liga) {
     const slugToLeague: Record<string, string> = {
-      selecciones: "Selecciones",
-      "liga-espanola": "Liga Española",
-      "premier-league": "Premier League",
-      "serie-a": "Serie A",
-      bundesliga: "Bundesliga",
-      "ligue-1": "Ligue 1",
-      "ligas-sudamericanas": "Ligas Sudamericanas",
-      "retros-clasicas": "Retros / Clásicas",
+      // Valores actuales en la BD
+      "new-season": "New Season",
+      "la-liga": "La Liga",
+      retro: "Retro",
+      // Aliases para compatibilidad con links existentes
+      selecciones: "New Season",
+      "liga-espanola": "La Liga",
+      "premier-league": "Retro",
+      "serie-a": "Retro",
+      bundesliga: "Retro",
+      "ligue-1": "Retro",
+      "ligas-sudamericanas": "Retro",
+      "retros-clasicas": "Retro",
     };
     const leagueName = slugToLeague[params.liga];
     if (leagueName) where.league = leagueName;

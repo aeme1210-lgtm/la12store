@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     formats: ["image/webp", "image/avif"],
     unoptimized: true,
   },
-  serverExternalPackages: ["better-sqlite3", "@prisma/adapter-better-sqlite3"],
+  serverExternalPackages: ["@prisma/adapter-pg"],
 };
 
 export default nextConfig;
