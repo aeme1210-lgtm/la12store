@@ -14,14 +14,9 @@ async function getFeaturedProducts() {
 }
 
 const categories = [
-  { name: "Selecciones", subtitle: "Mundial 2026", slug: "selecciones", emoji: "🌍" },
-  { name: "Liga Española", subtitle: "LaLiga", slug: "liga-espanola", emoji: "🇪🇸" },
-  { name: "Premier League", subtitle: "Inglaterra", slug: "premier-league", emoji: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
-  { name: "Serie A", subtitle: "Italia", slug: "serie-a", emoji: "🇮🇹" },
-  { name: "Bundesliga", subtitle: "Alemania", slug: "bundesliga", emoji: "🇩🇪" },
-  { name: "Ligue 1", subtitle: "Francia", slug: "ligue-1", emoji: "🇫🇷" },
-  { name: "Sudamérica", subtitle: "Ligas", slug: "ligas-sudamericanas", emoji: "🌎" },
-  { name: "Retros", subtitle: "Clásicas", slug: "retros-clasicas", emoji: "⭐" },
+  { name: "New Season", subtitle: "2025/26", slug: "new-season", emoji: "🌍" },
+  { name: "La Liga", subtitle: "España", slug: "la-liga", emoji: "🇪🇸" },
+  { name: "Retro", subtitle: "Clásicas", slug: "retro", emoji: "⭐" },
 ];
 
 const features = [
