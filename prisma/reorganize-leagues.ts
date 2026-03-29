@@ -1,9 +1,9 @@
 /**
  * reorganize-leagues.ts
- * Reorganiza el campo 'league' de todos los productos según estas reglas:
- * 1) Nombre contiene '25/26' o '2526' → league = 'New Season'
- * 2) NO es 25/26 + equipo español → league = 'La Liga'
- * 3) Todo lo demás → league = 'Retro'
+ * Reclasifica el campo 'league' de TODOS los productos desde cero:
+ * 1) Contiene '25/26' o '2526' → 'New Season'
+ * 2) NO es 25/26 + equipo español → 'La Liga'
+ * 3) Todo lo demás → 'Retro'
  *
  * Uso: npx tsx prisma/reorganize-leagues.ts
  */
@@ -19,18 +19,18 @@ const SPANISH_TEAMS = [
   "Alavés", "Alaves",
   "Almería", "Almeria",
   "Athletic Club", "Athletic Bilbao",
-  "Atlético Madrid", "Atletico Madrid",
+  "Atlético", "Atletico",
   "Barcelona", "Barça", "Barca",
   "Betis",
   "Cádiz", "Cadiz",
   "Celta",
   "Córdoba", "Cordoba",
-  "Deportivo La Coruña", "Deportivo Coruña", "Deportivo La Coruna",
+  "Deportivo",
   "Eibar",
   "Elche",
   "Espanyol",
   "Getafe",
-  "Gimnàstic", "Gimnastic", "Nàstic", "Nastic",
+  "Gimnàstic", "Nàstic", "Gimnastic", "Nastic",
   "Girona",
   "Granada",
   "Hércules", "Hercules",
@@ -59,56 +59,51 @@ const SPANISH_TEAMS = [
   "Zaragoza",
 ];
 
-function isNewSeason(name: string): boolean {
-  return /25\/26|2526/i.test(name);
-}
-
-function isLaLiga(name: string): boolean {
+function classify(name: string): string {
+  if (/25\/26|2526/i.test(name)) return "New Season";
   const lower = name.toLowerCase();
-  return SPANISH_TEAMS.some((team) => lower.includes(team.toLowerCase()));
-}
-
-function getLeague(name: string): string {
-  if (isNewSeason(name)) return "New Season";
-  if (isLaLiga(name)) return "La Liga";
+  if (SPANISH_TEAMS.some((t) => lower.includes(t.toLowerCase()))) return "La Liga";
   return "Retro";
 }
 
 async function main() {
   console.log("=".repeat(60));
-  console.log("  REORGANIZANDO LEAGUES");
+  console.log("  RECLASIFICACIÓN TOTAL DE LEAGUES");
   console.log("=".repeat(60));
 
   const products = await prisma.product.findMany({
     select: { id: true, name: true, league: true },
+    orderBy: { name: "asc" },
   });
-  console.log(`\n  Total productos: ${products.length}\n`);
+  console.log(`\n  Total productos a procesar: ${products.length}\n`);
 
-  const counts = { "New Season": 0, "La Liga": 0, Retro: 0, unchanged: 0 };
+  const counts = { "New Season": 0, "La Liga": 0, Retro: 0 };
+  const changes: string[] = [];
 
-  for (const product of products) {
-    const newLeague = getLeague(product.name);
-
-    if (newLeague === product.league) {
-      counts.unchanged++;
-      continue;
-    }
-
+  // Actualizar TODOS, sin excepción
+  for (const p of products) {
+    const newLeague = classify(p.name);
     await prisma.product.update({
-      where: { id: product.id },
+      where: { id: p.id },
       data: { league: newLeague },
     });
-
-    console.log(`  ${product.league.padEnd(12)} → ${newLeague.padEnd(12)} | ${product.name}`);
     counts[newLeague as keyof typeof counts]++;
+    if (p.league !== newLeague) {
+      changes.push(`  ${p.league.padEnd(14)} → ${newLeague.padEnd(14)} | ${p.name}`);
+    }
+  }
+
+  if (changes.length) {
+    console.log("  CAMBIOS APLICADOS:");
+    changes.forEach((c) => console.log(c));
   }
 
   console.log("\n" + "=".repeat(60));
-  console.log("  RESUMEN:");
-  console.log(`  → New Season : ${counts["New Season"]} actualizados`);
-  console.log(`  → La Liga    : ${counts["La Liga"]} actualizados`);
-  console.log(`  → Retro      : ${counts.Retro} actualizados`);
-  console.log(`  Sin cambios  : ${counts.unchanged}`);
+  console.log("  RESULTADO FINAL (todos los productos):");
+  console.log(`  New Season : ${counts["New Season"]}`);
+  console.log(`  La Liga    : ${counts["La Liga"]}`);
+  console.log(`  Retro      : ${counts.Retro}`);
+  console.log(`  Total      : ${products.length}`);
   console.log("=".repeat(60));
 }
 
