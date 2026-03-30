@@ -18,6 +18,7 @@ const leagueToSlug: Record<string, string> = {
   "La Liga": "la-liga",
   "New Season": "new-season",
   Retro: "retro",
+  "Premier League": "premier-league",
 };
 
 export function CatalogoFilters({ leagues, types, currentParams }: Props) {

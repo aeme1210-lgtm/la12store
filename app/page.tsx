@@ -16,6 +16,7 @@ async function getFeaturedProducts() {
 const categories = [
   { name: "New Season", subtitle: "2025/26", slug: "new-season", emoji: "🌍" },
   { name: "La Liga", subtitle: "España", slug: "la-liga", emoji: "🇪🇸" },
+  { name: "Premier League", subtitle: "Inglaterra", slug: "premier-league", emoji: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
   { name: "Retro", subtitle: "Clásicas", slug: "retro", emoji: "⭐" },
 ];
 

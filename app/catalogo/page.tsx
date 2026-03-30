@@ -31,7 +31,7 @@ async function getProducts(params: SearchParams) {
       // Aliases para compatibilidad con links existentes
       selecciones: "New Season",
       "liga-espanola": "La Liga",
-      "premier-league": "Retro",
+      "premier-league": "Premier League",
       "serie-a": "Retro",
       bundesliga: "Retro",
       "ligue-1": "Retro",
