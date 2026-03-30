@@ -24,19 +24,15 @@ async function getProducts(params: SearchParams) {
 
   if (params.liga) {
     const slugToLeague: Record<string, string> = {
-      // Valores actuales en la BD
       "new-season": "New Season",
       "la-liga": "La Liga",
       retro: "Retro",
-      // Aliases para compatibilidad con links existentes
-      selecciones: "New Season",
-      "liga-espanola": "La Liga",
       "premier-league": "Premier League",
-      "brasileirao": "Brasileirao",
-      "selecciones": "Selecciones",
-      "bundesliga": "Bundesliga",
       "serie-a": "Serie A",
-      bundesliga: "Retro",
+      bundesliga: "Bundesliga",
+      selecciones: "Selecciones",
+      brasileirao: "Brasileirao",
+      "liga-espanola": "La Liga",
       "ligue-1": "Retro",
       "ligas-sudamericanas": "Retro",
       "retros-clasicas": "Retro",
