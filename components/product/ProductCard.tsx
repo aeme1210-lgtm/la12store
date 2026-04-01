@@ -31,48 +31,49 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link href={`/catalogo/${product.slug}`} className="group block">
-      <div className="relative bg-[#141414] rounded-xl overflow-hidden border border-transparent hover:border-[#D4A017]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#D4A017]/10">
-        {/* Badges */}
-        <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
-          {product.isTrending && (
-            <span
-              className="bg-[#D4A017] text-black text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider"
-              style={{ fontFamily: "var(--font-oswald)" }}
-            >
-              Tendencia
-            </span>
-          )}
-          {product.isNew && !product.isTrending && (
-            <span
-              className="bg-[#22C55E] text-black text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider"
-              style={{ fontFamily: "var(--font-oswald)" }}
-            >
-              Nuevo
-            </span>
-          )}
-          {product.isRetro && (
-            <span
-              className="bg-[#1A1A1A] border border-[#D4A017]/50 text-[#D4A017] text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider"
-              style={{ fontFamily: "var(--font-oswald)" }}
-            >
-              Retro
-            </span>
-          )}
-        </div>
-
-        {/* Image */}
-        <div className="relative aspect-square bg-[#1A1A1A] overflow-hidden">
+      <div className="relative bg-[#141414] rounded-xl border border-transparent hover:border-[#D4A017]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#D4A017]/10">
+        {/* Image container — aspect 3/4, object-contain so jersey shows full */}
+        <div className="relative aspect-[3/4] bg-[#1A1A1A] rounded-t-xl overflow-hidden">
           <Image
             src={mainImage}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-contain group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
+
+          {/* Badges — inside image area, enough inset so they don't clip */}
+          <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
+            {product.isTrending && (
+              <span
+                className="bg-[#D4A017] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                Tendencia
+              </span>
+            )}
+            {product.isNew && !product.isTrending && (
+              <span
+                className="bg-[#22C55E] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                Nuevo
+              </span>
+            )}
+            {product.isRetro && (
+              <span
+                className="bg-[#1A1A1A]/90 border border-[#D4A017]/60 text-[#D4A017] text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                Retro
+              </span>
+            )}
+          </div>
+
           {/* Hover overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-center pb-3 opacity-0 group-hover:opacity-100">
             <span
-              className="bg-[#D4A017] text-black text-xs font-black px-4 py-2 rounded-full uppercase tracking-wider"
+              className="bg-[#D4A017] text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider"
               style={{ fontFamily: "var(--font-oswald)" }}
             >
               Ver detalles
@@ -81,29 +82,25 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Info */}
-        <div className="p-2 sm:p-3">
-          <p className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-0.5 truncate" style={{ fontFamily: "var(--font-oswald)" }}>
-            {product.type} {product.season && `· ${product.season}`}
+        <div className="p-3">
+          <p
+            className="text-[#666666] text-[10px] uppercase tracking-wider mb-1 truncate"
+            style={{ fontFamily: "var(--font-oswald)" }}
+          >
+            {product.type}{product.season ? ` · ${product.season}` : ""}
           </p>
           <h3
-            className="text-white font-semibold text-xs sm:text-sm leading-tight line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors"
+            className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors min-h-[2.5rem]"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             {product.name}
           </h3>
-          <div className="flex items-center justify-between gap-1">
-            <span
-              className="text-[#D4A017] font-bold text-sm sm:text-base"
-              style={{ fontFamily: "var(--font-jetbrains)" }}
-            >
-              {formatCOP(displayPrice)}
-            </span>
-            {!product.isRetro && product.pricePlayer && (
-              <span className="text-[#666666] text-xs hidden sm:block">
-                Player: {formatCOP(product.pricePlayer)}
-              </span>
-            )}
-          </div>
+          <span
+            className="text-[#D4A017] font-bold text-sm"
+            style={{ fontFamily: "var(--font-jetbrains)" }}
+          >
+            {formatCOP(displayPrice)}
+          </span>
         </div>
       </div>
     </Link>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 
 interface Props {
@@ -46,12 +46,27 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
   }
 
   function clearAll() {
+    setSearch("");
     router.push(pathname);
+  }
+
+  function handleSearchChange(val: string) {
+    setSearch(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      updateFilter("q", val.trim() || undefined);
+    }, 500);
+  }
+
+  function handleSearchEnter() {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    updateFilter("q", search.trim() || undefined);
   }
 
   const hasFilters = currentParams.liga || currentParams.tipo || currentParams.q;
 
-  const FilterContent = () => (
+  // Inlined filter content (NOT a sub-component) to avoid remount on every render
+  const filterContent = (
     <div className="space-y-6">
       {/* Search */}
       <div>
@@ -64,20 +79,8 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
         <input
           type="text"
           value={search}
-          onChange={(e) => {
-            const val = e.target.value;
-            setSearch(val);
-            if (debounceRef.current) clearTimeout(debounceRef.current);
-            debounceRef.current = setTimeout(() => {
-              updateFilter("q", val.trim() || undefined);
-            }, 500);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              if (debounceRef.current) clearTimeout(debounceRef.current);
-              updateFilter("q", search.trim() || undefined);
-            }
-          }}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") handleSearchEnter(); }}
           placeholder="Equipo, selección..."
           className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
         />
@@ -91,7 +94,7 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
         >
           Liga / Competición
         </p>
-        <div className="space-y-2">
+        <div className="space-y-1">
           {leagues.map((league) => {
             const slug = leagueToSlug[league] ?? league.toLowerCase().replace(/\s+/g, "-");
             const active = currentParams.liga === slug;
@@ -102,8 +105,9 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
                   active
                     ? "bg-[#D4A017]/20 text-[#D4A017] border border-[#D4A017]/40"
-                    : "text-[#A0A0A0] hover:text-white hover:bg-[#1A1A1A]"
+                    : "text-[#A0A0A0] hover:text-white hover:bg-[#252525]"
                 }`}
+                style={{ fontFamily: "var(--font-oswald)" }}
               >
                 {league}
               </button>
@@ -160,7 +164,7 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
       <div className="lg:hidden">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="flex items-center gap-2 bg-[#141414] border border-[#B8860B]/20 text-white px-4 py-2.5 rounded-lg text-sm font-semibold w-full justify-between"
+          className="flex items-center justify-between w-full bg-[#141414] border border-[#B8860B]/20 text-white px-4 py-3 rounded-lg text-sm font-semibold"
           style={{ fontFamily: "var(--font-oswald)" }}
         >
           <span className="flex items-center gap-2">
@@ -177,21 +181,21 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
 
         {mobileOpen && (
           <div className="mt-2 bg-[#141414] border border-[#B8860B]/20 rounded-xl p-4">
-            <FilterContent />
+            {filterContent}
           </div>
         )}
       </div>
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-56 flex-shrink-0">
-        <div className="sticky top-24 bg-[#141414] border border-[#B8860B]/10 rounded-xl p-5">
+      <aside className="hidden lg:block w-60 flex-shrink-0">
+        <div className="sticky top-24 bg-[#141414] border border-[#B8860B]/10 rounded-xl p-5 overflow-y-auto max-h-[calc(100vh-8rem)]">
           <h3
             className="text-white font-bold uppercase tracking-wider mb-5 text-sm"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             Filtros
           </h3>
-          <FilterContent />
+          {filterContent}
         </div>
       </aside>
     </>
