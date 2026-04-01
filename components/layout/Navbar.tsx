@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, MessageCircle } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
+import { BRAND_URLS } from "@/components/home/HeroSlider";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
@@ -16,14 +18,20 @@ const navLinks = [
 export function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const totalItems = useCart((s) => s.totalItems);
 
-  // Close on route change
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -34,34 +42,53 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[9999] bg-[#0A0A0A]/95 backdrop-blur-sm border-b border-[#B8860B]/10">
+      <header
+        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-md border-b border-[#D4AF37]/30 shadow-lg shadow-black/30"
+            : "bg-transparent"
+        }`}
+      >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-1.5 min-w-0">
-              <span
-                className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-[#D4A017] uppercase whitespace-nowrap"
-                style={{ fontFamily: "var(--font-oswald)" }}
-              >
-                LA 12
-              </span>
-              <span
-                className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-white uppercase whitespace-nowrap"
-                style={{ fontFamily: "var(--font-oswald)" }}
-              >
-                STORE
-              </span>
+            <Link href="/" className="flex items-center min-w-0 flex-shrink-0">
+              {scrolled ? (
+                <Image
+                  src={BRAND_URLS.logo}
+                  alt="La 12 Store"
+                  width={100}
+                  height={40}
+                  className="object-contain h-10 w-auto"
+                  unoptimized
+                />
+              ) : (
+                <span className="flex items-center gap-1">
+                  <span
+                    className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-[#D4AF37] uppercase whitespace-nowrap"
+                    style={{ fontFamily: "var(--font-oswald)" }}
+                  >
+                    LA 12
+                  </span>
+                  <span
+                    className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-white uppercase whitespace-nowrap"
+                    style={{ fontFamily: "var(--font-oswald)" }}
+                  >
+                    STORE
+                  </span>
+                </span>
+              )}
             </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8">
+            {/* Desktop nav */}
+            <div className="hidden md:flex items-center gap-7">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`text-sm font-semibold tracking-wider uppercase transition-colors duration-200 ${
                     pathname === link.href
-                      ? "text-[#D4A017]"
+                      ? "text-[#D4AF37]"
                       : "text-[#A0A0A0] hover:text-white"
                   }`}
                   style={{ fontFamily: "var(--font-oswald)" }}
@@ -69,17 +96,28 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {/* WhatsApp always visible on desktop */}
+              <a
+                href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wide transition-colors"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                <MessageCircle size={14} />
+                WhatsApp
+              </a>
             </div>
 
-            {/* Cart + Mobile button */}
+            {/* Cart + hamburger */}
             <div className="flex items-center gap-3">
               <Link
                 href="/carrito"
-                className="relative p-2 text-[#A0A0A0] hover:text-[#D4A017] transition-colors"
+                className="relative p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
               >
                 <ShoppingCart size={22} />
                 {totalItems() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#D4A017] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                     {totalItems()}
                   </span>
                 )}
@@ -96,28 +134,24 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Mobile overlay — fixed, full screen, behind header */}
+      {/* Mobile overlay */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-[9998] md:hidden"
           onClick={() => setMobileOpen(false)}
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/60" />
-          {/* Menu panel — slides from top */}
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           <div
-            className="absolute top-16 left-0 right-0 bg-[#141414] border-b border-[#B8860B]/20 shadow-2xl"
+            className="absolute top-16 left-0 right-0 bg-[#0F0F0F] border-b border-[#D4AF37]/20 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <nav className="px-6 py-6 flex flex-col gap-1">
+            <nav className="px-6 py-5 flex flex-col">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-lg font-semibold uppercase tracking-wider py-3 border-b border-[#1A1A1A] last:border-0 transition-colors ${
-                    pathname === link.href
-                      ? "text-[#D4A017]"
-                      : "text-[#A0A0A0] hover:text-white"
+                  className={`text-lg font-semibold uppercase tracking-wider py-3.5 border-b border-[#1A1A1A] last:border-0 transition-colors ${
+                    pathname === link.href ? "text-[#D4AF37]" : "text-[#A0A0A0] hover:text-white"
                   }`}
                   style={{ fontFamily: "var(--font-oswald)" }}
                 >
@@ -125,12 +159,13 @@ export function Navbar() {
                 </Link>
               ))}
               <a
-                href="https://wa.me/573008443885?text=Hola%20La%2012%20Store%2C%20quiero%20más%20información"
+                href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 bg-[#25D366] text-white text-center py-3 rounded-lg font-semibold uppercase tracking-wider"
+                className="mt-4 bg-[#25D366] text-white text-center py-3 rounded-lg font-semibold uppercase tracking-wider flex items-center justify-center gap-2"
                 style={{ fontFamily: "var(--font-oswald)" }}
               >
+                <MessageCircle size={16} />
                 WhatsApp
               </a>
             </nav>
