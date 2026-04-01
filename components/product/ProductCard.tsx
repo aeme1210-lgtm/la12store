@@ -81,25 +81,25 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Info */}
-        <div className="p-3">
-          <p className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+        <div className="p-2 sm:p-3">
+          <p className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-0.5 truncate" style={{ fontFamily: "var(--font-oswald)" }}>
             {product.type} {product.season && `· ${product.season}`}
           </p>
           <h3
-            className="text-white font-semibold text-sm leading-tight line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors"
+            className="text-white font-semibold text-xs sm:text-sm leading-tight line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             {product.name}
           </h3>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-1">
             <span
-              className="text-[#D4A017] font-bold text-base"
+              className="text-[#D4A017] font-bold text-sm sm:text-base"
               style={{ fontFamily: "var(--font-jetbrains)" }}
             >
               {formatCOP(displayPrice)}
             </span>
             {!product.isRetro && product.pricePlayer && (
-              <span className="text-[#666666] text-xs">
+              <span className="text-[#666666] text-xs hidden sm:block">
                 Player: {formatCOP(product.pricePlayer)}
               </span>
             )}

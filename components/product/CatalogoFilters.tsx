@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 
 interface Props {
@@ -19,10 +19,14 @@ const leagueToSlug: Record<string, string> = {
   "New Season": "new-season",
   Retro: "retro",
   "Premier League": "premier-league",
-  "Selecciones": "selecciones",
-  "Brasileirao": "brasileirao",
-  "Bundesliga": "bundesliga",
   "Serie A": "serie-a",
+  Bundesliga: "bundesliga",
+  "Selecciones Nacionales": "selecciones-nacionales",
+  Brasileirao: "brasileirao",
+  "Other Clubs": "other-clubs",
+  "Ligue 1": "ligue-1",
+  "Mundial FIFA 2026": "mundial-fifa-2026",
+  "Liga Argentina": "liga-argentina",
 };
 
 export function CatalogoFilters({ leagues, types, currentParams }: Props) {
@@ -30,6 +34,7 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState(currentParams.q ?? "");
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function updateFilter(key: string, value: string | undefined) {
     const params = new URLSearchParams();
@@ -59,9 +64,19 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
         <input
           type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            const val = e.target.value;
+            setSearch(val);
+            if (debounceRef.current) clearTimeout(debounceRef.current);
+            debounceRef.current = setTimeout(() => {
+              updateFilter("q", val.trim() || undefined);
+            }, 500);
+          }}
           onKeyDown={(e) => {
-            if (e.key === "Enter") updateFilter("q", search || undefined);
+            if (e.key === "Enter") {
+              if (debounceRef.current) clearTimeout(debounceRef.current);
+              updateFilter("q", search.trim() || undefined);
+            }
           }}
           placeholder="Equipo, selección..."
           className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
@@ -145,20 +160,23 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
       <div className="lg:hidden">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="flex items-center gap-2 bg-[#141414] border border-[#B8860B]/20 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+          className="flex items-center gap-2 bg-[#141414] border border-[#B8860B]/20 text-white px-4 py-2.5 rounded-lg text-sm font-semibold w-full justify-between"
           style={{ fontFamily: "var(--font-oswald)" }}
         >
-          <SlidersHorizontal size={16} />
-          Filtros
-          {hasFilters && (
-            <span className="bg-[#D4A017] text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-              !
-            </span>
-          )}
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal size={16} />
+            Filtros
+            {hasFilters && (
+              <span className="bg-[#D4A017] text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                !
+              </span>
+            )}
+          </span>
+          <span className="text-[#666666] text-xs">{mobileOpen ? "▲" : "▼"}</span>
         </button>
 
         {mobileOpen && (
-          <div className="mt-4 bg-[#141414] border border-[#B8860B]/20 rounded-xl p-5">
+          <div className="mt-2 bg-[#141414] border border-[#B8860B]/20 rounded-xl p-4">
             <FilterContent />
           </div>
         )}

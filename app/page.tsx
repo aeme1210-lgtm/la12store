@@ -65,7 +65,7 @@ export default async function HomePage() {
             Santa Marta, Colombia
           </p>
           <h1
-            className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider leading-none mb-4"
+            className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider leading-none mb-4"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             <span className="text-[#D4A017]">LA 12</span>
