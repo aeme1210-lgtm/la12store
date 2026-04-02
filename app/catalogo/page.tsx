@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CatalogoFilters } from "@/components/product/CatalogoFilters";
+import { LigaVideoBanner } from "@/components/product/LigaVideoBanner";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -17,17 +18,22 @@ const PAGE_SIZE = 48;
 const VIDEO_BASE = "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/";
 
 const ligaVideoMap: Record<string, string> = {
-  "la-liga":               `${VIDEO_BASE}LigaE.mp4`,
-  "liga-espanola":         `${VIDEO_BASE}LigaE.mp4`,
-  "premier-league":        `${VIDEO_BASE}premier%20league%20(1).mp4`,
-  "serie-a":               `${VIDEO_BASE}Serie%20A.mp4`,
-  "bundesliga":            `${VIDEO_BASE}Bundesliga.mp4`,
-  "selecciones-nacionales":`${VIDEO_BASE}Selecciones.mp4`,
-  "liga-argentina":        `${VIDEO_BASE}WhatsApp%20Video%202026-04-01%20at%2019.43.52.mp4`,
-  "retro":                 `${VIDEO_BASE}Retro.mp4`,
-  "retros-clasicas":       `${VIDEO_BASE}Retro.mp4`,
-  "brasileirao":           `${VIDEO_BASE}Brasileirao.mp4`,
-  "mundial-fifa-2026":     `${VIDEO_BASE}Mundial%202026.mp4`,
+  "la-liga":                `${VIDEO_BASE}LigaE.mp4`,
+  "liga-espanola":          `${VIDEO_BASE}LigaE.mp4`,
+  "premier-league":         `${VIDEO_BASE}premier%20league%20(1).mp4`,
+  "ligue-1":                `${VIDEO_BASE}premier%20league%20(1).mp4`,
+  "serie-a":                `${VIDEO_BASE}Serie%20A.mp4`,
+  "bundesliga":             `${VIDEO_BASE}Bundesliga.mp4`,
+  "selecciones-nacionales": `${VIDEO_BASE}Selecciones.mp4`,
+  "selecciones":            `${VIDEO_BASE}Selecciones.mp4`,
+  "liga-argentina":         `${VIDEO_BASE}WhatsApp%20Video%202026-04-01%20at%2019.43.52.mp4`,
+  "retro":                  `${VIDEO_BASE}Retro.mp4`,
+  "retros-clasicas":        `${VIDEO_BASE}Retro.mp4`,
+  "brasileirao":            `${VIDEO_BASE}Brasileirao.mp4`,
+  "ligas-sudamericanas":    `${VIDEO_BASE}Brasileirao.mp4`,
+  "other-clubs":            `${VIDEO_BASE}Brasileirao.mp4`,
+  "mundial-fifa-2026":      `${VIDEO_BASE}Mundial%202026.mp4`,
+  "new-season":             `${VIDEO_BASE}Mundial%202026.mp4`,
 };
 
 const slugToLeague: Record<string, string> = {
@@ -125,33 +131,11 @@ export default async function CatalogoPage({
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Video banner — shown when a liga with video is selected */}
         {ligaVideo ? (
-          <div className="relative w-full overflow-hidden rounded-xl mb-8" style={{ height: "240px" }}>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-            >
-              <source src={ligaVideo} type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 p-6 md:p-8">
-              <p
-                className="text-[#D4AF37] text-[10px] tracking-widest uppercase mb-1"
-                style={{ fontFamily: "var(--font-oswald)" }}
-              >
-                {total} productos
-                {totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ""}
-              </p>
-              <h1
-                className="text-3xl md:text-5xl font-bold text-white break-words leading-tight"
-                style={{ fontFamily: "var(--font-playfair)" }}
-              >
-                {leagueTitle}
-              </h1>
-            </div>
-          </div>
+          <LigaVideoBanner
+            src={ligaVideo}
+            title={leagueTitle}
+            subtitle={`${total} productos${totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ""}`}
+          />
         ) : (
           /* Header — no video (all catalog or unsupported liga) */
           <div className="mb-8">
