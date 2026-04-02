@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Oswald, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Oswald, Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -11,10 +11,16 @@ const oswald = Oswald({
   weight: ["400", "500", "600", "700"],
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -44,28 +50,17 @@ export const metadata: Metadata = {
     locale: "es_CO",
     siteName: "La 12 Store",
     title: "La 12 Store | Camisetas de Fútbol Premium",
-    description:
-      "Lo mejor en camisetas de fútbol en Colombia. Calidad premium, envío a todo el país.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "La 12 Store | Camisetas de Fútbol Premium",
-    description:
-      "Lo mejor en camisetas de fútbol en Colombia. Calidad premium.",
+    description: "Lo mejor en camisetas de fútbol en Colombia. Calidad premium, envío a todo el país.",
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="es"
-      className={`${oswald.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${oswald.variable} ${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-white">
+      <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
         <Navbar />
         <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <Footer />

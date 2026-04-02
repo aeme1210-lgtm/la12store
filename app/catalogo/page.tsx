@@ -108,15 +108,15 @@ export default async function CatalogoPage({
         {/* Header */}
         <div className="mb-8">
           <p
-            className="text-[#D4A017] text-xs tracking-widest uppercase mb-1"
+            className="text-[#D4AF37] text-[10px] tracking-widest uppercase mb-1"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             {total} productos
             {totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ""}
           </p>
           <h1
-            className="text-3xl md:text-4xl font-black text-white uppercase"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            className="text-2xl md:text-4xl font-bold text-white break-words leading-tight"
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             {leagueTitle}
           </h1>

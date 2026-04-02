@@ -19,16 +19,14 @@ export const metadata: Metadata = {
 };
 
 async function getTrendingProducts() {
-  // Try to find specific popular products first
   const popular = await prisma.product.findMany({
     where: {
       isActive: true,
       OR: [
-        { name: { contains: "Barcelona 25" } },
+        { name: { contains: "Barcelona" } },
         { name: { contains: "Colombia" } },
-        { name: { contains: "Real Madrid 25" } },
-        { name: { contains: "Argentina 2026" } },
-        { name: { contains: "Colombia 2026" } },
+        { name: { contains: "Real Madrid" } },
+        { name: { contains: "Argentina" } },
         { name: { contains: "Manchester United" } },
         { isFeatured: true },
         { isTrending: true },
@@ -37,10 +35,7 @@ async function getTrendingProducts() {
     orderBy: { createdAt: "desc" },
     take: 8,
   });
-
   if (popular.length >= 4) return popular.slice(0, 8);
-
-  // Fallback: latest products
   return prisma.product.findMany({
     where: { isActive: true },
     orderBy: { createdAt: "desc" },
@@ -59,9 +54,9 @@ const categories = [
 
 const features = [
   { Icon: Shield, title: "Calidad Premium", desc: "Telas técnicas y acabados profesionales en cada prenda." },
-  { Icon: Truck, title: "Envío a toda Colombia", desc: "Domicilio gratis en Santa Marta. Nacional desde $25.000." },
-  { Icon: Globe, title: "Envíos Internacionales", desc: "Llegamos a cualquier parte del mundo. GRATIS." },
-  { Icon: MessageCircle, title: "Atención Personalizada", desc: "Te asesoramos por WhatsApp en todo momento." },
+  { Icon: Truck, title: "Envío Colombia", desc: "Gratis en Santa Marta. Nacional desde $25.000." },
+  { Icon: Globe, title: "Internacional", desc: "Llegamos a cualquier parte del mundo. GRATIS." },
+  { Icon: MessageCircle, title: "Asesoría", desc: "Te asesoramos por WhatsApp en todo momento." },
 ];
 
 export default async function HomePage() {
@@ -69,32 +64,29 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── HERO ── */}
+      {/* ── 1. HERO ── */}
       <HeroSlider />
 
-      {/* ── LIFESTYLE GALLERY ── */}
-      <LifestyleGallery />
-
-      {/* ── TENDENCIAS ── */}
+      {/* ── 2. TENDENCIAS — products from DB, right after hero ── */}
       <section className="py-20 md:py-28 px-4 max-w-7xl mx-auto">
         <AnimateOnView className="flex items-end justify-between mb-10">
           <div>
             <p
-              className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-2"
+              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-oswald)" }}
             >
               Lo más pedido
             </p>
             <h2
-              className="text-3xl md:text-5xl font-black text-white uppercase"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
+              style={{ fontFamily: "var(--font-playfair)" }}
             >
               Tendencias
             </h2>
           </div>
           <Link
             href="/catalogo"
-            className="hidden md:inline text-[#D4AF37] hover:text-[#F0D060] text-sm font-semibold uppercase tracking-wider transition-colors"
+            className="hidden md:inline text-[#D4AF37] hover:text-[#F0D060] text-xs font-semibold uppercase tracking-widest transition-colors"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             Ver todo →
@@ -112,7 +104,7 @@ export default async function HomePage() {
         <div className="text-center mt-8 md:hidden">
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 text-[#D4AF37] font-semibold uppercase tracking-wider text-sm"
+            className="text-[#D4AF37] font-semibold uppercase tracking-widest text-xs"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             Ver catálogo completo →
@@ -120,19 +112,25 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── CATEGORÍAS ── */}
-      <section className="py-20 md:py-28 bg-[#0D0D0D] border-y border-[#B8860B]/10">
+      {/* ── 3. COUNTER BANNER ── */}
+      <CounterBanner />
+
+      {/* ── 4. LIFESTYLE GALLERY ── */}
+      <LifestyleGallery />
+
+      {/* ── 5. CATEGORÍAS ── */}
+      <section className="py-20 md:py-28 bg-[#111111]">
         <div className="max-w-7xl mx-auto px-4">
           <AnimateOnView className="text-center mb-12">
             <p
-              className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-3"
+              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-oswald)" }}
             >
               Explora
             </p>
             <h2
-              className="text-3xl md:text-5xl font-black text-white uppercase"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
+              style={{ fontFamily: "var(--font-playfair)" }}
             >
               Por Categoría
             </h2>
@@ -143,27 +141,21 @@ export default async function HomePage() {
               <StaggerItem key={cat.slug}>
                 <Link
                   href={`/catalogo?liga=${cat.slug}`}
-                  className="group block relative bg-[#141414] rounded-xl overflow-hidden border border-[#B8860B]/10 hover:border-[#D4AF37]/50 transition-all duration-300 aspect-[3/4] flex flex-col items-center justify-center p-4 hover:bg-[#1A1A1A]"
-                  style={{
-                    boxShadow: "inset 0 0 0 0 rgba(212,175,55,0)",
-                    transition: "all 0.3s ease, box-shadow 0.3s ease",
-                  }}
+                  className="group relative bg-[#1A1A1A] rounded-xl overflow-hidden border border-white/5 hover:border-[#D4AF37]/40 transition-all duration-300 aspect-[3/4] flex flex-col items-center justify-end p-5"
                 >
-                  {/* Gold glow on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#D4AF37]/0 to-[#D4AF37]/0 group-hover:from-[#D4AF37]/5 group-hover:to-[#D4AF37]/10 transition-all duration-300 rounded-xl" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative z-10 text-center">
                     <h3
-                      className="text-white font-bold uppercase text-sm leading-tight group-hover:text-[#D4AF37] transition-colors"
+                      className="text-[#9CA3AF] font-bold uppercase text-sm leading-tight group-hover:text-[#D4AF37] transition-colors duration-200"
                       style={{ fontFamily: "var(--font-oswald)" }}
                     >
                       {cat.name}
                     </h3>
-                    <p className="text-[#666666] text-xs mt-1 group-hover:text-[#A0A0A0] transition-colors">
+                    <p className="text-white/30 text-xs mt-0.5 group-hover:text-white/60 transition-colors">
                       {cat.subtitle}
                     </p>
                   </div>
-                  {/* Bottom accent */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37]/0 to-transparent group-hover:via-[#D4AF37]/60 transition-all duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </Link>
               </StaggerItem>
             ))}
@@ -171,41 +163,40 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── COUNTER BANNER ── */}
-      <CounterBanner />
-
-      {/* ── POR QUÉ ELEGIRNOS ── */}
+      {/* ── 6. POR QUÉ ELEGIRNOS ── */}
       <section className="py-20 md:py-28 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-4">
           <AnimateOnView className="text-center mb-12">
             <p
-              className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-3"
+              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-oswald)" }}
             >
               La diferencia
             </p>
             <h2
-              className="text-3xl md:text-5xl font-black text-white uppercase"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
+              style={{ fontFamily: "var(--font-playfair)" }}
             >
               ¿Por qué elegirnos?
             </h2>
           </AnimateOnView>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {features.map((f, i) => (
               <StaggerItem key={i}>
-                <div className="bg-[#141414] rounded-xl p-6 border border-[#B8860B]/10 hover:border-[#D4AF37]/30 transition-all duration-300 group h-full">
-                  <div className="w-12 h-12 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:bg-[#D4AF37]/20 transition-colors">
-                    <f.Icon size={22} className="text-[#D4AF37]" />
+                <div className="bg-[#111111] rounded-xl p-6 border border-white/5 hover:border-[#D4AF37]/20 transition-colors duration-300 group h-full">
+                  <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:bg-[#D4AF37]/20 transition-colors">
+                    <f.Icon size={20} className="text-[#D4AF37]" />
                   </div>
                   <h3
-                    className="text-white font-bold uppercase tracking-wide mb-2 text-sm"
+                    className="text-[#FAFAFA] font-semibold uppercase tracking-wide mb-2 text-sm"
                     style={{ fontFamily: "var(--font-oswald)" }}
                   >
                     {f.title}
                   </h3>
-                  <p className="text-[#A0A0A0] text-sm leading-relaxed">{f.desc}</p>
+                  <p className="text-[#9CA3AF] text-sm leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
+                    {f.desc}
+                  </p>
                 </div>
               </StaggerItem>
             ))}
@@ -213,38 +204,35 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── QUIÉNES SOMOS ── */}
+      {/* ── 7. QUIÉNES SOMOS ── */}
       <NosotrosSection />
 
-      {/* ── CTA FINAL ── */}
-      <section className="py-20 bg-[#0A0A0A] border-t border-[#B8860B]/10">
+      {/* ── 8. CTA FINAL ── */}
+      <section className="py-20 bg-[#0A0A0A] border-t border-white/5">
         <AnimateOnView className="max-w-2xl mx-auto text-center px-4">
           <h2
-            className="text-3xl md:text-4xl font-black text-white uppercase mb-4"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-4"
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             Dorsal y parches{" "}
-            <span className="text-[#D4AF37]">GRATIS</span>
+            <span className="text-[#D4AF37] italic">gratis</span>
           </h2>
-          <p className="text-[#A0A0A0] mb-8">
+          <p className="text-[#9CA3AF] mb-8 text-sm" style={{ fontFamily: "var(--font-inter)" }}>
             En cada camiseta incluimos tu dorsal personalizado y parches sin costo adicional.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/catalogo"
-              className="inline-flex items-center justify-center bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
-              style={{
-                fontFamily: "var(--font-oswald)",
-                boxShadow: "0 0 20px rgba(212,175,55,0.3)",
-              }}
+              className="inline-flex items-center justify-center bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
+              style={{ fontFamily: "var(--font-oswald)" }}
             >
               Ver Catálogo
             </Link>
             <a
-              href="https://wa.me/573008443885?text=Hola!%20Quiero%20pedir%20una%20camiseta%20con%20dorsal%20personalizado"
+              href="https://wa.me/573008443885?text=Hola!%20Quiero%20una%20camiseta%20con%20dorsal"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
+              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
               style={{ fontFamily: "var(--font-oswald)" }}
             >
               <MessageCircle size={16} />
