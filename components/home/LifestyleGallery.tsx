@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { BRAND_URLS } from "./HeroSlider";
 
-const photos = BRAND_URLS.gallery; // 5 photos
+const photos = BRAND_URLS.gallery; // 8 photos — use first 6
 
 export function LifestyleGallery() {
   return (
@@ -69,9 +69,9 @@ export function LifestyleGallery() {
           </motion.div>
         </div>
 
-        {/* Row 2: 3 equal columns */}
-        <div className="flex gap-1 h-[38vw] max-h-[360px] min-h-[180px]">
-          {[photos[2], photos[3], photos[4]].map((src, i) => (
+        {/* Row 2: 4 equal columns */}
+        <div className="flex gap-1 h-[28vw] max-h-[280px] min-h-[140px]">
+          {[photos[2], photos[3], photos[4], photos[5]].map((src, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0 }}
@@ -85,7 +85,7 @@ export function LifestyleGallery() {
                 alt="La 12 Store lifestyle"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                sizes="(max-width: 768px) 33vw, 33vw"
+                sizes="(max-width: 768px) 25vw, 25vw"
                 unoptimized
               />
             </motion.div>

@@ -1,12 +1,13 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Shield, Truck, Globe, MessageCircle } from "lucide-react";
 
-import { HeroSlider } from "@/components/home/HeroSlider";
+import { HeroSlider, BRAND_URLS } from "@/components/home/HeroSlider";
 import { LifestyleGallery } from "@/components/home/LifestyleGallery";
 import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
@@ -19,26 +20,25 @@ export const metadata: Metadata = {
 };
 
 async function getTrendingProducts() {
+  const terms = [
+    "Barcelona 25", "Barcelona 26",
+    "Real Madrid 25", "Real Madrid 26",
+    "Colombia 2026", "Argentina 2026",
+    "Manchester United", "PSG 25",
+    "Inter Milan 25", "Boca Juniors 25",
+  ];
   const popular = await prisma.product.findMany({
     where: {
       isActive: true,
-      OR: [
-        { name: { contains: "Barcelona" } },
-        { name: { contains: "Colombia" } },
-        { name: { contains: "Real Madrid" } },
-        { name: { contains: "Argentina" } },
-        { name: { contains: "Manchester United" } },
-        { isFeatured: true },
-        { isTrending: true },
-      ],
+      OR: terms.map((t) => ({ name: { contains: t } })),
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
     take: 8,
   });
   if (popular.length >= 4) return popular.slice(0, 8);
   return prisma.product.findMany({
     where: { isActive: true },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
     take: 8,
   });
 }
@@ -65,7 +65,10 @@ const features = [
 ];
 
 export default async function HomePage() {
-  const trending = await getTrendingProducts();
+  const [trending, productCount] = await Promise.all([
+    getTrendingProducts(),
+    prisma.product.count({ where: { isActive: true } }),
+  ]);
 
   return (
     <>
@@ -118,7 +121,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── 3. COUNTER BANNER ── */}
-      <CounterBanner />
+      <CounterBanner total={productCount} />
 
       {/* ── 4. LIFESTYLE GALLERY ── */}
       <LifestyleGallery />
@@ -220,7 +223,85 @@ export default async function HomePage() {
       {/* ── 7. QUIÉNES SOMOS ── */}
       <NosotrosSection />
 
-      {/* ── 8. CTA FINAL ── */}
+      {/* ── 8. INSTAGRAM / REDES SOCIALES ── */}
+      <section className="py-16 md:py-20 bg-[#111111]">
+        <div className="max-w-7xl mx-auto px-4">
+          <AnimateOnView className="text-center mb-8">
+            <p
+              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
+              style={{ fontFamily: "var(--font-oswald)" }}
+            >
+              Síguenos
+            </p>
+            <h2
+              className="text-2xl md:text-3xl font-bold text-[#FAFAFA]"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
+              @la12s_tore
+            </h2>
+          </AnimateOnView>
+
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-8">
+            {BRAND_URLS.gallery.slice(0, 4).map((photo, i) => (
+              <StaggerItem key={i}>
+                <a
+                  href="https://instagram.com/la12s_tore"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative aspect-square overflow-hidden rounded-xl block group"
+                >
+                  <Image
+                    src={photo}
+                    alt="La 12 Store Instagram"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <circle cx="12" cy="12" r="4"/>
+                      <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
+                    </svg>
+                  </div>
+                </a>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+
+          <div className="flex items-center justify-center gap-4">
+            <a
+              href="https://instagram.com/la12s_tore"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#D4AF37]/10 border border-white/10 hover:border-[#D4AF37]/40 text-[#9CA3AF] hover:text-[#D4AF37] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
+              style={{ fontFamily: "var(--font-oswald)" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+              Instagram
+            </a>
+            <a
+              href="https://tiktok.com/@la12s_tore"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#D4AF37]/10 border border-white/10 hover:border-[#D4AF37]/40 text-[#9CA3AF] hover:text-[#D4AF37] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
+              style={{ fontFamily: "var(--font-oswald)" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.04a8.23 8.23 0 004.83 1.55V7.16a4.85 4.85 0 01-1.06-.47z" />
+              </svg>
+              TikTok
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 9. CTA FINAL ── */}
       <section className="py-20 bg-[#0A0A0A] border-t border-white/5">
         <AnimateOnView className="max-w-2xl mx-auto text-center px-4">
           <h2

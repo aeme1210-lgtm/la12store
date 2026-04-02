@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Menu, X, MessageCircle } from "lucide-react";
+import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 import { BRAND_URLS } from "@/components/home/HeroSlider";
 
@@ -17,13 +17,25 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const totalItems = useCart((s) => s.totalItems);
 
   useEffect(() => {
     setMobileOpen(false);
+    setSearchOpen(false);
+    setSearchValue("");
   }, [pathname]);
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      router.push(`/catalogo?q=${encodeURIComponent(searchValue.trim())}`);
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -112,8 +124,15 @@ export function Navbar() {
               </a>
             </div>
 
-            {/* Cart + hamburger */}
-            <div className="flex items-center gap-3">
+            {/* Cart + search + hamburger */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => { setSearchOpen(!searchOpen); setMobileOpen(false); }}
+                className="p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
+                aria-label="Buscar"
+              >
+                {searchOpen ? <X size={20} /> : <Search size={20} />}
+              </button>
               <Link
                 href="/carrito"
                 className="relative p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
@@ -126,7 +145,7 @@ export function Navbar() {
                 )}
               </Link>
               <button
-                onClick={() => setMobileOpen(!mobileOpen)}
+                onClick={() => { setMobileOpen(!mobileOpen); setSearchOpen(false); }}
                 className="md:hidden p-2 text-[#A0A0A0] hover:text-white transition-colors"
                 aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
               >
@@ -136,6 +155,29 @@ export function Navbar() {
           </div>
         </nav>
       </header>
+
+      {/* Search dropdown */}
+      {searchOpen && (
+        <div className="fixed top-16 md:top-20 left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#D4AF37]/20 px-4 py-3">
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2">
+            <input
+              autoFocus
+              type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder="Buscar camiseta, equipo, selección..."
+              className="flex-1 bg-[#1A1A1A] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#D4AF37]/50 transition-colors"
+              style={{ fontFamily: "var(--font-inter)" }}
+            />
+            <button
+              type="submit"
+              className="bg-[#D4AF37] hover:bg-[#F0D060] text-black px-4 rounded-lg font-bold transition-colors"
+            >
+              <Search size={16} />
+            </button>
+          </form>
+        </div>
+      )}
 
       {/* Mobile overlay */}
       {mobileOpen && (

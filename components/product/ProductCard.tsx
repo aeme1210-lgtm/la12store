@@ -21,6 +21,14 @@ interface Product {
   isNew: boolean;
 }
 
+function cleanProductName(name: string): string {
+  return name
+    .replace(/\s*S-\w+/gi, "")
+    .replace(/\s*Size[_ ]\d+-\d+/gi, "")
+    .replace(/\s*Home\s*$/gi, "")
+    .trim();
+}
+
 export function ProductCard({ product }: { product: Product }) {
   const images = JSON.parse(product.images || "[]") as string[];
   const mainImage = images[0] || "/images/placeholder.jpg";
@@ -93,7 +101,7 @@ export function ProductCard({ product }: { product: Product }) {
             className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors min-h-[2.5rem]"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
-            {product.name}
+            {cleanProductName(product.name)}
           </h3>
           <span
             className="text-[#D4A017] font-bold text-sm"

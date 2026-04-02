@@ -35,22 +35,25 @@ export const metadata: Metadata = {
     template: "%s | La 12 Store",
   },
   description:
-    "Lo mejor en camisetas de fútbol en Colombia. Calidad premium, envío a todo el país. Selecciones, ligas europeas y sudamericanas. Santa Marta, Colombia.",
+    "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2800 camisetas disponibles. Dorsal y parches gratis. Envío a toda Colombia y el mundo.",
   keywords: [
-    "camisetas fútbol Colombia",
+    "camisetas de fútbol",
+    "jerseys fútbol Colombia",
+    "La 12 Store",
+    "Santa Marta Colombia",
     "camisetas premium",
     "camisetas selección Colombia",
     "camisetas Real Madrid",
     "camisetas Barcelona",
-    "Santa Marta",
-    "La 12 Store",
+    "dorsal gratis",
+    "envío Colombia",
   ],
   openGraph: {
     type: "website",
     locale: "es_CO",
     siteName: "La 12 Store",
-    title: "La 12 Store | Camisetas de Fútbol Premium",
-    description: "Lo mejor en camisetas de fútbol en Colombia. Calidad premium, envío a todo el país.",
+    title: "La 12 Store | Camisetas de Fútbol Premium en Colombia",
+    description: "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2800 camisetas disponibles. Dorsal y parches gratis.",
   },
 };
 

@@ -25,10 +25,10 @@ function useCounter(target: number, duration = 1800) {
   return { count, start };
 }
 
-export function CounterBanner() {
+export function CounterBanner({ total }: { total: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
-  const { count, start } = useCounter(2800);
+  const { count, start } = useCounter(total);
 
   useEffect(() => {
     if (isInView) start();
@@ -69,7 +69,7 @@ export function CounterBanner() {
         >
           camisetas disponibles
         </p>
-        <p className="text-[#A0A0A0] text-base mb-10 max-w-lg mx-auto" style={{ fontFamily: "var(--font-dm-sans)" }}>
+        <p className="text-[#A0A0A0] text-base mb-10 max-w-lg mx-auto" style={{ fontFamily: "var(--font-inter)" }}>
           Dorsal personalizado y parches incluidos{" "}
           <span className="text-[#D4AF37] font-bold">sin costo adicional</span> en cada pedido.
         </p>

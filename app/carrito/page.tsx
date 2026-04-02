@@ -1,29 +1,37 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Trash2, Plus, Minus, ShoppingBag, MessageCircle, ArrowRight } from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, MessageCircle, ArrowRight, CreditCard, ChevronLeft } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 import { formatCOP, buildWhatsAppMessage } from "@/lib/utils";
 
 export default function CarritoPage() {
   const { items, removeItem, updateQuantity, clearCart, totalPrice, totalItems } = useCart();
+  const [step, setStep] = useState<"cart" | "payment">("cart");
 
-  const shipping = 0; // Gratis Santa Marta / por definir
   const total = totalPrice();
+
+  function buildOrderSummary() {
+    return items
+      .map(
+        (item) =>
+          `• ${item.name} (Talla: ${item.size}, ${item.version}${item.dorsalName ? `, Dorsal: ${item.dorsalName} #${item.dorsalNumber}` : ""}) x${item.quantity} → ${formatCOP(item.price * item.quantity)}`
+      )
+      .join("\n");
+  }
 
   const handleWhatsApp = () => {
     if (items.length === 0) return;
-    const lines = items.map(
-      (item) =>
-        `• ${item.name} (Talla: ${item.size}, ${item.version}${item.dorsalName ? `, Dorsal: ${item.dorsalName} #${item.dorsalNumber}` : ""}) x${item.quantity} - ${formatCOP(item.price * item.quantity)}`
-    );
-    const msg = `Hola La 12 Store! Quiero hacer este pedido:
+    const msg = `Hola La 12 Store! 🙌 Acabo de hacer mi pedido y adjunto el comprobante de pago.
 
-${lines.join("\n")}
+*MI PEDIDO:*
+${buildOrderSummary()}
 
 *Total: ${formatCOP(total)} COP*
-¿Cómo procedo con el pago? 👀`;
+
+Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
     window.open(buildWhatsAppMessage(msg), "_blank");
   };
 
@@ -133,66 +141,120 @@ ${lines.join("\n")}
             ))}
           </div>
 
-          {/* Summary */}
+          {/* Summary / Payment step */}
           <div>
             <div className="bg-[#141414] rounded-xl border border-[#B8860B]/20 p-5 sticky top-24">
-              <h2
-                className="text-white font-bold uppercase tracking-wider mb-4 text-sm"
-                style={{ fontFamily: "var(--font-oswald)" }}
-              >
-                Resumen del pedido
-              </h2>
-
-              <div className="space-y-3 mb-4">
-                <div className="flex justify-between text-sm">
-                  <span className="text-[#A0A0A0]">Subtotal</span>
-                  <span className="text-white" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                    {formatCOP(total)}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-[#A0A0A0]">Envío</span>
-                  <span className="text-[#22C55E] font-semibold">
-                    Por definir
-                  </span>
-                </div>
-                <div className="border-t border-[#B8860B]/10 pt-3 flex justify-between">
-                  <span className="text-white font-bold uppercase" style={{ fontFamily: "var(--font-oswald)" }}>
-                    Total
-                  </span>
-                  <span
-                    className="text-[#D4A017] font-bold text-lg"
-                    style={{ fontFamily: "var(--font-jetbrains)" }}
+              {step === "cart" ? (
+                <>
+                  <h2
+                    className="text-white font-bold uppercase tracking-wider mb-4 text-sm"
+                    style={{ fontFamily: "var(--font-oswald)" }}
                   >
-                    {formatCOP(total)}
-                  </span>
-                </div>
-              </div>
+                    Resumen del pedido
+                  </h2>
+                  <div className="space-y-3 mb-5">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#A0A0A0]">Subtotal</span>
+                      <span className="text-white" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                        {formatCOP(total)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#A0A0A0]">Envío</span>
+                      <span className="text-[#22C55E] font-semibold text-sm">Por confirmar</span>
+                    </div>
+                    <div className="border-t border-[#B8860B]/10 pt-3 flex justify-between">
+                      <span className="text-white font-bold uppercase" style={{ fontFamily: "var(--font-oswald)" }}>
+                        Total
+                      </span>
+                      <span className="text-[#D4A017] font-bold text-lg" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                        {formatCOP(total)}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setStep("payment")}
+                    className="w-full flex items-center justify-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold py-3 rounded-lg uppercase tracking-wider text-sm transition-all duration-300"
+                    style={{ fontFamily: "var(--font-oswald)" }}
+                  >
+                    <CreditCard size={16} />
+                    Proceder al Pago
+                  </button>
+                  <p className="text-[#666666] text-xs text-center mt-3">
+                    Nequi · Daviplata · Bancolombia · Nubank
+                  </p>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setStep("cart")}
+                    className="flex items-center gap-1 text-[#9CA3AF] hover:text-white text-xs mb-4 transition-colors"
+                  >
+                    <ChevronLeft size={14} />
+                    Volver al carrito
+                  </button>
 
-              <div className="space-y-3">
-                <Link
-                  href="/checkout"
-                  className="w-full flex items-center justify-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold py-3 rounded-lg uppercase tracking-wider text-sm transition-all duration-300 gold-glow"
-                  style={{ fontFamily: "var(--font-oswald)" }}
-                >
-                  Finalizar Compra
-                  <ArrowRight size={16} />
-                </Link>
-                <button
-                  onClick={handleWhatsApp}
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-3 rounded-lg uppercase tracking-wider text-sm transition-all duration-300"
-                  style={{ fontFamily: "var(--font-oswald)" }}
-                >
-                  <MessageCircle size={16} />
-                  Pagar por WhatsApp
-                </button>
-              </div>
+                  <h2
+                    className="text-white font-bold uppercase tracking-wider mb-1 text-sm"
+                    style={{ fontFamily: "var(--font-oswald)" }}
+                  >
+                    Confirmar Pedido
+                  </h2>
+                  <p className="text-[#9CA3AF] text-xs mb-4">
+                    Total:{" "}
+                    <span className="text-[#D4A017] font-bold" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                      {formatCOP(total)}
+                    </span>
+                  </p>
 
-              <div className="mt-4 pt-4 border-t border-[#B8860B]/10">
-                <p className="text-[#666666] text-xs text-center">
-                  Métodos: Nequi · Daviplata · Nubank
-                </p>
-              </div>
+                  {/* Payment methods */}
+                  <div className="bg-[#0F0F0F] rounded-lg p-4 mb-4 space-y-2.5 border border-white/5">
+                    <p
+                      className="text-[#D4AF37] text-[10px] uppercase tracking-widest mb-3"
+                      style={{ fontFamily: "var(--font-oswald)" }}
+                    >
+                      Métodos de pago
+                    </p>
+                    {[
+                      { label: "Nequi", value: "300 844 3885" },
+                      { label: "Daviplata", value: "300 844 3885" },
+                      { label: "Bancolombia", value: "Cta. Ahorros — Silvana Ossa" },
+                      { label: "Nubank", value: "@AME429" },
+                    ].map((m) => (
+                      <div key={m.label} className="flex justify-between text-sm">
+                        <span className="text-[#9CA3AF]">{m.label}</span>
+                        <span className="text-white font-semibold" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                          {m.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* WhatsApp CTA */}
+                  <button
+                    onClick={handleWhatsApp}
+                    className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-3.5 rounded-lg uppercase tracking-wider text-sm transition-all duration-300"
+                    style={{ fontFamily: "var(--font-oswald)" }}
+                  >
+                    <MessageCircle size={16} />
+                    Enviar Comprobante por WhatsApp
+                  </button>
+
+                  <div className="mt-4 bg-[#1A1A0A] border border-[#D4AF37]/20 rounded-lg p-3">
+                    <p className="text-[#D4AF37] text-xs font-semibold mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                      ¿Cómo confirmar tu pedido?
+                    </p>
+                    <ol className="text-[#9CA3AF] text-xs space-y-1 list-decimal list-inside">
+                      <li>Realiza el pago por cualquier método</li>
+                      <li>Toma captura de pantalla del comprobante</li>
+                      <li>Envíala por WhatsApp con el botón de arriba</li>
+                    </ol>
+                    <p className="text-[#666666] text-[10px] mt-2">
+                      Tu pedido se confirma una vez verifiquemos el pago.
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
