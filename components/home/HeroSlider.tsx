@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, ChevronDown } from "lucide-react";
 
+import { BRAND_URLS } from "@/lib/brand-urls";
 export { BRAND_URLS } from "@/lib/brand-urls";
 
 export function HeroSlider() {
