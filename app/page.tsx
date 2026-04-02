@@ -43,13 +43,15 @@ async function getTrendingProducts() {
   });
 }
 
+const VB = "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/";
+
 const categories = [
-  { name: "New Season", subtitle: "2025/26", slug: "new-season" },
-  { name: "La Liga", subtitle: "España", slug: "la-liga" },
-  { name: "Premier League", subtitle: "Inglaterra", slug: "premier-league" },
-  { name: "Selecciones", subtitle: "Nacionales", slug: "selecciones-nacionales" },
-  { name: "Retro", subtitle: "Clásicas", slug: "retro" },
-  { name: "Liga Argentina", subtitle: "Argentina", slug: "liga-argentina" },
+  { name: "New Season", subtitle: "2025/26", slug: "new-season", video: null },
+  { name: "La Liga", subtitle: "España", slug: "la-liga", video: `${VB}LigaE.mp4` },
+  { name: "Premier League", subtitle: "Inglaterra", slug: "premier-league", video: `${VB}premier%20league%20(1).mp4` },
+  { name: "Selecciones", subtitle: "Nacionales", slug: "selecciones-nacionales", video: `${VB}Selecciones.mp4` },
+  { name: "Retro", subtitle: "Clásicas", slug: "retro", video: `${VB}Retro.mp4` },
+  { name: "Liga Argentina", subtitle: "Argentina", slug: "liga-argentina", video: `${VB}WhatsApp%20Video%202026-04-01%20at%2019.43.52.mp4` },
 ];
 
 const features = [
@@ -141,17 +143,31 @@ export default async function HomePage() {
               <StaggerItem key={cat.slug}>
                 <Link
                   href={`/catalogo?liga=${cat.slug}`}
-                  className="group relative bg-[#1A1A1A] rounded-xl overflow-hidden border border-white/5 hover:border-[#D4AF37]/40 transition-all duration-300 aspect-[3/4] flex flex-col items-center justify-end p-5"
+                  className="group relative bg-[#1A1A1A] rounded-xl overflow-hidden border border-white/5 hover:border-[#D4AF37]/40 transition-all duration-300 aspect-[3/4] flex flex-col justify-end"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative z-10 text-center">
+                  {/* Video background */}
+                  {cat.video && (
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    >
+                      <source src={cat.video} type="video/mp4" />
+                    </video>
+                  )}
+                  {/* Gradient overlay — always on for video cards, hover-only for static */}
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-opacity duration-300 ${cat.video ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
+                  {/* Text */}
+                  <div className="relative z-10 p-4 pb-5">
                     <h3
-                      className="text-[#9CA3AF] font-bold uppercase text-sm leading-tight group-hover:text-[#D4AF37] transition-colors duration-200"
+                      className={`font-bold uppercase text-sm leading-tight transition-colors duration-200 ${cat.video ? "text-white group-hover:text-[#D4AF37]" : "text-[#9CA3AF] group-hover:text-[#D4AF37]"}`}
                       style={{ fontFamily: "var(--font-oswald)" }}
                     >
                       {cat.name}
                     </h3>
-                    <p className="text-white/30 text-xs mt-0.5 group-hover:text-white/60 transition-colors">
+                    <p className={`text-xs mt-0.5 transition-colors ${cat.video ? "text-white/70 group-hover:text-white" : "text-white/30 group-hover:text-white/60"}`}>
                       {cat.subtitle}
                     </p>
                   </div>

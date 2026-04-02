@@ -40,11 +40,13 @@ export function Navbar() {
   const isAdmin = pathname.startsWith("/admin");
   if (isAdmin) return null;
 
+  const isHome = pathname === "/";
+
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
-          scrolled
+          scrolled || !isHome
             ? "bg-black/80 backdrop-blur-md border-b border-[#D4AF37]/30 shadow-lg shadow-black/30"
             : "bg-transparent"
         }`}
