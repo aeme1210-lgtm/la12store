@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { BRAND_URLS } from "./HeroSlider";
+import { BRAND_URLS } from "@/lib/brand-urls";
 
 const photos = BRAND_URLS.gallery; // 8 photos — use first 6
 

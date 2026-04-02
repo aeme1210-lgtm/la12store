@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { BRAND_URLS } from "./HeroSlider";
+import { BRAND_URLS } from "@/lib/brand-urls";
 
 export function NosotrosSection() {
   const ref = useRef<HTMLDivElement>(null);

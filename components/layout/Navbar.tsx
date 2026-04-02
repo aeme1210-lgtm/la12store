@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
-import { BRAND_URLS } from "@/components/home/HeroSlider";
+import { BRAND_URLS } from "@/lib/brand-urls";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },

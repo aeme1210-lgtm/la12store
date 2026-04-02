@@ -7,7 +7,8 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Shield, Truck, Globe, MessageCircle } from "lucide-react";
 
-import { HeroSlider, BRAND_URLS } from "@/components/home/HeroSlider";
+import { HeroSlider } from "@/components/home/HeroSlider";
+import { BRAND_URLS } from "@/lib/brand-urls";
 import { LifestyleGallery } from "@/components/home/LifestyleGallery";
 import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
