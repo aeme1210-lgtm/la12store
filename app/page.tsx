@@ -43,15 +43,18 @@ async function getTrendingProducts() {
   });
 }
 
-const VB = "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/";
+const VB = "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/";
 
 const categories = [
-  { name: "New Season", subtitle: "2025/26", slug: "new-season", video: null },
-  { name: "La Liga", subtitle: "España", slug: "la-liga", video: `${VB}LigaE.mp4` },
-  { name: "Premier League", subtitle: "Inglaterra", slug: "premier-league", video: `${VB}premier%20league%20(1).mp4` },
-  { name: "Selecciones", subtitle: "Nacionales", slug: "selecciones-nacionales", video: `${VB}Selecciones.mp4` },
-  { name: "Retro", subtitle: "Clásicas", slug: "retro", video: `${VB}Retro.mp4` },
-  { name: "Liga Argentina", subtitle: "Argentina", slug: "liga-argentina", video: `${VB}WhatsApp%20Video%202026-04-01%20at%2019.43.52.mp4` },
+  { name: "La Liga",          subtitle: "España",      slug: "la-liga",               video: `${VB}LigaE.mp4` },
+  { name: "Premier League",   subtitle: "Inglaterra",  slug: "premier-league",         video: `${VB}premier%20league%20(1).mp4` },
+  { name: "Serie A",          subtitle: "Italia",      slug: "serie-a",                video: `${VB}Serie%20A.mp4` },
+  { name: "Bundesliga",       subtitle: "Alemania",    slug: "bundesliga",             video: `${VB}Bundesliga.mp4` },
+  { name: "Selecciones",      subtitle: "Nacionales",  slug: "selecciones-nacionales", video: `${VB}Selecciones.mp4` },
+  { name: "Liga Argentina",   subtitle: "Argentina",   slug: "liga-argentina",         video: `${VB}WhatsApp%20Video%202026-04-01%20at%2019.43.52.mp4` },
+  { name: "Retro",            subtitle: "Clásicas",    slug: "retro",                  video: `${VB}Retro.mp4` },
+  { name: "Brasileirao",      subtitle: "Brasil",      slug: "brasileirao",            video: `${VB}Brasileirao.mp4` },
+  { name: "Mundial 2026",     subtitle: "Selecciones", slug: "mundial-fifa-2026",      video: `${VB}Mundial%202026.mp4` },
 ];
 
 const features = [
@@ -138,40 +141,34 @@ export default async function HomePage() {
             </h2>
           </AnimateOnView>
 
-          <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {categories.map((cat) => (
               <StaggerItem key={cat.slug}>
                 <Link
                   href={`/catalogo?liga=${cat.slug}`}
-                  className="group relative bg-[#1A1A1A] rounded-xl overflow-hidden border border-white/5 hover:border-[#D4AF37]/40 transition-all duration-300 aspect-[3/4] flex flex-col justify-end"
+                  className="group relative overflow-hidden rounded-xl block"
+                  style={{ height: "220px" }}
                 >
-                  {/* Video background */}
-                  {cat.video && (
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    >
-                      <source src={cat.video} type="video/mp4" />
-                    </video>
-                  )}
-                  {/* Gradient overlay — always on for video cards, hover-only for static */}
-                  <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-opacity duration-300 ${cat.video ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
-                  {/* Text */}
-                  <div className="relative z-10 p-4 pb-5">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  >
+                    <source src={cat.video} type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-300 group-hover:from-black/60" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
                     <h3
-                      className={`font-bold uppercase text-sm leading-tight transition-colors duration-200 ${cat.video ? "text-white group-hover:text-[#D4AF37]" : "text-[#9CA3AF] group-hover:text-[#D4AF37]"}`}
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      className="text-2xl font-bold text-white group-hover:text-[#D4AF37] transition-colors duration-200"
+                      style={{ fontFamily: "var(--font-playfair)" }}
                     >
                       {cat.name}
                     </h3>
-                    <p className={`text-xs mt-0.5 transition-colors ${cat.video ? "text-white/70 group-hover:text-white" : "text-white/30 group-hover:text-white/60"}`}>
-                      {cat.subtitle}
-                    </p>
+                    <p className="text-sm text-[#D4AF37]">{cat.subtitle}</p>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                 </Link>
               </StaggerItem>
             ))}
