@@ -6,6 +6,7 @@ import { ShoppingCart, MessageCircle, ChevronLeft, ChevronRight, Info } from "lu
 import { useCart } from "@/lib/cart-store";
 import { formatCOP, buildWhatsAppMessage } from "@/lib/utils";
 import Link from "next/link";
+import { FadeInLeft, FadeInRight } from "@/components/ui/ScrollAnimations";
 
 interface Product {
   id: string;
@@ -84,7 +85,7 @@ ${dorsalName ? `Dorsal: ${dorsalName} #${dorsalNumber}` : "Sin dorsal"}
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
       {/* Gallery */}
-      <div className="space-y-3">
+      <FadeInLeft className="space-y-3">
         <div className="relative aspect-square bg-[#141414] rounded-2xl overflow-hidden">
           <Image
             src={allImages[imgIdx]}
@@ -126,10 +127,10 @@ ${dorsalName ? `Dorsal: ${dorsalName} #${dorsalNumber}` : "Sin dorsal"}
             ))}
           </div>
         )}
-      </div>
+      </FadeInLeft>
 
       {/* Info */}
-      <div className="space-y-5">
+      <FadeInRight delay={0.2} className="space-y-5">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-[#666666]">
           <Link href="/catalogo" className="hover:text-[#D4A017] transition-colors">
@@ -365,7 +366,7 @@ ${dorsalName ? `Dorsal: ${dorsalName} #${dorsalNumber}` : "Sin dorsal"}
             <p className="text-[#A0A0A0] text-sm leading-relaxed">{product.description}</p>
           </div>
         )}
-      </div>
+      </FadeInRight>
     </div>
   );
 }

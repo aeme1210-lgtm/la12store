@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductCard } from "@/components/product/ProductCard";
+import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 import type { Metadata } from "next";
 import { formatCOP } from "@/lib/utils";
 
@@ -48,17 +49,21 @@ export default async function ProductPage({ params }: Props) {
 
         {related.length > 0 && (
           <section className="mt-16">
-            <h2
-              className="text-2xl font-black text-white uppercase mb-6"
-              style={{ fontFamily: "var(--font-oswald)" }}
-            >
-              También te puede gustar
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+            <FadeInUp>
+              <h2
+                className="text-2xl font-black text-white uppercase mb-6"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                También te puede gustar
+              </h2>
+            </FadeInUp>
+            <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5" staggerDelay={0.1}>
               {related.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <StaggerItem key={p.id}>
+                  <ProductCard product={p} />
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </section>
         )}
       </div>

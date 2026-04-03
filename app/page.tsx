@@ -12,7 +12,7 @@ import { BRAND_URLS } from "@/lib/brand-urls";
 import { LifestyleGallery } from "@/components/home/LifestyleGallery";
 import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
-import { AnimateOnView, StaggerContainer, StaggerItem } from "@/components/home/AnimateOnView";
+import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 
 export const metadata: Metadata = {
   title: "La 12 Store | Camisetas de Fútbol Premium",
@@ -78,7 +78,7 @@ export default async function HomePage() {
 
       {/* ── 2. TENDENCIAS — products from DB, right after hero ── */}
       <section className="py-20 md:py-28 px-4 max-w-7xl mx-auto">
-        <AnimateOnView className="flex items-end justify-between mb-10">
+        <FadeInUp className="flex items-end justify-between mb-10">
           <div>
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
@@ -100,7 +100,7 @@ export default async function HomePage() {
           >
             Ver todo →
           </Link>
-        </AnimateOnView>
+        </FadeInUp>
 
         <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {trending.map((product) => (
@@ -130,7 +130,7 @@ export default async function HomePage() {
       {/* ── 5. CATEGORÍAS ── */}
       <section className="py-20 md:py-28 bg-[#111111]">
         <div className="max-w-7xl mx-auto px-4">
-          <AnimateOnView className="text-center mb-12">
+          <FadeInUp className="text-center mb-12">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-oswald)" }}
@@ -143,7 +143,7 @@ export default async function HomePage() {
             >
               Por Categoría
             </h2>
-          </AnimateOnView>
+          </FadeInUp>
 
           <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {categories.map((cat) => (
@@ -183,7 +183,7 @@ export default async function HomePage() {
       {/* ── 6. POR QUÉ ELEGIRNOS ── */}
       <section className="py-20 md:py-28 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-4">
-          <AnimateOnView className="text-center mb-12">
+          <FadeInUp className="text-center mb-12">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-oswald)" }}
@@ -196,11 +196,11 @@ export default async function HomePage() {
             >
               ¿Por qué elegirnos?
             </h2>
-          </AnimateOnView>
+          </FadeInUp>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {features.map((f, i) => (
-              <StaggerItem key={i}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {features.map((f, i) => {
+              const Inner = (
                 <div className="bg-[#111111] rounded-xl p-6 border border-white/5 hover:border-[#D4AF37]/20 transition-colors duration-300 group h-full">
                   <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:bg-[#D4AF37]/20 transition-colors">
                     <f.Icon size={20} className="text-[#D4AF37]" />
@@ -215,15 +215,20 @@ export default async function HomePage() {
                     {f.desc}
                   </p>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+              );
+              return i % 2 === 0 ? (
+                <FadeInLeft key={i} delay={i * 0.1}>{Inner}</FadeInLeft>
+              ) : (
+                <FadeInRight key={i} delay={i * 0.1}>{Inner}</FadeInRight>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* ── 7. TESTIMONIOS ── */}
       <section className="py-16 px-4 bg-[#0A0A0A]">
-        <AnimateOnView className="text-center mb-12">
+        <FadeInUp className="text-center mb-12">
           <p
             className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
             style={{ fontFamily: "var(--font-oswald)" }}
@@ -239,7 +244,7 @@ export default async function HomePage() {
           <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "var(--font-inter)" }}>
             +500 clientes satisfechos en toda Colombia y el mundo
           </p>
-        </AnimateOnView>
+        </FadeInUp>
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {[
             {
@@ -282,7 +287,7 @@ export default async function HomePage() {
       {/* ── 8. INSTAGRAM / REDES SOCIALES ── */}
       <section className="py-16 md:py-20 bg-[#111111]">
         <div className="max-w-7xl mx-auto px-4">
-          <AnimateOnView className="text-center mb-8">
+          <FadeInUp className="text-center mb-8">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-oswald)" }}
@@ -295,7 +300,7 @@ export default async function HomePage() {
             >
               @la12s_tore
             </h2>
-          </AnimateOnView>
+          </FadeInUp>
 
           <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-8">
             {[
@@ -364,7 +369,7 @@ export default async function HomePage() {
 
       {/* ── 9. CTA FINAL ── */}
       <section className="py-20 bg-[#0A0A0A] border-t border-white/5">
-        <AnimateOnView className="max-w-2xl mx-auto text-center px-4">
+        <FadeInUp className="max-w-2xl mx-auto text-center px-4">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-4"
             style={{ fontFamily: "var(--font-playfair)" }}
@@ -394,7 +399,7 @@ export default async function HomePage() {
               Pedir por WhatsApp
             </a>
           </div>
-        </AnimateOnView>
+        </FadeInUp>
       </section>
     </>
   );

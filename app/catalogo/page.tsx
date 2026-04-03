@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CatalogoFilters } from "@/components/product/CatalogoFilters";
 import { LigaVideoBanner } from "@/components/product/LigaVideoBanner";
+import { FadeInUp, ScaleIn } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -131,11 +132,13 @@ export default async function CatalogoPage({
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Video banner — shown when a liga with video is selected */}
         {ligaVideo ? (
-          <LigaVideoBanner
-            src={ligaVideo}
-            title={leagueTitle}
-            subtitle={`${total} productos${totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ""}`}
-          />
+          <FadeInUp>
+            <LigaVideoBanner
+              src={ligaVideo}
+              title={leagueTitle}
+              subtitle={`${total} productos${totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ""}`}
+            />
+          </FadeInUp>
         ) : (
           /* Header — no video (all catalog or unsupported liga) */
           <div className="mb-8">
@@ -174,8 +177,10 @@ export default async function CatalogoPage({
             ) : (
               <>
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                  {products.map((p) => (
-                    <ProductCard key={p.id} product={p} />
+                  {products.map((p, index) => (
+                    <ScaleIn key={p.id} delay={Math.min(index * 0.05, 0.5)}>
+                      <ProductCard product={p} />
+                    </ScaleIn>
                   ))}
                 </div>
 

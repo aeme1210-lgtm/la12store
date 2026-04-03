@@ -13,7 +13,7 @@ const faqs = [
       },
       {
         q: "¿Cuánto tiempo tarda en llegar mi pedido?",
-        a: "En Santa Marta la entrega es de 1-2 días hábiles. Para el resto de Colombia son 3-7 días hábiles según la ciudad. Los envíos internacionales tardan entre 15-30 días.",
+        a: "En Santa Marta la entrega es personal y gratis. Los productos bajo encargo tardan 20-25 días hábiles en llegar a nuestras manos. Una vez despachado, el envío nacional llega en 2-4 días hábiles. Los envíos internacionales son gratis y tardan 25-35 días hábiles.",
       },
       {
         q: "¿Puedo hacer pedidos al por mayor?",
