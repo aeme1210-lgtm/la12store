@@ -65,21 +65,17 @@ export function Navbar() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center min-w-0 flex-shrink-0">
-              <span className="flex items-center gap-1">
-                <span
-                  className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-[#D4AF37] uppercase whitespace-nowrap"
-                  style={{ fontFamily: "var(--font-oswald)" }}
-                >
-                  LA 12
-                </span>
-                <span
-                  className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-white uppercase whitespace-nowrap"
-                  style={{ fontFamily: "var(--font-oswald)" }}
-                >
-                  STORE
-                </span>
-              </span>
+            <Link href="/" className="flex items-center flex-shrink-0">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-10 md:h-12 w-auto object-contain"
+                style={{ mixBlendMode: "screen" }}
+              >
+                <source src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/LOGO%20LA%2012.mp4" type="video/mp4" />
+              </video>
             </Link>
 
             {/* Desktop nav */}
