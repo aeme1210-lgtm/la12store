@@ -57,23 +57,21 @@ export function HeroSlider() {
           Santa Marta · Colombia
         </motion.p>
 
-        {/* Logo — mix-blend-mode:multiply removes white background on dark bg */}
+        {/* Logo — text only, no image background issues */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.35, ease: "easeOut" }}
           className="mb-6"
         >
-          <Image
-            src={BRAND_URLS.logo}
-            alt="La 12 Store"
-            width={150}
-            height={75}
-            className="object-contain"
-            style={{ mixBlendMode: "multiply", filter: "invert(1)" }}
-            unoptimized
-            priority
-          />
+          <div className="flex flex-col items-center">
+            <span
+              className="text-4xl md:text-6xl font-black tracking-wider text-white uppercase"
+              style={{ fontFamily: "var(--font-oswald)", letterSpacing: "0.08em" }}
+            >
+              LA 12 <span className="text-[#D4AF37]">STORE</span>
+            </span>
+          </div>
         </motion.div>
 
         {/* Slogan — Playfair Display */}

@@ -17,7 +17,7 @@ export function NosotrosSection() {
       {/* Parallax background */}
       <motion.div className="absolute inset-0" style={{ y }}>
         <Image
-          src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/PAREJA%20QUIENES%20SOMOS.jpeg"
+          src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/PAREJA%20QUIENES%20SOMOS.jpeg"
           alt="Andrés y Silvana — La 12 Store"
           fill
           className="object-cover object-center scale-110"

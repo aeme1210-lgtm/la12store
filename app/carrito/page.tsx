@@ -87,8 +87,8 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
                 key={item.id}
                 className="bg-[#141414] rounded-xl p-4 border border-[#B8860B]/10 flex gap-4"
               >
-                <div className="relative w-20 h-20 bg-[#1A1A1A] rounded-lg overflow-hidden flex-shrink-0">
-                  <Image src={item.image} alt={item.name} fill className="object-cover" />
+                <div className="relative w-16 h-16 md:w-20 md:h-20 bg-[#1A1A1A] rounded-lg overflow-hidden flex-shrink-0">
+                  <Image src={item.image} alt={item.name} fill className="object-cover" sizes="80px" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3
