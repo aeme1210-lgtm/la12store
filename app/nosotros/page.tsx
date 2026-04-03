@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Sobre Nosotros",
@@ -15,61 +14,53 @@ const stats = [
 
 export default function NosotrosPage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero banner */}
-      <div className="relative w-full h-[320px] md:h-[460px] overflow-hidden">
-        <Image
-          src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/PAREJA%20QUIENES%20SOMOS.jpeg"
-          alt="Andrés y Silvana — La 12 Store"
-          fill
-          className="object-cover object-center"
-          unoptimized
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-black/50 to-black/20" />
-        <div className="absolute bottom-0 left-0 w-full px-6 pb-8 md:px-12">
-          <p
-            className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-2"
-            style={{ fontFamily: "var(--font-oswald)" }}
-          >
-            Nuestra historia
-          </p>
-          <h1
-            className="text-4xl md:text-6xl font-black text-white uppercase leading-tight"
-            style={{ fontFamily: "var(--font-oswald)" }}
-          >
-            Sobre Nosotros
-          </h1>
-        </div>
-      </div>
+    <div className="min-h-screen pt-24 md:pt-28">
+      <div className="max-w-6xl mx-auto px-4 py-12">
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+        {/* 2-column: story text left, photo right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+          {/* Left: story */}
+          <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 flex flex-col justify-center">
+            <p
+              className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-3"
+              style={{ fontFamily: "var(--font-oswald)" }}
+            >
+              Nuestra historia
+            </p>
+            <h1
+              className="text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6"
+              style={{ fontFamily: "var(--font-oswald)" }}
+            >
+              Sobre Nosotros
+            </h1>
+            <div className="space-y-4 text-[#A0A0A0] leading-relaxed">
+              <p>
+                La 12 Store nació en Santa Marta, Colombia, de la unión de dos personas apasionadas por el fútbol y la moda:{" "}
+                <span className="text-[#D4A017] font-semibold">Andrés Méndez</span> y{" "}
+                <span className="text-[#D4A017] font-semibold">Silvana Ossa</span>. Juntos fundaron una tienda con el propósito de ofrecer camisetas de fútbol de la más alta calidad a los aficionados del deporte más popular del mundo.
+              </p>
+              <p>
+                Andrés lidera las operaciones, los pedidos y la logística — asegurándose de que cada envío llegue en perfectas condiciones. Silvana es la cara visual de la marca: modelo principal de las sesiones fotográficas y embajadora de La 12 Store, dándole vida a cada prenda con su estilo único.
+              </p>
+              <p>
+                Lo que empezó como un pequeño proyecto entre los dos se convirtió en una de las tiendas de camisetas de fútbol más reconocidas de la región Caribe colombiana. Hoy llegamos a más de{" "}
+                <span className="text-white font-semibold">10 países</span> y contamos con cientos de clientes satisfechos que confían en nuestra calidad y servicio.
+              </p>
+              <p>
+                En La 12 Store no vendemos simplemente camisetas — vendemos la experiencia de sentirte parte de tu equipo favorito. Cada prenda ha pasado por un riguroso control de calidad para garantizar{" "}
+                <span className="text-[#D4A017] font-semibold">telas técnicas de alto rendimiento</span> y acabados que rivalizan con los mejores del mercado.
+              </p>
+            </div>
+          </div>
 
-        {/* Story */}
-        <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 mb-10">
-          <h2
-            className="text-2xl font-black text-white uppercase mb-4"
-            style={{ fontFamily: "var(--font-oswald)" }}
-          >
-            La historia de La 12 Store
-          </h2>
-          <div className="space-y-4 text-[#A0A0A0] leading-relaxed">
-            <p>
-              La 12 Store nació en Santa Marta, Colombia, de la unión de dos personas apasionadas por el fútbol y la moda:{" "}
-              <span className="text-[#D4A017] font-semibold">Andrés Méndez</span> y{" "}
-              <span className="text-[#D4A017] font-semibold">Silvana Ossa</span>. Juntos fundaron una tienda con el propósito de ofrecer camisetas de fútbol de la más alta calidad a los aficionados del deporte más popular del mundo.
-            </p>
-            <p>
-              Andrés lidera las operaciones, los pedidos y la logística — asegurándose de que cada envío llegue en perfectas condiciones. Silvana es la cara visual de la marca: modelo principal de las sesiones fotográficas y embajadora de La 12 Store, dándole vida a cada prenda con su estilo único.
-            </p>
-            <p>
-              Lo que empezó como un pequeño proyecto entre los dos se convirtió en una de las tiendas de camisetas de fútbol más reconocidas de la región Caribe colombiana. Hoy llegamos a más de{" "}
-              <span className="text-white font-semibold">10 países</span> y contamos con cientos de clientes satisfechos que confían en nuestra calidad y servicio.
-            </p>
-            <p>
-              En La 12 Store no vendemos simplemente camisetas — vendemos la experiencia de sentirte parte de tu equipo favorito. Cada prenda ha pasado por un riguroso control de calidad para garantizar{" "}
-              <span className="text-[#D4A017] font-semibold">telas técnicas de alto rendimiento</span> y acabados que rivalizan con los mejores del mercado.
-            </p>
+          {/* Right: photo */}
+          <div className="min-h-[400px] rounded-2xl overflow-hidden">
+            <img
+              src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/PAREJA%20QUIENES%20SOMOS.jpeg"
+              alt="Andrés y Silvana — La 12 Store"
+              className="w-full h-full object-cover rounded-2xl"
+              style={{ minHeight: "400px" }}
+            />
           </div>
         </div>
 

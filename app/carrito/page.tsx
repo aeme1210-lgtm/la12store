@@ -61,8 +61,8 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] pt-28 pb-16 px-4 md:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#0A0A0A] pt-32 pb-16 px-4 md:px-8">
+      <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <h1
@@ -81,11 +81,11 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
         </div>
 
         {/* Items list */}
-        <div className="space-y-0 mb-8">
+        <div className="space-y-3 mb-8">
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-4 py-6 border-b border-gray-800"
+              className="flex items-start gap-4 bg-[#111111] rounded-xl p-4 border border-gray-800"
             >
               {/* Thumbnail */}
               <div className="relative w-24 h-24 md:w-32 md:h-32 bg-[#1A1A1A] rounded-lg overflow-hidden flex-shrink-0">
