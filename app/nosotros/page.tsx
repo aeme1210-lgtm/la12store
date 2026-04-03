@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Sobre Nosotros",
@@ -15,23 +16,34 @@ const stats = [
 export default function NosotrosPage() {
   return (
     <div className="min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="text-center mb-16">
+      {/* Hero banner */}
+      <div className="relative w-full h-[320px] md:h-[460px] overflow-hidden">
+        <Image
+          src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/PAREJA%20QUIENES%20SOMOS.jpeg"
+          alt="Andrés y Silvana — La 12 Store"
+          fill
+          className="object-cover object-center"
+          unoptimized
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-black/50 to-black/20" />
+        <div className="absolute bottom-0 left-0 w-full px-6 pb-8 md:px-12">
           <p
-            className="text-[#D4A017] text-xs tracking-widest uppercase mb-2"
+            className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-2"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             Nuestra historia
           </p>
           <h1
-            className="text-4xl md:text-5xl font-black text-white uppercase mb-4"
+            className="text-4xl md:text-6xl font-black text-white uppercase leading-tight"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
             Sobre Nosotros
           </h1>
-          <div className="w-16 h-0.5 bg-[#D4A017] mx-auto" />
         </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 py-12">
 
         {/* Story */}
         <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 mb-10">

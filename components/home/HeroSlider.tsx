@@ -57,22 +57,24 @@ export function HeroSlider() {
           Santa Marta · Colombia
         </motion.p>
 
-        {/* Logo — text only, no image background issues */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.35, ease: "easeOut" }}
-          className="mb-6"
-        >
-          <div className="flex flex-col items-center">
-            <span
-              className="text-4xl md:text-6xl font-black tracking-wider text-white uppercase"
+        {/* Logo — letter-by-letter stagger animation */}
+        <div className="flex justify-center flex-wrap mb-6">
+          {"LA 12 STORE".split("").map((char, i) => (
+            <motion.span
+              key={i}
+              custom={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.06, duration: 0.35, ease: "easeOut" }}
+              className={`text-4xl md:text-6xl font-black tracking-wider uppercase ${
+                i >= 6 ? "text-[#D4AF37]" : "text-white"
+              }`}
               style={{ fontFamily: "var(--font-oswald)", letterSpacing: "0.08em" }}
             >
-              LA 12 <span className="text-[#D4AF37]">STORE</span>
-            </span>
-          </div>
-        </motion.div>
+              {char === " " ? "\u00A0" : char}
+            </motion.span>
+          ))}
+        </div>
 
         {/* Slogan — Playfair Display */}
         <motion.p
