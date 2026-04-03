@@ -62,7 +62,7 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 pt-6 pb-16">
         <div className="flex items-center justify-between mb-8">
           <h1
             className="text-3xl font-black text-white uppercase"
@@ -79,9 +79,9 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Items */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="flex-1 space-y-3">
             {items.map((item) => (
               <div
                 key={item.id}

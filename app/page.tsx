@@ -243,7 +243,12 @@ export default async function HomePage() {
           </AnimateOnView>
 
           <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-8">
-            {BRAND_URLS.gallery.slice(0, 4).map((photo, i) => (
+            {[
+              "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/SILVANA%20COLOMBIA.jpeg",
+              "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/SILVANA%20REAL%20MADRID.jpeg",
+              "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/Silvana%20CAMISA%20BOCA.jpeg",
+              "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/products/brand/ANDRES%20CAMISA%20VENECIA.jpeg",
+            ].map((photo, i) => (
               <StaggerItem key={i}>
                 <a
                   href="https://instagram.com/la12s_tore"

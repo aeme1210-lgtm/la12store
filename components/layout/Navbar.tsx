@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
-import { BRAND_URLS } from "@/lib/brand-urls";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
@@ -67,32 +65,20 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center min-w-0 flex-shrink-0">
-              {scrolled ? (
-                <Image
-                  src={BRAND_URLS.logo}
-                  alt="La 12 Store"
-                  width={100}
-                  height={40}
-                  className="object-contain h-10 w-auto"
-                  style={{ mixBlendMode: "multiply", filter: "invert(1)" }}
-                  unoptimized
-                />
-              ) : (
-                <span className="flex items-center gap-1">
-                  <span
-                    className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-[#D4AF37] uppercase whitespace-nowrap"
-                    style={{ fontFamily: "var(--font-oswald)" }}
-                  >
-                    LA 12
-                  </span>
-                  <span
-                    className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-white uppercase whitespace-nowrap"
-                    style={{ fontFamily: "var(--font-oswald)" }}
-                  >
-                    STORE
-                  </span>
+              <span className="flex items-center gap-1">
+                <span
+                  className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-[#D4AF37] uppercase whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-oswald)" }}
+                >
+                  LA 12
                 </span>
-              )}
+                <span
+                  className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest text-white uppercase whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-oswald)" }}
+                >
+                  STORE
+                </span>
+              </span>
             </Link>
 
             {/* Desktop nav */}
