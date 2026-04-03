@@ -66,16 +66,12 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-10 md:h-12 w-auto object-contain"
-                style={{ mixBlendMode: "screen" }}
+              <span
+                className="text-xl md:text-2xl font-black tracking-wider text-white"
+                style={{ fontFamily: "var(--font-playfair)" }}
               >
-                <source src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/LOGO%20LA%2012.mp4" type="video/mp4" />
-              </video>
+                LA 12 <span className="text-[#D4AF37]">STORE</span>
+              </span>
             </Link>
 
             {/* Desktop nav */}

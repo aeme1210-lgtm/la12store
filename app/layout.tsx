@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
 import { SocialProofNotification } from "@/components/ui/SocialProofNotification";
+import { LogoIntro } from "@/components/ui/LogoIntro";
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${oswald.variable} ${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
+        <LogoIntro />
         <UrgencyBar />
         <Navbar />
         <main className="flex-1" style={{ paddingTop: "calc(var(--urgency-h, 0px) + var(--nav-h, 64px))" }}>{children}</main>
