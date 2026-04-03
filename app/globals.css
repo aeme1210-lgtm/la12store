@@ -21,6 +21,17 @@
   padding: 0;
 }
 
+:root {
+  --urgency-h: 0px;
+  --nav-h: 64px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 80px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }

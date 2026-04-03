@@ -76,15 +76,26 @@ export function HeroSlider() {
           ))}
         </div>
 
-        {/* Slogan — Playfair Display */}
+        {/* Main headline */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55 }}
-          className="text-white/90 text-xl md:text-3xl mb-10 font-bold italic"
+          className="text-white/90 text-xl md:text-3xl mb-3 font-bold italic"
           style={{ fontFamily: "var(--font-playfair)" }}
         >
-          Camisetas de fútbol premium
+          Las camisetas más exclusivas de fútbol en Colombia
+        </motion.p>
+
+        {/* Subtexto */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.65 }}
+          className="text-[#D4AF37] text-xs md:text-sm tracking-widest uppercase mb-10"
+          style={{ fontFamily: "var(--font-oswald)" }}
+        >
+          Ediciones limitadas · Dorsal gratis · Envío a todo el mundo
         </motion.p>
 
         {/* CTAs */}
@@ -99,7 +110,7 @@ export function HeroSlider() {
             className="px-8 py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-[#F0D060] transition-colors duration-200 rounded-lg text-sm"
             style={{ fontFamily: "var(--font-oswald)" }}
           >
-            Ver Catálogo
+            Explorar Colección
           </Link>
           <a
             href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"

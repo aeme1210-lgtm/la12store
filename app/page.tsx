@@ -221,7 +221,62 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. QUIÉNES SOMOS ── */}
+      {/* ── 7. TESTIMONIOS ── */}
+      <section className="py-16 px-4 bg-[#0A0A0A]">
+        <AnimateOnView className="text-center mb-12">
+          <p
+            className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
+            style={{ fontFamily: "var(--font-oswald)" }}
+          >
+            Clientes reales
+          </p>
+          <h2
+            className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-3"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
+            Lo que dicen nuestros clientes
+          </h2>
+          <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "var(--font-inter)" }}>
+            +500 clientes satisfechos en toda Colombia y el mundo
+          </p>
+        </AnimateOnView>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {[
+            {
+              nombre: "Carlos M.",
+              ciudad: "Bogotá",
+              texto: "Increíble calidad. La camiseta del Real Madrid se ve idéntica a la original. El dorsal quedó perfecto.",
+            },
+            {
+              nombre: "María P.",
+              ciudad: "Medellín",
+              texto: "Pedí la retro de Argentina del 86 y llegó en 3 días. Empaque impecable y calidad premium.",
+            },
+            {
+              nombre: "Juan D.",
+              ciudad: "Cali",
+              texto: "Ya llevo 5 camisetas compradas. La atención por WhatsApp es de otro nivel, te asesoran en todo.",
+            },
+          ].map((t, i) => (
+            <StaggerItem key={i}>
+              <div className="bg-[#111111] rounded-xl p-6 border border-gray-800 h-full">
+                <div className="flex mb-3">
+                  {[...Array(5)].map((_, j) => (
+                    <span key={j} className="text-[#D4AF37] text-base">★</span>
+                  ))}
+                </div>
+                <p className="text-[#9CA3AF] text-sm mb-4 leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
+                  &ldquo;{t.texto}&rdquo;
+                </p>
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-oswald)" }}>{t.nombre}</p>
+                <p className="text-[#666666] text-xs">{t.ciudad}, Colombia</p>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </section>
+
+      {/* ── 8. QUIÉNES SOMOS ── */}
       <NosotrosSection />
 
       {/* ── 8. INSTAGRAM / REDES SOCIALES ── */}

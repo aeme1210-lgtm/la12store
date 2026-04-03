@@ -23,10 +23,23 @@ interface Product {
 
 function cleanProductName(name: string): string {
   return name
+    .replace(/\s*S-4XL/gi, "")
+    .replace(/\s*S-3XL/gi, "")
+    .replace(/\s*S-XXL/gi, "")
     .replace(/\s*S-\w+/gi, "")
     .replace(/\s*Size[_ ]\d+-\d+/gi, "")
     .replace(/\s*Home\s*$/gi, "")
+    .replace(/_/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
+}
+
+function getSmartBadge(name: string): { text: string; bg: string; color: string } | null {
+  if (/25\/26|26\/27|2026/i.test(name)) return { text: "🔥 Nueva Temporada", bg: "#DC2626", color: "white" };
+  if (/special edition/i.test(name)) return { text: "💎 Edición Limitada", bg: "#7C3AED", color: "white" };
+  if (/player version/i.test(name)) return { text: "👑 Versión Jugador", bg: "#1D4ED8", color: "white" };
+  if (/retro/i.test(name)) return { text: "⭐ Clásica", bg: "#D4A017", color: "black" };
+  return null;
 }
 
 export function ProductCard({ product }: { product: Product }) {
@@ -36,6 +49,8 @@ export function ProductCard({ product }: { product: Product }) {
   const displayPrice = product.isRetro
     ? product.priceRetro ?? 170000
     : product.priceFan ?? 150000;
+
+  const smartBadge = getSmartBadge(product.name);
 
   return (
     <Link href={`/catalogo/${product.slug}`} className="group block">
@@ -50,7 +65,7 @@ export function ProductCard({ product }: { product: Product }) {
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
 
-          {/* Badges — inside image area, enough inset so they don't clip */}
+          {/* Badges */}
           <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
             {product.isTrending && (
               <span
@@ -66,6 +81,15 @@ export function ProductCard({ product }: { product: Product }) {
                 style={{ fontFamily: "var(--font-oswald)" }}
               >
                 Nuevo
+              </span>
+            )}
+            {/* Smart badge based on product name */}
+            {smartBadge && !product.isRetro && (
+              <span
+                className="text-[10px] font-black px-2 py-0.5 rounded tracking-wide"
+                style={{ fontFamily: "var(--font-oswald)", background: smartBadge.bg, color: smartBadge.color }}
+              >
+                {smartBadge.text}
               </span>
             )}
             {product.isRetro && (
@@ -109,6 +133,7 @@ export function ProductCard({ product }: { product: Product }) {
           >
             {formatCOP(displayPrice)}
           </span>
+          <p className="text-[#22C55E] text-[10px] mt-1">✓ Dorsal y parches gratis</p>
         </div>
       </div>
     </Link>
