@@ -66,7 +66,7 @@ export function HeroSlider() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.06, duration: 0.35, ease: "easeOut" }}
-              className={`text-4xl md:text-6xl font-black tracking-wider uppercase ${
+              className={`text-3xl sm:text-4xl md:text-6xl font-black tracking-wider uppercase ${
                 i >= 6 ? "text-[#D4AF37]" : "text-white"
               }`}
               style={{ fontFamily: "var(--font-oswald)", letterSpacing: "0.08em" }}
@@ -81,7 +81,7 @@ export function HeroSlider() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55 }}
-          className="text-white/90 text-xl md:text-3xl mb-3 font-bold italic"
+          className="text-white/90 text-base sm:text-xl md:text-3xl mb-3 font-bold italic px-4 text-center"
           style={{ fontFamily: "var(--font-playfair)" }}
         >
           Las camisetas más exclusivas de fútbol en Colombia

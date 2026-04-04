@@ -60,7 +60,7 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] pt-36 md:pt-40 pb-16 px-4 md:px-8">
+    <div className="min-h-screen bg-[#0A0A0A] pt-28 md:pt-36 lg:pt-40 pb-16 px-3 md:px-8">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
@@ -89,13 +89,13 @@ Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex gap-5 bg-[#111111] rounded-xl p-5 border border-gray-800"
+                className="flex gap-3 md:gap-5 bg-[#111111] rounded-xl p-3 md:p-5 border border-gray-800"
               >
                 {/* Image */}
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-32 h-40 md:w-40 md:h-48 object-cover rounded-xl flex-shrink-0"
+                  className="w-20 h-24 md:w-32 md:h-40 lg:w-40 lg:h-48 object-cover rounded-lg md:rounded-xl flex-shrink-0"
                 />
 
                 {/* Info */}

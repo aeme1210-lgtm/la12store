@@ -30,17 +30,17 @@ export function UrgencyBar() {
       style={{ background: "linear-gradient(90deg, #D4AF37 0%, #B8960C 100%)" }}
     >
       <p
-        className="text-black text-xs font-semibold text-center leading-none"
+        className="text-black text-[10px] md:text-xs font-semibold text-center leading-none truncate max-w-[calc(100%-2rem)]"
         style={{ fontFamily: "var(--font-oswald)" }}
       >
-        🔥 MUNDIAL 2026 — Camisetas de selecciones disponibles · Envío gratis internacional
+        🔥 <span className="hidden sm:inline">MUNDIAL 2026 — </span>Camisetas de selecciones · Envío gratis internacional
       </p>
       <button
         onClick={dismiss}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-black/60 hover:text-black transition-colors"
+        className="absolute right-2 top-1/2 -translate-y-1/2 text-black/60 hover:text-black transition-colors p-1"
         aria-label="Cerrar"
       >
-        <X size={14} />
+        <X size={13} />
       </button>
     </div>
   );

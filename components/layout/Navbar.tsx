@@ -32,6 +32,7 @@ export function Navbar() {
     e.preventDefault();
     if (searchValue.trim()) {
       router.push(`/catalogo?q=${encodeURIComponent(searchValue.trim())}`);
+      setSearchOpen(false);
     }
   }
 
@@ -57,17 +58,17 @@ export function Navbar() {
       <header
         className={`fixed left-0 right-0 z-[9999] transition-all duration-300 ${
           scrolled || !isHome
-            ? "bg-black/80 backdrop-blur-md border-b border-[#D4AF37]/30 shadow-lg shadow-black/30"
+            ? "bg-black/90 backdrop-blur-md border-b border-[#D4AF37]/30 shadow-lg shadow-black/30"
             : "bg-transparent"
         }`}
         style={{ top: "var(--urgency-h, 0px)" }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
+          <div className="flex items-center justify-between h-14 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0">
               <span
-                className="text-xl md:text-2xl font-black tracking-wider text-white"
+                className="text-base sm:text-xl md:text-2xl font-black tracking-wider text-white"
                 style={{ fontFamily: "var(--font-playfair)" }}
               >
                 LA 12 <span className="text-[#D4AF37]">STORE</span>
@@ -90,7 +91,6 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              {/* WhatsApp always visible on desktop */}
               <a
                 href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
                 target="_blank"
@@ -104,7 +104,7 @@ export function Navbar() {
             </div>
 
             {/* Cart + search + hamburger */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => { setSearchOpen(!searchOpen); setMobileOpen(false); }}
                 className="p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
@@ -118,7 +118,7 @@ export function Navbar() {
               >
                 <ShoppingCart size={22} />
                 {totalItems() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {totalItems()}
                   </span>
                 )}
@@ -137,7 +137,10 @@ export function Navbar() {
 
       {/* Search dropdown */}
       {searchOpen && (
-        <div className="fixed top-16 md:top-20 left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#D4AF37]/20 px-4 py-3">
+        <div
+          className="fixed left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#D4AF37]/20 px-4 py-3"
+          style={{ top: "calc(var(--urgency-h, 0px) + 56px)" }}
+        >
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2">
             <input
               autoFocus
@@ -158,42 +161,51 @@ export function Navbar() {
         </div>
       )}
 
-      {/* Mobile overlay */}
+      {/* Mobile menu — full screen overlay */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 z-[9998] md:hidden"
-          onClick={() => setMobileOpen(false)}
-        >
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-          <div
-            className="absolute top-16 left-0 right-0 bg-[#0F0F0F] border-b border-[#D4AF37]/20 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <nav className="px-6 py-5 flex flex-col">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-lg font-semibold uppercase tracking-wider py-3.5 border-b border-[#1A1A1A] last:border-0 transition-colors ${
-                    pathname === link.href ? "text-[#D4AF37]" : "text-[#A0A0A0] hover:text-white"
-                  }`}
-                  style={{ fontFamily: "var(--font-oswald)" }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <a
-                href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 bg-[#25D366] text-white text-center py-3 rounded-lg font-semibold uppercase tracking-wider flex items-center justify-center gap-2"
+        <div className="fixed inset-0 z-[9998] md:hidden bg-black/95 backdrop-blur-md flex flex-col">
+          {/* Close button */}
+          <div className="flex items-center justify-between px-4 h-14" style={{ paddingTop: "var(--urgency-h, 0px)" }}>
+            <span
+              className="text-base font-black tracking-wider text-white"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
+              LA 12 <span className="text-[#D4AF37]">STORE</span>
+            </span>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="p-2 text-white"
+              aria-label="Cerrar menú"
+            >
+              <X size={28} />
+            </button>
+          </div>
+
+          {/* Nav links centered */}
+          <nav className="flex flex-col items-center justify-center flex-1 gap-2 pb-16">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-2xl font-bold uppercase tracking-wider py-4 px-8 w-full text-center transition-colors ${
+                  pathname === link.href ? "text-[#D4AF37]" : "text-white hover:text-[#D4AF37]"
+                }`}
                 style={{ fontFamily: "var(--font-oswald)" }}
               >
-                <MessageCircle size={16} />
-                WhatsApp
-              </a>
-            </nav>
-          </div>
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 bg-[#25D366] text-white py-4 px-12 rounded-xl font-bold uppercase tracking-wider flex items-center gap-3 text-lg"
+              style={{ fontFamily: "var(--font-oswald)" }}
+            >
+              <MessageCircle size={20} />
+              WhatsApp
+            </a>
+          </nav>
         </div>
       )}
     </>

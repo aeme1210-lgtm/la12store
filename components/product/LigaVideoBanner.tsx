@@ -8,7 +8,7 @@ interface Props {
 
 export function LigaVideoBanner({ src, title, subtitle }: Props) {
   return (
-    <div className="relative w-full overflow-hidden rounded-xl mb-8" style={{ height: "240px" }}>
+    <div className="relative w-full overflow-hidden rounded-xl mb-6 md:mb-8" style={{ height: "clamp(160px, 35vw, 240px)" }}>
       {/* key=src forces full DOM remount when liga changes — browser reloads video */}
       <video
         key={src}
@@ -16,6 +16,7 @@ export function LigaVideoBanner({ src, title, subtitle }: Props) {
         muted
         loop
         playsInline
+        preload="none"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src={src} type="video/mp4" />

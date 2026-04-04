@@ -77,7 +77,7 @@ export default async function HomePage() {
       <HeroSlider />
 
       {/* ── 2. TENDENCIAS — products from DB, right after hero ── */}
-      <section className="py-20 md:py-28 px-4 max-w-7xl mx-auto">
+      <section className="py-12 md:py-20 lg:py-28 px-3 md:px-4 max-w-7xl mx-auto">
         <FadeInUp className="flex items-end justify-between mb-10">
           <div>
             <p
@@ -128,8 +128,8 @@ export default async function HomePage() {
       <LifestyleGallery />
 
       {/* ── 5. CATEGORÍAS ── */}
-      <section className="py-20 md:py-28 bg-[#111111]">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="py-12 md:py-20 lg:py-28 bg-[#111111]">
+        <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-12">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
@@ -145,20 +145,20 @@ export default async function HomePage() {
             </h2>
           </FadeInUp>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {categories.map((cat) => (
               <StaggerItem key={cat.slug}>
                 <Link
                   href={`/catalogo?liga=${cat.slug}`}
                   className="group relative overflow-hidden rounded-xl block"
-                  style={{ height: "220px" }}
+                  style={{ height: "clamp(160px, 40vw, 220px)" }}
                 >
                   <video
                     autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="none"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   >
                     <source src={cat.video} type="video/mp4" />
@@ -181,8 +181,8 @@ export default async function HomePage() {
       </section>
 
       {/* ── 6. POR QUÉ ELEGIRNOS ── */}
-      <section className="py-20 md:py-28 bg-[#0A0A0A]">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="py-12 md:py-20 lg:py-28 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-12">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
@@ -227,7 +227,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── 7. TESTIMONIOS ── */}
-      <section className="py-16 px-4 bg-[#0A0A0A]">
+      <section className="py-10 md:py-16 px-3 md:px-4 bg-[#0A0A0A]">
         <FadeInUp className="text-center mb-12">
           <p
             className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
@@ -285,8 +285,8 @@ export default async function HomePage() {
       <NosotrosSection />
 
       {/* ── 8. INSTAGRAM / REDES SOCIALES ── */}
-      <section className="py-16 md:py-20 bg-[#111111]">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="py-10 md:py-16 lg:py-20 bg-[#111111]">
+        <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-8">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
@@ -368,7 +368,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── 9. CTA FINAL ── */}
-      <section className="py-20 bg-[#0A0A0A] border-t border-white/5">
+      <section className="py-12 md:py-20 bg-[#0A0A0A] border-t border-white/5">
         <FadeInUp className="max-w-2xl mx-auto text-center px-4">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-4"

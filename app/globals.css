@@ -23,7 +23,7 @@
 
 :root {
   --urgency-h: 0px;
-  --nav-h: 64px;
+  --nav-h: 56px;
 }
 
 @media (min-width: 768px) {

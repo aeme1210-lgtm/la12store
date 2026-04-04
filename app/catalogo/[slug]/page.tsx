@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-4 md:py-8">
         <ProductDetail product={product} />
 
         {related.length > 0 && (
