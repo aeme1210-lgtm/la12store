@@ -221,58 +221,89 @@ export default async function HomePage() {
       </section>
 
       {/* ── 7. TESTIMONIOS ── */}
-      <section className="py-10 md:py-16 px-3 md:px-4 bg-[#0A0A0A]">
-        <FadeInUp className="text-center mb-12">
-          <p
-            className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
-            style={{ fontFamily: "var(--font-oswald)" }}
-          >
-            Clientes reales
-          </p>
+      <section className="py-16 px-3 md:px-6 bg-[#0A0A0A]">
+        <FadeInUp className="text-center mb-10">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Lo que dicen nuestros clientes
+            Clientes reales, opiniones reales
           </h2>
           <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "var(--font-inter)" }}>
             +500 clientes satisfechos en toda Colombia y el mundo
           </p>
         </FadeInUp>
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {[
-            {
-              nombre: "Carlos M.",
-              ciudad: "Bogotá",
-              texto: "Increíble calidad. La camiseta del Real Madrid se ve idéntica a la original. El dorsal quedó perfecto.",
-            },
-            {
-              nombre: "María P.",
-              ciudad: "Medellín",
-              texto: "Pedí la retro de Argentina del 86 y llegó en 3 días. Empaque impecable y calidad premium.",
-            },
-            {
-              nombre: "Juan D.",
-              ciudad: "Cali",
-              texto: "Ya llevo 5 camisetas compradas. La atención por WhatsApp es de otro nivel, te asesoran en todo.",
-            },
-          ].map((t, i) => (
-            <StaggerItem key={i}>
-              <div className="bg-[#111111] rounded-xl p-6 border border-gray-800 h-full">
-                <div className="flex mb-3">
-                  {[...Array(5)].map((_, j) => (
-                    <span key={j} className="text-[#D4AF37] text-base">★</span>
-                  ))}
-                </div>
-                <p className="text-[#9CA3AF] text-sm mb-4 leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
-                  &ldquo;{t.texto}&rdquo;
-                </p>
-                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-oswald)" }}>{t.nombre}</p>
-                <p className="text-[#666666] text-xs">{t.ciudad}, Colombia</p>
+
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* Video reseña real */}
+          <FadeInLeft>
+            <div className="relative rounded-xl overflow-hidden aspect-video shadow-2xl border border-gray-800">
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full h-full object-cover"
+              >
+                <source
+                  src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/WhatsApp%20Video%202026-04-04%20at%2013.47.08.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <div
+                className="absolute top-3 left-3 bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                ⭐ Reseña verificada
               </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+            </div>
+          </FadeInLeft>
+
+          {/* Textos */}
+          <FadeInRight delay={0.15}>
+            <div className="space-y-6">
+              <div className="bg-[#111111] rounded-xl p-5 border border-gray-800">
+                <div className="flex mb-2">
+                  <span className="text-[#D4AF37] text-base">★★★★★</span>
+                </div>
+                <p className="text-[#9CA3AF] text-sm italic leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
+                  &ldquo;Uy amigo super feliz, las camisas son de muy buena calidad, pero las tipo jugador son otra categoría&rdquo;
+                </p>
+                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-oswald)" }}>
+                  Cliente verificado
+                </p>
+                <p className="text-[#D4AF37] text-xs">Compra verificada ✓</p>
+              </div>
+
+              <div className="bg-[#111111] rounded-xl p-5 border border-gray-800">
+                <div className="flex mb-2">
+                  <span className="text-[#D4AF37] text-base">★★★★★</span>
+                </div>
+                <p className="text-[#9CA3AF] text-sm italic leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
+                  &ldquo;La calidad es premium, se siente igual que la original. El dorsal quedó perfecto.&rdquo;
+                </p>
+                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-oswald)" }}>
+                  500+ clientes
+                </p>
+                <p className="text-[#D4AF37] text-xs">En toda Colombia y el mundo</p>
+              </div>
+
+              <div className="flex items-center gap-6">
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>100%</p>
+                  <p className="text-xs text-[#9CA3AF]">Calidad premium</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>500+</p>
+                  <p className="text-xs text-[#9CA3AF]">Clientes felices</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>+10</p>
+                  <p className="text-xs text-[#9CA3AF]">Países</p>
+                </div>
+              </div>
+            </div>
+          </FadeInRight>
+        </div>
       </section>
 
       {/* ── 8. QUIÉNES SOMOS ── */}
