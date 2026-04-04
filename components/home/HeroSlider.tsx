@@ -36,7 +36,6 @@ export function HeroSlider() {
             priority={current === 0}
             className="object-cover object-center"
             sizes="100vw"
-            unoptimized
           />
         </motion.div>
       </AnimatePresence>

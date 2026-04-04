@@ -13,6 +13,7 @@ import { LifestyleGallery } from "@/components/home/LifestyleGallery";
 import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
 import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
+import { LazyVideo } from "@/components/ui/LazyVideo";
 
 export const metadata: Metadata = {
   title: "La 12 Store | Camisetas de Fútbol Premium",
@@ -22,21 +23,20 @@ export const metadata: Metadata = {
 
 async function getTrendingProducts() {
   const terms = [
-    "Barcelona 25", "Barcelona 26",
-    "Real Madrid 25", "Real Madrid 26",
-    "Colombia 2026", "Argentina 2026",
-    "Manchester United", "PSG 25",
-    "Inter Milan 25", "Boca Juniors 25",
+    "Barcelona", "Real Madrid", "Colombia", "Argentina",
+    "Manchester United", "PSG", "Inter Milan", "Boca Juniors",
+    "Bayern", "Liverpool",
   ];
-  const popular = await prisma.product.findMany({
-    where: {
-      isActive: true,
-      OR: terms.map((t) => ({ name: { contains: t } })),
-    },
-    orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
-    take: 8,
-  });
-  if (popular.length >= 4) return popular.slice(0, 8);
+  const results = await Promise.all(
+    terms.map((t) =>
+      prisma.product.findFirst({
+        where: { isActive: true, name: { contains: t } },
+        orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
+      })
+    )
+  );
+  const unique = results.filter((p) => p !== null);
+  if (unique.length >= 4) return unique.slice(0, 8);
   return prisma.product.findMany({
     where: { isActive: true },
     orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
@@ -153,16 +153,10 @@ export default async function HomePage() {
                   className="group relative overflow-hidden rounded-xl block"
                   style={{ height: "clamp(160px, 40vw, 220px)" }}
                 >
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="none"
+                  <LazyVideo
+                    src={cat.video}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  >
-                    <source src={cat.video} type="video/mp4" />
-                  </video>
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-300 group-hover:from-black/60" />
                   <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
                     <h3

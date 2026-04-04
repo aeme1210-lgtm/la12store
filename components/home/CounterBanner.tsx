@@ -6,17 +6,21 @@ import Link from "next/link";
 
 function useCounter(target: number, duration = 1800) {
   const [count, setCount] = useState(0);
-  const started = useRef(false);
+  const startedRef = useRef(false);
+  const targetRef = useRef(target);
+  targetRef.current = target;
 
   function start() {
-    if (started.current) return;
-    started.current = true;
+    if (startedRef.current) return;
+    const t = targetRef.current;
+    if (t === 0) return;
+    startedRef.current = true;
     const startTime = performance.now();
     const tick = (now: number) => {
       const progress = Math.min((now - startTime) / duration, 1);
       // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
+      setCount(Math.floor(eased * t));
       if (progress < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "Explora nuestro catálogo completo de camisetas de fútbol premium. Selecciones, ligas europeas, sudamericanas y retros.",
 };
 
-const PAGE_SIZE = 48;
+const PAGE_SIZE = 24;
 
 const VIDEO_BASE = "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/";
 
@@ -107,17 +107,37 @@ export default async function CatalogoPage({
   const page = Math.max(1, parseInt(params.page ?? "1") || 1);
   const skip = (page - 1) * PAGE_SIZE;
 
-  const [products, total, leagues, types] = await Promise.all([
-    prisma.product.findMany({
-      where,
-      orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
-      skip,
-      take: PAGE_SIZE,
-    }),
-    prisma.product.count({ where }),
-    prisma.product.groupBy({ by: ["league"], where: { isActive: true } }),
-    prisma.product.groupBy({ by: ["type"], where: { isActive: true } }),
-  ]);
+  let products: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
+  let total = 0;
+  let leagues: { league: string }[] = [];
+  let types: { type: string }[] = [];
+
+  try {
+    [products, total, leagues, types] = await Promise.all([
+      prisma.product.findMany({
+        where,
+        orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
+        skip,
+        take: PAGE_SIZE,
+      }),
+      prisma.product.count({ where }),
+      prisma.product.groupBy({ by: ["league"], where: { isActive: true } }),
+      prisma.product.groupBy({ by: ["type"], where: { isActive: true } }),
+    ]);
+  } catch {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="text-center">
+          <p className="text-[#D4AF37] text-sm uppercase tracking-widest mb-2" style={{ fontFamily: "var(--font-oswald)" }}>
+            Error temporal
+          </p>
+          <p className="text-[#9CA3AF] text-sm">
+            No pudimos cargar el catálogo. Intenta nuevamente en unos segundos.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
