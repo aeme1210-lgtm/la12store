@@ -178,6 +178,25 @@ export default async function CatalogoPage({
           </div>
         )}
 
+        {/* Search bar — always visible above grid */}
+        <div className="px-0 mb-4">
+          <form action="/catalogo" method="GET" className="relative max-w-xl">
+            <input
+              type="text"
+              name="q"
+              defaultValue={params.q || ""}
+              placeholder="Buscar camiseta... (ej: Barcelona, Colombia, Retro)"
+              className="w-full py-3 px-4 pr-12 bg-[#111111] border-2 border-[#D4AF37] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] text-sm md:text-base"
+            />
+            <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#D4AF37] hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </button>
+            {params.liga && <input type="hidden" name="liga" value={params.liga} />}
+          </form>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar filters */}
           <CatalogoFilters

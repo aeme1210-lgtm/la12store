@@ -28,6 +28,8 @@ function cleanProductName(name: string): string {
     .replace(/\s*S-XXL/gi, "")
     .replace(/\s*S-\w+/gi, "")
     .replace(/\s*Size[_ ]\d+-\d+/gi, "")
+    .replace(/Home\s+Home/gi, "Home")
+    .replace(/\s+Home\s+Retro$/gi, " Retro")
     .replace(/\s*Home\s*$/gi, "")
     .replace(/_/g, " ")
     .replace(/\s+/g, " ")
