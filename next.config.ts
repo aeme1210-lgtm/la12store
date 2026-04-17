@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    loader: "custom",
+    loaderFile: "./supabase-image-loader.js",
     remotePatterns: [
       {
         protocol: "https",
@@ -9,8 +11,6 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/**",
       },
     ],
-    formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
   serverExternalPackages: ["@prisma/adapter-pg"],
   async headers() {
