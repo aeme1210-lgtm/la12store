@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 
@@ -19,22 +19,35 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalItems = useCart((s) => s.totalItems);
 
   useEffect(() => {
     setMobileOpen(false);
     setSearchOpen(false);
-    setSearchValue("");
+    if (searchInputRef.current) searchInputRef.current.value = "";
   }, [pathname]);
 
-  function handleSearch(e: React.FormEvent) {
+  const handleSearch = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    if (searchValue.trim()) {
-      router.push(`/catalogo?q=${encodeURIComponent(searchValue.trim())}`);
+    const value = searchInputRef.current?.value.trim() ?? "";
+    if (value) {
+      router.push(`/catalogo?q=${encodeURIComponent(value)}`);
       setSearchOpen(false);
     }
-  }
+  }, [router]);
+
+  const handleInputChange = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      const value = searchInputRef.current?.value.trim() ?? "";
+      if (value.length >= 2) {
+        router.push(`/catalogo?q=${encodeURIComponent(value)}`);
+        setSearchOpen(false);
+      }
+    }, 300);
+  }, [router]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -144,9 +157,10 @@ export function Navbar() {
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2">
             <input
               autoFocus
+              ref={searchInputRef}
               type="text"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
+              defaultValue=""
+              onChange={handleInputChange}
               placeholder="Buscar camiseta, equipo, selección..."
               className="flex-1 bg-[#1A1A1A] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#D4AF37]/50 transition-colors"
               style={{ fontFamily: "var(--font-inter)" }}

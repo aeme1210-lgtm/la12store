@@ -7,6 +7,7 @@ import { LigaVideoBanner } from "@/components/product/LigaVideoBanner";
 import { FadeInUp, ScaleIn } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { resolveSearchTerms } from "@/lib/search";
 
 export const metadata: Metadata = {
   title: "Catálogo de Camisetas",
@@ -71,11 +72,12 @@ function buildWhere(params: SearchParams): Record<string, unknown> {
   }
   if (params.tipo) where.type = params.tipo;
   if (params.q) {
-    where.OR = [
-      { name: { contains: params.q } },
-      { team: { contains: params.q } },
-      { league: { contains: params.q } },
-    ];
+    const terms = resolveSearchTerms(params.q);
+    where.OR = terms.flatMap((term) => [
+      { name: { contains: term, mode: "insensitive" } },
+      { team: { contains: term, mode: "insensitive" } },
+      { league: { contains: term, mode: "insensitive" } },
+    ]);
   }
   return where;
 }
