@@ -14,6 +14,7 @@ import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
 import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 import { LazyVideo } from "@/components/ui/LazyVideo";
+import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 
 export const metadata: Metadata = {
   title: "La 12 Store | Camisetas de Fútbol Premium",
@@ -66,6 +67,7 @@ const features = [
 ];
 
 export default async function HomePage() {
+  const promoActive = isSuperClasicoActive();
   const [trending, productCount] = await Promise.all([
     getTrendingProducts(),
     prisma.product.count({ where: { isActive: true } }),
@@ -73,6 +75,21 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* ── PROMO BANNER — solo el 19 de abril ── */}
+      {promoActive && (
+        <Link
+          href="/super-clasico"
+          className="block w-full text-center py-3 px-4 font-black text-sm uppercase tracking-widest transition-opacity hover:opacity-90"
+          style={{
+            fontFamily: "var(--font-oswald)",
+            background: "linear-gradient(90deg, #D32F2F 0%, #1A1A1A 40%, #1A1A1A 60%, #003087 100%)",
+            color: "#FFD700",
+          }}
+        >
+          🔥 PROMO SUPER CLÁSICO — 15% OFF en camisetas de Boca y River · Solo hoy →
+        </Link>
+      )}
+
       {/* ── 1. HERO ── */}
       <HeroSlider />
 

@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
+import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
@@ -19,9 +20,15 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [isPromoActive, setIsPromoActive] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalItems = useCart((s) => s.totalItems);
+
+  // Set promo state client-side only to avoid hydration mismatch
+  useEffect(() => {
+    setIsPromoActive(isSuperClasicoActive());
+  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -90,6 +97,20 @@ export function Navbar() {
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-7">
+              {isPromoActive && (
+                <Link
+                  href="/super-clasico"
+                  className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
+                  style={{
+                    fontFamily: "var(--font-oswald)",
+                    background: "linear-gradient(90deg, #D32F2F, #D4AF37)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  🔥 SUPER CLÁSICO -15%
+                </Link>
+              )}
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -197,6 +218,21 @@ export function Navbar() {
 
           {/* Nav links centered */}
           <nav className="flex flex-col items-center justify-center flex-1 gap-2 pb-16">
+            {isPromoActive && (
+              <Link
+                href="/super-clasico"
+                onClick={() => setMobileOpen(false)}
+                className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
+                style={{
+                  fontFamily: "var(--font-oswald)",
+                  background: "linear-gradient(90deg, #D32F2F, #D4AF37)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                🔥 SUPER CLÁSICO -15%
+              </Link>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.href}
