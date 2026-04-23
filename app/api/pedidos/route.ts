@@ -1,70 +1,60 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generateOrderNumber } from "@/lib/utils";
+import { requireAdminAuth } from "@/lib/admin-auth";
+import { OrderCreateSchema } from "@/lib/validation";
 
+// POST — público: los clientes crean pedidos
 export async function POST(req: NextRequest) {
+  let body: unknown;
   try {
-    const body = await req.json();
-    const {
-      name,
-      phone,
-      email,
-      address,
-      city,
-      department,
-      notes,
-      paymentMethod,
-      items,
-      subtotal,
-      shipping,
-      total,
-    } = body;
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Cuerpo inválido" }, { status: 400 });
+  }
 
-    if (!name || !phone || !items?.length) {
-      return NextResponse.json(
-        { error: "Faltan datos requeridos" },
-        { status: 400 }
-      );
-    }
+  const parsed = OrderCreateSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Datos inválidos", details: parsed.error.flatten() },
+      { status: 422 }
+    );
+  }
 
+  const {
+    name, phone, email, address, city, department,
+    notes, paymentMethod, items, subtotal, shipping, total,
+  } = parsed.data;
+
+  try {
     const orderNumber = generateOrderNumber();
-
     const order = await prisma.order.create({
       data: {
         orderNumber,
         customerName: name,
         customerPhone: phone,
-        customerEmail: email,
-        address,
-        city,
-        department,
-        notes,
-        paymentMethod,
+        customerEmail: email || null,
+        address: address || null,
+        city: city || null,
+        department: department || null,
+        notes: notes || null,
+        paymentMethod: paymentMethod || null,
         subtotal,
         shipping: shipping ?? 0,
         total,
         items: {
-          create: items.map((item: {
-            productId: string;
-            quantity: number;
-            size: string;
-            version: string;
-            dorsalName?: string;
-            dorsalNumber?: string;
-            price: number;
-          }) => ({
+          create: items.map((item) => ({
             productId: item.productId,
             quantity: item.quantity,
             size: item.size,
             version: item.version,
-            dorsalName: item.dorsalName,
-            dorsalNumber: item.dorsalNumber,
+            dorsalName: item.dorsalName ?? null,
+            dorsalNumber: item.dorsalNumber ?? null,
             price: item.price,
           })),
         },
       },
     });
-
     return NextResponse.json({ orderNumber: order.orderNumber, id: order.id });
   } catch (error) {
     console.error("Error creating order:", error);
@@ -72,10 +62,15 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// GET — solo admins: lista todos los pedidos con PII de clientes
 export async function GET(req: NextRequest) {
+  const auth = await requireAdminAuth();
+  if (!auth.ok) return auth.response;
+
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");
-  const page = parseInt(searchParams.get("page") ?? "1");
+  const rawPage = parseInt(searchParams.get("page") ?? "1");
+  const page = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const limit = 20;
 
   const where = status ? { status } : {};

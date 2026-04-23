@@ -11,6 +11,6 @@ export default defineConfig({
   datasource: {
     // DIRECT_URL: port 5432 session mode — safe for CLI/migrations
     // DATABASE_URL: port 6543 transaction mode — used by app at runtime via adapter
-    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
+    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"] ?? "",
   },
 });
