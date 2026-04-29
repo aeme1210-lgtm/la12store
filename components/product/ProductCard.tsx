@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { formatCOP } from "@/lib/utils";
+
+const PLACEHOLDER = "/images/placeholder.jpg";
 
 interface Product {
   id: string;
@@ -46,7 +49,8 @@ function getSmartBadge(name: string): { text: string; bg: string; color: string 
 
 export function ProductCard({ product }: { product: Product }) {
   const images = JSON.parse(product.images || "[]") as string[];
-  const mainImage = images[0] || "/images/placeholder.jpg";
+  const mainImage = images[0] || PLACEHOLDER;
+  const [imgSrc, setImgSrc] = useState(mainImage);
 
   const displayPrice = product.isRetro
     ? product.priceRetro ?? 170000
@@ -60,11 +64,12 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Image container — aspect 3/4, object-contain so jersey shows full */}
         <div className="relative aspect-[3/4] bg-[#1A1A1A] rounded-t-xl overflow-hidden">
           <Image
-            src={mainImage}
+            src={imgSrc}
             alt={product.name}
             fill
             className="object-contain group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            onError={() => setImgSrc(PLACEHOLDER)}
           />
 
           {/* Badges */}

@@ -1,0 +1,47 @@
+name: Backup Base de Datos
+
+on:
+  # Cada domingo a las 4:00 AM UTC
+  schedule:
+    - cron: "0 4 * * 0"
+
+  # Permite disparar el backup manualmente desde GitHub → Actions → Run workflow
+  workflow_dispatch:
+
+jobs:
+  backup:
+    name: pg_dump → gzip → Google Drive
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm ci --ignore-scripts
+
+      - name: Instalar cliente PostgreSQL
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Ejecutar backup
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          BACKUP_KEEP_LAST: "20"
+        run: node scripts/backup-db.js
+
+      - name: Notificar éxito
+        if: success()
+        run: echo "✅ Backup completado exitosamente el $(date -u '+%Y-%m-%d %H:%M UTC')"
+
+      - name: Notificar fallo
+        if: failure()
+        run: echo "❌ El backup falló. Revisar los logs arriba."
