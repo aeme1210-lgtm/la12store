@@ -120,7 +120,7 @@ export default async function AdminDashboard() {
               No hay pedidos aún
             </p>
           ) : (
-            recentOrders.map((order) => (
+            recentOrders.map((order: (typeof recentOrders)[number]) => (
               <div
                 key={order.id}
                 className="flex items-center justify-between py-3 border-b border-[#B8860B]/10 last:border-0"

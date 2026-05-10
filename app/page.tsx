@@ -15,6 +15,7 @@ import { NosotrosSection } from "@/components/home/NosotrosSection";
 import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 import { LazyVideo } from "@/components/ui/LazyVideo";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
+import { getBarcaPromoStatus } from "@/lib/promo-barca";
 
 export const metadata: Metadata = {
   title: "La 12 Store | Camisetas de Fútbol Premium",
@@ -36,7 +37,7 @@ async function getTrendingProducts() {
       })
     )
   );
-  const unique = results.filter((p) => p !== null);
+  const unique = results.filter((p: (typeof results)[number]) => p !== null);
   if (unique.length >= 4) return unique.slice(0, 8);
   return prisma.product.findMany({
     where: { isActive: true },
@@ -68,13 +69,29 @@ const features = [
 
 export default async function HomePage() {
   const promoActive = isSuperClasicoActive();
-  const [trending, productCount] = await Promise.all([
+  const [trending, productCount, barcaPromo] = await Promise.all([
     getTrendingProducts(),
     prisma.product.count({ where: { isActive: true } }),
+    getBarcaPromoStatus(),
   ]);
 
   return (
     <>
+      {/* ── BANNER BARÇA CAMPEÓN (DB-driven, 24 h) ── */}
+      {barcaPromo.active && (
+        <Link
+          href="/campeones-barca"
+          className="block w-full text-center py-3 px-4 font-black text-sm uppercase tracking-widest transition-opacity hover:opacity-90 animate-pulse"
+          style={{
+            fontFamily: "var(--font-oswald)",
+            background: "linear-gradient(90deg, #A50044 0%, #1A1A1A 40%, #1A1A1A 60%, #004D98 100%)",
+            color: "#FFD700",
+          }}
+        >
+          🏆 ¡BARÇA CAMPEÓN DE LIGA! — 20% OFF en todas las camisetas del Barça · Solo 24 h →
+        </Link>
+      )}
+
       {/* ── PROMO BANNER — solo el 19 de abril ── */}
       {promoActive && (
         <Link
@@ -120,7 +137,7 @@ export default async function HomePage() {
         </FadeInUp>
 
         <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {trending.map((product) => (
+          {trending.map((product: (typeof trending)[number]) => (
             <StaggerItem key={product.id}>
               <ProductCard product={product} />
             </StaggerItem>

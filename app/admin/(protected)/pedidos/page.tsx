@@ -40,7 +40,7 @@ export default async function AdminPedidos() {
             <p className="text-[#666666]">No hay pedidos aún</p>
           </div>
         ) : (
-          orders.map((order) => (
+          orders.map((order: (typeof orders)[number]) => (
             <div
               key={order.id}
               className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-5"
@@ -89,7 +89,7 @@ export default async function AdminPedidos() {
 
               {/* Items */}
               <div className="mt-3 pt-3 border-t border-[#B8860B]/10 space-y-1">
-                {order.items.map((item) => (
+                {order.items.map((item: (typeof order.items)[number]) => (
                   <p key={item.id} className="text-[#A0A0A0] text-xs">
                     • {item.product.name} — Talla: {item.size} · {item.version}
                     {item.dorsalName && ` · Dorsal: ${item.dorsalName} #${item.dorsalNumber}`}

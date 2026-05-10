@@ -83,3 +83,12 @@ model Category {
   order    Int     @default(0)
   isActive Boolean @default(true)
 }
+
+model Promo {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  startAt   DateTime
+  endAt     DateTime
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}

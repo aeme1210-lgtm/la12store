@@ -8,6 +8,7 @@ import { FadeInUp, ScaleIn } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { resolveSearchTerms } from "@/lib/search";
+import { getBarcaPromoStatus, isBarcaProduct } from "@/lib/promo-barca";
 
 export const metadata: Metadata = {
   title: "Catálogo de Camisetas",
@@ -114,8 +115,9 @@ export default async function CatalogoPage({
   let leagues: { league: string }[] = [];
   let types: { type: string }[] = [];
 
+  let barcaPromoActive = false;
   try {
-    [products, total, leagues, types] = await Promise.all([
+    const [fetchedProducts, fetchedTotal, fetchedLeagues, fetchedTypes, barcaStatus] = await Promise.all([
       prisma.product.findMany({
         where,
         orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
@@ -125,7 +127,13 @@ export default async function CatalogoPage({
       prisma.product.count({ where }),
       prisma.product.groupBy({ by: ["league"], where: { isActive: true } }),
       prisma.product.groupBy({ by: ["type"], where: { isActive: true } }),
+      getBarcaPromoStatus(),
     ]);
+    products = fetchedProducts;
+    total = fetchedTotal;
+    leagues = fetchedLeagues;
+    types = fetchedTypes;
+    barcaPromoActive = barcaStatus.active;
   } catch {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
@@ -218,9 +226,12 @@ export default async function CatalogoPage({
             ) : (
               <>
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
-                  {products.map((p, index) => (
+                  {products.map((p: (typeof products)[number], index: number) => (
                     <ScaleIn key={p.id} delay={Math.min(index * 0.05, 0.5)}>
-                      <ProductCard product={p} />
+                      <ProductCard
+                        product={p}
+                        showBarcaBadge={barcaPromoActive && isBarcaProduct(p.name)}
+                      />
                     </ScaleIn>
                   ))}
                 </div>

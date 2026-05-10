@@ -21,6 +21,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isPromoActive, setIsPromoActive] = useState(false);
+  const [isBarcaPromoActive, setIsBarcaPromoActive] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalItems = useCart((s) => s.totalItems);
@@ -28,6 +29,11 @@ export function Navbar() {
   // Set promo state client-side only to avoid hydration mismatch
   useEffect(() => {
     setIsPromoActive(isSuperClasicoActive());
+    // Barça promo — consultar endpoint liviano (DB-driven)
+    fetch("/api/promo-barca-status")
+      .then((r) => r.json())
+      .then((d) => setIsBarcaPromoActive(d.active === true))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -109,6 +115,20 @@ export function Navbar() {
                   }}
                 >
                   🔥 SUPER CLÁSICO -15%
+                </Link>
+              )}
+              {isBarcaPromoActive && (
+                <Link
+                  href="/campeones-barca"
+                  className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
+                  style={{
+                    fontFamily: "var(--font-oswald)",
+                    background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  🏆 BARÇA CAMPEÓN -20%
                 </Link>
               )}
               {navLinks.map((link) => (
@@ -231,6 +251,21 @@ export function Navbar() {
                 }}
               >
                 🔥 SUPER CLÁSICO -15%
+              </Link>
+            )}
+            {isBarcaPromoActive && (
+              <Link
+                href="/campeones-barca"
+                onClick={() => setMobileOpen(false)}
+                className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
+                style={{
+                  fontFamily: "var(--font-oswald)",
+                  background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                🏆 BARÇA CAMPEÓN -20%
               </Link>
             )}
             {navLinks.map((link) => (

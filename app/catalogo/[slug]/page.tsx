@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: Props) {
               </h2>
             </FadeInUp>
             <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5" staggerDelay={0.1}>
-              {related.map((p) => (
+              {related.map((p: (typeof related)[number]) => (
                 <StaggerItem key={p.id}>
                   <ProductCard product={p} />
                 </StaggerItem>

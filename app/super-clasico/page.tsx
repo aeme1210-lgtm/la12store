@@ -218,7 +218,7 @@ export default async function SuperClasicoPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-            {products.map((p) => (
+            {products.map((p: (typeof products)[number]) => (
               <SuperClasicoCard key={p.id} product={p} />
             ))}
           </div>

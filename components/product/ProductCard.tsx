@@ -47,7 +47,13 @@ function getSmartBadge(name: string): { text: string; bg: string; color: string 
   return null;
 }
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  showBarcaBadge = false,
+}: {
+  product: Product;
+  showBarcaBadge?: boolean;
+}) {
   const images = JSON.parse(product.images || "[]") as string[];
   const mainImage = images[0] || PLACEHOLDER;
   const [imgSrc, setImgSrc] = useState(mainImage);
@@ -74,6 +80,18 @@ export function ProductCard({ product }: { product: Product }) {
 
           {/* Badges */}
           <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
+            {showBarcaBadge && (
+              <span
+                className="text-[10px] font-black px-2 py-0.5 rounded tracking-wide"
+                style={{
+                  fontFamily: "var(--font-oswald)",
+                  background: "linear-gradient(135deg, #A50044, #004D98)",
+                  color: "#FFD700",
+                }}
+              >
+                -20%
+              </span>
+            )}
             {product.isTrending && (
               <span
                 className="bg-[#D4A017] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
