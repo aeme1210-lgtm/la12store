@@ -50,17 +50,22 @@ function getSmartBadge(name: string): { text: string; bg: string; color: string 
 export function ProductCard({
   product,
   showBarcaBadge = false,
+  discountPercent,
 }: {
   product: Product;
   showBarcaBadge?: boolean;
+  discountPercent?: number;
 }) {
   const images = JSON.parse(product.images || "[]") as string[];
   const mainImage = images[0] || PLACEHOLDER;
   const [imgSrc, setImgSrc] = useState(mainImage);
 
-  const displayPrice = product.isRetro
+  const basePrice = product.isRetro
     ? product.priceRetro ?? 170000
     : product.priceFan ?? 150000;
+  const displayPrice = discountPercent
+    ? Math.round(basePrice * (1 - discountPercent / 100))
+    : basePrice;
 
   const smartBadge = getSmartBadge(product.name);
 
@@ -152,12 +157,22 @@ export function ProductCard({
           >
             {cleanProductName(product.name)}
           </h3>
-          <span
-            className="text-[#D4A017] font-bold text-sm"
-            style={{ fontFamily: "var(--font-jetbrains)" }}
-          >
-            {formatCOP(displayPrice)}
-          </span>
+          <div className="flex items-baseline gap-2">
+            <span
+              className="text-[#D4A017] font-bold text-sm"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
+              {formatCOP(displayPrice)}
+            </span>
+            {discountPercent && (
+              <span
+                className="text-[#666] text-xs line-through"
+                style={{ fontFamily: "var(--font-jetbrains)" }}
+              >
+                {formatCOP(basePrice)}
+              </span>
+            )}
+          </div>
           <p className="text-[#22C55E] text-[10px] mt-1">✓ Dorsal y parches gratis</p>
         </div>
       </div>

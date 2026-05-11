@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { formatCOP } from "@/lib/utils";
 import { AdminOrderStatus } from "@/components/admin/AdminOrderStatus";

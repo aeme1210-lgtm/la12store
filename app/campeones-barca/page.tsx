@@ -2,27 +2,17 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { getBarcaPromoStatus, isBarcaProduct, applyBarcaDiscount } from "@/lib/promo-barca";
+import { getBarcaPromoStatus } from "@/lib/promo-barca";
 import { BarcaCountdown } from "@/components/promo/BarcaCountdown";
-import { formatCOP } from "@/lib/utils";
+import { ProductCard } from "@/components/product/ProductCard";
 
 export const metadata: Metadata = {
   title: "🏆 Barça Campeón de Liga — 20% OFF Camisetas Barcelona | La 12 Store",
   description:
     "Celebremos el título del Barça con 20% de descuento en todas las camisetas del Barcelona. Solo por 24 horas. Envío gratis a toda Colombia.",
 };
-
-const WA_NUMBER = "573008443885";
-const PLACEHOLDER = "/images/placeholder.jpg";
-
-function buildWaMessage(name: string, discountedPrice: number): string {
-  return encodeURIComponent(
-    `¡Hola! 🏆 Vi la camiseta del Barça "${name}" en la promo CAMPEONES DE LIGA y quiero aprovechar el 20% de descuento. Precio con descuento: ${formatCOP(discountedPrice)}. ¿Está disponible?`
-  );
-}
 
 export default async function CampeonesBarcaPage() {
   const promo = await getBarcaPromoStatus();
@@ -155,95 +145,14 @@ export default async function CampeonesBarcaPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
-            {products.map((product: (typeof products)[number]) => {
-              const imgs = JSON.parse(product.images || "[]") as string[];
-              const imgSrc = imgs[0] || PLACEHOLDER;
-
-              // Precio base según tipo
-              const basePrice = product.isRetro
-                ? (product.priceRetro ?? 170_000)
-                : (product.priceFan ?? 150_000);
-              const discountedPrice = applyBarcaDiscount(basePrice);
-
-              const waMsg = buildWaMessage(product.name, discountedPrice);
-              const waUrl = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
-
-              return (
-                <article
-                  key={product.id}
-                  className="relative bg-[#141414] rounded-xl border border-transparent hover:border-[#A50044]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#A50044]/10 group flex flex-col"
-                >
-                  {/* Badge -20% */}
-                  <div className="absolute top-2 left-2 z-10">
-                    <span
-                      className="font-black text-[11px] px-2 py-0.5 rounded uppercase tracking-wide shadow-lg"
-                      style={{
-                        fontFamily: "var(--font-oswald)",
-                        background: "linear-gradient(135deg, #A50044, #004D98)",
-                        color: "#FFD700",
-                      }}
-                    >
-                      -20%
-                    </span>
-                  </div>
-
-                  {/* Imagen */}
-                  <Link href={`/catalogo/${product.slug}`} className="block">
-                    <div className="relative aspect-[3/4] bg-[#1A1A1A] rounded-t-xl overflow-hidden">
-                      <Image
-                        src={imgSrc}
-                        alt={product.name}
-                        fill
-                        className="object-contain group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                        onError={() => {}}
-                      />
-                    </div>
-                  </Link>
-
-                  {/* Info */}
-                  <div className="p-3 flex flex-col flex-1 gap-1.5">
-                    <Link href={`/catalogo/${product.slug}`}>
-                      <h3
-                        className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 group-hover:text-[#FFD700] transition-colors min-h-[2.5rem]"
-                        style={{ fontFamily: "var(--font-oswald)" }}
-                      >
-                        {product.name}
-                      </h3>
-                    </Link>
-
-                    {/* Precios */}
-                    <div className="flex items-baseline gap-2">
-                      <span
-                        className="text-[#FFD700] font-bold text-sm"
-                        style={{ fontFamily: "var(--font-jetbrains)" }}
-                      >
-                        {formatCOP(discountedPrice)}
-                      </span>
-                      <span
-                        className="text-[#666] text-xs line-through"
-                        style={{ fontFamily: "var(--font-jetbrains)" }}
-                      >
-                        {formatCOP(basePrice)}
-                      </span>
-                    </div>
-
-                    <p className="text-[#22C55E] text-[10px]">✓ Dorsal y parches gratis</p>
-
-                    {/* CTA WhatsApp */}
-                    <a
-                      href={waUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-auto w-full flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold py-2 rounded-lg uppercase tracking-wide transition-colors"
-                      style={{ fontFamily: "var(--font-oswald)" }}
-                    >
-                      🛒 Comprar por WhatsApp
-                    </a>
-                  </div>
-                </article>
-              );
-            })}
+            {products.map((product: (typeof products)[number]) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                showBarcaBadge
+                discountPercent={20}
+              />
+            ))}
           </div>
         )}
       </section>
