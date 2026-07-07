@@ -1,5 +1,47 @@
 @AGENTS.md
 
+# REGLAS TÉCNICAS DEL PROYECTO (la12store)
+
+## Conexión a base de datos (Supabase Postgres + Prisma)
+- `DATABASE_URL` — puerto **6543**, con `pgbouncer=true` (pool en modo transacción).
+  Es la que usa la app en runtime, vía `@prisma/adapter-pg` + `pg.Pool` (ver `lib/prisma.ts`).
+- `DIRECT_URL` — puerto **5432**, conexión directa (modo sesión). La usan las
+  migraciones y el CLI de Prisma (ver `prisma.config.ts`: `DIRECT_URL ?? DATABASE_URL`).
+- Nunca uses `DIRECT_URL` para el pool de la app ni `DATABASE_URL` para migraciones.
+
+## Prisma singleton
+- `lib/prisma.ts` exporta un singleton (`globalForPrisma.prisma`) para evitar
+  agotar conexiones en serverless (Vercel). Importa siempre `prisma` desde ahí,
+  nunca instancies `new PrismaClient()` en otro archivo.
+
+## Build antes de push
+- **Siempre correr `npm run build` antes de hacer push.** Si no compila
+  limpio (TypeScript o Next build), no se pushea — se arregla primero.
+
+## Precios (lib/utils.ts)
+- Fan: `priceFan` ?? **150,000** (default/fallback)
+- Retro: `priceRetro` ?? **170,000**
+- Player: `pricePlayer` ?? **180,000**
+- ⚠️ No existe un cuarto tier "Manga Larga" (185,000) en el código actual
+  (`schema.prisma` solo tiene `priceFan`/`pricePlayer`/`priceRetro`; "long sleeve"
+  se trata como modificador de nombre en `prisma/import-products.ts`, no como
+  tipo con precio propio). Si se necesita ese precio, hay que agregar el campo
+  y su lógica antes de documentarlo aquí como real.
+
+## Imágenes de Supabase Storage
+- Loader custom en `supabase-image-loader.js`: sirve el objeto público
+  directo (`/storage/v1/object/public/...`), **sin pasar por
+  `/storage/v1/render/image/`** (Image Transformations tiene límite de plan).
+  No reintroducir la ruta `/render/image/` en el loader.
+
+## Scripts de importación
+- La carpeta **`/scripts`** contiene los scripts Python de importación de
+  Yupoo (pipelines de scraping/carga por liga, fixes de URLs, uploads a
+  Supabase Storage). No son parte del build de Next.js — no ponerlos en `/lib`
+  ni en `/app`.
+
+---
+
 # STRIKER — Agente de Contenido La 12 Store
 
 ## QUIÉN ERES
