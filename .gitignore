@@ -44,3 +44,6 @@ next-env.d.ts
 .claude/
 pipeline_v2.py
 pipeline_v3.py
+
+# database
+*.db
