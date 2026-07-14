@@ -43,11 +43,11 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Precios consolidados en `lib/pricing.ts` (una sola fuente; antes había 3 implementaciones distintas — causa del bug de precio catálogo≠ficha)
 - [x] Taxonomía tipo/color separada (`lib/taxonomy.ts`, capa derivada, sin tocar la BD) — filtro Tipo/Color ya separados en `/catalogo`
 - [x] Informe automático de duplicados generado (`docs/duplicate-report.json`, 623 grupos, 794 filas, solo 1 con OrderItem real)
-- [ ] Deduplicación de los 794 duplicados — script listo (`scripts/dedupe-products.ts`, dry-run OK, backup generado en `docs/dedupe-backup-*.json`), **pendiente aprobación explícita del dueño para ejecutar `--execute`**
+- [x] Deduplicación de los 794 duplicados — **ejecutada con aprobación explícita del dueño**. Backup completo en `docs/dedupe-backup-2026-07-14T19-29-20-982Z.json`. Verificado post-ejecución: 2,550 productos totales (3,344 - 794), 0 grupos duplicados restantes, `OrderItem` intacto (1 fila, la única real, correctamente preservada pese a tener el slug con sufijo `-2`)
 - [x] Corrección de causa raíz en /scripts (`scripts/import_common.py`, upsert seguro, ya no borra la liga completa, captura manga larga) — los 5 pipelines migrados
 - [x] Fix seguridad: cuenta bancaria completa ya no se muestra en el paso inicial de checkout, solo tras crear el pedido
 - [x] Documentación en `ADMIN_GUIDE.md`
-- [ ] Habilitar `pg_trgm`/`unaccent` en Supabase — SQL listo, **pendiente aprobación explícita del dueño para ejecutar**
+- [x] `pg_trgm`/`unaccent` habilitados en Supabase + índices GIN en `name`/`team` — **ejecutado con aprobación explícita del dueño**. SQL en `docs/db-search-extensions.sql`
 
 ## Fase 4: Implementación visual
 - [ ] Header
