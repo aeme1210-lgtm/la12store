@@ -32,7 +32,7 @@ Abre [http://localhost:3000](http://localhost:3000)
 |-------|-------|
 | URL | `/admin` |
 | Email | `admin@la12store.com` |
-| Contraseña | `La12Store2026!` |
+| Contraseña | (no documentada aquí — rotarla vía `scripts/check-admin-passwords.js` o directo en Supabase; nunca commitear en texto plano) |
 
 ---
 

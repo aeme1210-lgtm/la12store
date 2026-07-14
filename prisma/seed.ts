@@ -234,7 +234,13 @@ const categories = [
 async function main() {
   console.log("Seeding database...");
 
-  const hashedPassword = await bcrypt.hash("La12Store2026!", 10);
+  const seedPassword = process.env.ADMIN_SEED_PASSWORD;
+  if (!seedPassword) {
+    throw new Error(
+      "ADMIN_SEED_PASSWORD no está definida. Agrégala al .env antes de correr el seed — nunca hardcodear la contraseña del admin."
+    );
+  }
+  const hashedPassword = await bcrypt.hash(seedPassword, 12);
   await prisma.adminUser.upsert({
     where: { email: "admin@la12store.com" },
     update: {},
