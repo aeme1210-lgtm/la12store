@@ -26,10 +26,10 @@ export default function ContactoPage() {
     <div className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <p className="text-[#D4A017] text-xs tracking-widest uppercase mb-2" style={{ fontFamily: "var(--font-oswald)" }}>
+          <p className="text-[#D4A017] text-xs tracking-widest uppercase mb-2" style={{ fontFamily: "var(--font-inter)" }}>
             Estamos para ti
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-oswald)" }}>
+          <h1 className="text-4xl md:text-5xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
             Contacto
           </h1>
           <div className="w-16 h-0.5 bg-[#D4A017] mx-auto" />
@@ -38,7 +38,7 @@ export default function ContactoPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Contact methods */}
           <div className="space-y-4">
-            <h2 className="text-lg font-bold text-white uppercase mb-4" style={{ fontFamily: "var(--font-oswald)" }}>
+            <h2 className="text-lg font-bold text-white uppercase mb-4" style={{ fontFamily: "var(--font-inter)" }}>
               Canales de atención
             </h2>
 
@@ -51,7 +51,7 @@ export default function ContactoPage() {
                 <MessageCircle size={20} className="text-[#25D366]" />
               </div>
               <div>
-                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-oswald)" }}>WhatsApp</p>
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-inter)" }}>WhatsApp</p>
                 <p className="text-[#25D366] text-sm">+57 300 844 3885</p>
               </div>
             </a>
@@ -65,7 +65,7 @@ export default function ContactoPage() {
                 <InstagramIcon size={20} className="text-[#E1306C]" />
               </div>
               <div>
-                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-oswald)" }}>Instagram</p>
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-inter)" }}>Instagram</p>
                 <p className="text-[#E1306C] text-sm">@la12s_tore</p>
               </div>
             </a>
@@ -79,7 +79,7 @@ export default function ContactoPage() {
                 <TikTokIcon size={20} className="text-white" />
               </div>
               <div>
-                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-oswald)" }}>TikTok</p>
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-inter)" }}>TikTok</p>
                 <p className="text-[#A0A0A0] text-sm">@la12s_tore</p>
               </div>
             </a>
@@ -92,14 +92,14 @@ export default function ContactoPage() {
                 <Mail size={20} className="text-[#D4A017]" />
               </div>
               <div>
-                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-oswald)" }}>Email</p>
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-inter)" }}>Email</p>
                 <p className="text-[#D4A017] text-sm">la12store.sm@gmail.com</p>
               </div>
             </a>
 
             {/* Payments */}
             <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-4 mt-2">
-              <h3 className="text-white font-bold uppercase tracking-wider text-sm mb-3" style={{ fontFamily: "var(--font-oswald)" }}>
+              <h3 className="text-white font-bold uppercase tracking-wider text-sm mb-3" style={{ fontFamily: "var(--font-inter)" }}>
                 Métodos de pago
               </h3>
               <div className="space-y-2 text-sm">
@@ -111,7 +111,7 @@ export default function ContactoPage() {
                 ].map((p) => (
                   <div key={p.method} className="flex justify-between">
                     <span className="text-[#D4A017] font-semibold">{p.method}</span>
-                    <span className="text-white" style={{ fontFamily: "var(--font-jetbrains)" }}>{p.number}</span>
+                    <span className="text-white" style={{ fontFamily: "var(--font-inter)" }}>{p.number}</span>
                   </div>
                 ))}
               </div>
@@ -120,7 +120,7 @@ export default function ContactoPage() {
 
           {/* Quick message form */}
           <div>
-            <h2 className="text-lg font-bold text-white uppercase mb-4" style={{ fontFamily: "var(--font-oswald)" }}>
+            <h2 className="text-lg font-bold text-white uppercase mb-4" style={{ fontFamily: "var(--font-inter)" }}>
               Envíanos un mensaje
             </h2>
             <form
@@ -135,7 +135,7 @@ export default function ContactoPage() {
               }}
             >
               <div>
-                <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
                   Tu nombre
                 </label>
                 <input
@@ -145,7 +145,7 @@ export default function ContactoPage() {
                 />
               </div>
               <div>
-                <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
                   Mensaje
                 </label>
                 <textarea
@@ -157,7 +157,7 @@ export default function ContactoPage() {
               <button
                 type="submit"
                 className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-3 rounded-lg uppercase tracking-wider text-sm transition-all"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 <MessageCircle size={16} />
                 Enviar por WhatsApp

@@ -27,7 +27,7 @@ export function AdminNav() {
       <div className="px-4 py-6 border-b border-[#B8860B]/10">
         <h1
           className="text-lg font-black text-[#D4A017] uppercase tracking-widest"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           LA 12 STORE
         </h1>
@@ -46,7 +46,7 @@ export function AdminNav() {
                   ? "bg-[#D4A017]/15 text-[#D4A017] border border-[#D4A017]/20"
                   : "text-[#A0A0A0] hover:text-white hover:bg-[#1A1A1A]"
               }`}
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               <item.icon size={16} />
               {item.label}
@@ -77,7 +77,7 @@ export function AdminNav() {
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#141414] border-b border-[#B8860B]/10 flex items-center justify-between px-4 h-16">
         <h1
           className="text-lg font-black text-[#D4A017] uppercase tracking-widest"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           LA 12 ADMIN
         </h1>

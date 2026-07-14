@@ -13,7 +13,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <h2
               className="text-2xl font-black tracking-widest text-[#D4A017] uppercase mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               LA 12 STORE
             </h2>
@@ -70,7 +70,7 @@ export function Footer() {
           <div>
             <h3
               className="text-white font-bold uppercase tracking-wider mb-4 text-sm"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Navegación
             </h3>
@@ -97,7 +97,7 @@ export function Footer() {
           <div>
             <h3
               className="text-white font-bold uppercase tracking-wider mb-4 text-sm"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Métodos de Pago
             </h3>

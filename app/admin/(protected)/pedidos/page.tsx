@@ -29,7 +29,7 @@ export default async function AdminPedidos() {
       <div className="mb-6">
         <h1
           className="text-3xl font-black text-white uppercase"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           Pedidos
         </h1>
@@ -52,7 +52,7 @@ export default async function AdminPedidos() {
                   <div className="flex items-center gap-3 mb-1">
                     <h3
                       className="text-white font-bold"
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {order.orderNumber}
                     </h3>
@@ -74,7 +74,7 @@ export default async function AdminPedidos() {
                 <div className="text-right">
                   <p
                     className="text-[#D4A017] font-bold text-xl"
-                    style={{ fontFamily: "var(--font-jetbrains)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(order.total)}
                   </p>

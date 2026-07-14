@@ -166,7 +166,7 @@ export default async function CatalogoPage({
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <p className="text-[#D4AF37] text-sm uppercase tracking-widest mb-2" style={{ fontFamily: "var(--font-oswald)" }}>
+          <p className="text-[#D4AF37] text-sm uppercase tracking-widest mb-2" style={{ fontFamily: "var(--font-inter)" }}>
             Error temporal
           </p>
           <p className="text-[#9CA3AF] text-sm">
@@ -202,7 +202,7 @@ export default async function CatalogoPage({
           <div className="mb-8">
             <p
               className="text-[#D4AF37] text-[10px] tracking-widest uppercase mb-1"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               {total} productos
               {totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ""}
@@ -272,7 +272,7 @@ export default async function CatalogoPage({
                       <Link
                         href={buildPageUrl(params, page - 1)}
                         className="px-4 py-2 rounded-lg bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] hover:text-white hover:border-[#D4A017]/40 transition-all text-sm font-semibold"
-                        style={{ fontFamily: "var(--font-oswald)" }}
+                        style={{ fontFamily: "var(--font-inter)" }}
                       >
                         ← Anterior
                       </Link>
@@ -291,7 +291,7 @@ export default async function CatalogoPage({
                               ? "bg-[#D4A017] text-black"
                               : "bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] hover:text-white hover:border-[#D4A017]/40"
                           }`}
-                          style={{ fontFamily: "var(--font-oswald)" }}
+                          style={{ fontFamily: "var(--font-inter)" }}
                         >
                           {pg}
                         </Link>
@@ -301,7 +301,7 @@ export default async function CatalogoPage({
                       <Link
                         href={buildPageUrl(params, page + 1)}
                         className="px-4 py-2 rounded-lg bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] hover:text-white hover:border-[#D4A017]/40 transition-all text-sm font-semibold"
-                        style={{ fontFamily: "var(--font-oswald)" }}
+                        style={{ fontFamily: "var(--font-inter)" }}
                       >
                         Siguiente →
                       </Link>

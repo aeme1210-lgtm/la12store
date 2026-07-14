@@ -57,13 +57,6 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: securityHeaders,
       },
-      {
-        // Cache agresivo para assets estáticos (imágenes transformadas por Supabase)
-        source: "/_next/image(.*)",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
     ];
   },
 };

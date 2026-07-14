@@ -76,7 +76,7 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
       {/* -15% badge */}
       <div
         className="absolute top-2 right-2 z-20 bg-[#D32F2F] text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg"
-        style={{ fontFamily: "var(--font-oswald)" }}
+        style={{ fontFamily: "var(--font-inter)" }}
       >
         -15%
       </div>
@@ -88,7 +88,7 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
             ? "bg-white text-[#D32F2F] border border-[#D32F2F]/40"
             : "bg-[#003087] text-[#FFD700]"
         }`}
-        style={{ fontFamily: "var(--font-oswald)" }}
+        style={{ fontFamily: "var(--font-inter)" }}
       >
         {isRiver ? "RIVER" : "BOCA"}
       </div>
@@ -108,19 +108,19 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
       <div className="p-3 md:p-4 flex flex-col flex-1 gap-2">
         <h3
           className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 min-h-[2.5rem]"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           {cleanName(product.name)}
         </h3>
 
         {/* Prices */}
         <div className="flex items-baseline gap-2">
-          <span className="text-[#666] text-xs line-through" style={{ fontFamily: "var(--font-jetbrains)" }}>
+          <span className="text-[#666] text-xs line-through" style={{ fontFamily: "var(--font-inter)" }}>
             {formatCOP(originalPrice)}
           </span>
           <span
             className="text-white font-black text-base md:text-lg"
-            style={{ fontFamily: "var(--font-jetbrains)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             {formatCOP(discountedPrice)}
           </span>
@@ -139,7 +139,7 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
                     : "bg-[#003087] border-[#003087] text-[#FFD700]"
                   : "bg-transparent border-white/20 text-white/50 hover:border-white/40 hover:text-white/70"
               }`}
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               {size}
             </button>
@@ -155,7 +155,7 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
                 ? "bg-[#22C55E] text-white"
                 : "bg-white text-black hover:bg-gray-100"
             }`}
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             <ShoppingCart size={13} />
             {added ? "¡Agregado!" : "Agregar al carrito"}
@@ -165,7 +165,7 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white text-[11px] font-black uppercase tracking-wide py-2 rounded-lg transition-colors"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             <MessageCircle size={13} />
             Comprar por WhatsApp

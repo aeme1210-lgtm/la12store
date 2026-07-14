@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
       <div className="mb-8">
         <h1
           className="text-3xl font-black text-white uppercase"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           Dashboard
         </h1>
@@ -90,7 +90,7 @@ export default async function AdminDashboard() {
             </div>
             <p
               className={`text-2xl font-bold ${stat.color}`}
-              style={{ fontFamily: "var(--font-jetbrains)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               {stat.value}
             </p>
@@ -103,14 +103,14 @@ export default async function AdminDashboard() {
         <div className="flex items-center justify-between mb-4">
           <h2
             className="text-white font-bold uppercase tracking-wider text-sm"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Pedidos Recientes
           </h2>
           <a
             href="/admin/pedidos"
             className="text-[#D4A017] text-xs hover:text-[#F0D060] transition-colors"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver todos →
           </a>
@@ -130,7 +130,7 @@ export default async function AdminDashboard() {
                 <div>
                   <p
                     className="text-white text-sm font-semibold"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {order.orderNumber}
                   </p>
@@ -144,7 +144,7 @@ export default async function AdminDashboard() {
                   </span>
                   <span
                     className="text-[#D4A017] text-sm font-bold"
-                    style={{ fontFamily: "var(--font-jetbrains)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(order.total)}
                   </span>

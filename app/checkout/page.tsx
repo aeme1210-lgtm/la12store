@@ -103,7 +103,7 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-2xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-oswald)" }}>
+          <h1 className="text-2xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
             Tu carrito está vacío
           </h1>
           <a href="/catalogo" className="text-[#D4A017] hover:underline">
@@ -121,7 +121,7 @@ export default function CheckoutPage() {
           <CheckCircle size={64} className="text-[#22C55E] mx-auto mb-4" />
           <h1
             className="text-3xl font-black text-white uppercase mb-2"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             ¡Pedido Confirmado!
           </h1>
@@ -135,7 +135,7 @@ export default function CheckoutPage() {
           <a
             href="/"
             className="inline-flex items-center gap-2 bg-[#D4A017] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest text-sm"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Volver al inicio
           </a>
@@ -149,10 +149,10 @@ export default function CheckoutPage() {
       <div className="min-h-screen">
         <div className="max-w-lg mx-auto px-4 py-8">
           <div className="text-center mb-8">
-            <p className="text-[#D4A017] text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+            <p className="text-[#D4A017] text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "var(--font-inter)" }}>
               Pedido {orderNumber}
             </p>
-            <h1 className="text-3xl font-black text-white uppercase" style={{ fontFamily: "var(--font-oswald)" }}>
+            <h1 className="text-3xl font-black text-white uppercase" style={{ fontFamily: "var(--font-playfair)" }}>
               Realiza el Pago
             </h1>
           </div>
@@ -175,12 +175,12 @@ export default function CheckoutPage() {
                 >
                   <span
                     className={`font-bold uppercase text-sm ${paymentMethod === m.id ? "text-[#D4A017]" : "text-[#A0A0A0]"}`}
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {m.label}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-white text-sm" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                    <span className="text-white text-sm" style={{ fontFamily: "var(--font-inter)" }}>
                       {m.detail}
                     </span>
                     <button
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
               <p className="text-[#A0A0A0] text-sm mb-1">Monto a transferir</p>
               <p
                 className="text-[#D4A017] text-3xl font-bold"
-                style={{ fontFamily: "var(--font-jetbrains)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {formatCOP(total)}
               </p>
@@ -221,7 +221,7 @@ export default function CheckoutPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               <MessageCircle size={18} />
               Enviar Comprobante por WhatsApp
@@ -229,7 +229,7 @@ export default function CheckoutPage() {
             <button
               onClick={handleConfirm}
               className="w-full flex items-center justify-center gap-2 bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] font-bold py-3 rounded-xl uppercase tracking-wider text-sm hover:border-[#D4A017]/30 hover:text-white transition-all"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Ya pagué, confirmar pedido
             </button>
@@ -244,7 +244,7 @@ export default function CheckoutPage() {
       <div className="max-w-5xl mx-auto px-4 py-8">
         <h1
           className="text-3xl font-black text-white uppercase mb-8"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           Finalizar Compra
         </h1>
@@ -254,7 +254,7 @@ export default function CheckoutPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <h2
               className="text-lg font-bold text-white uppercase mb-4"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Datos de Contacto
             </h2>
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
               <div key={field.name}>
                 <label
                   className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1"
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {field.label}
                 </label>
@@ -287,7 +287,7 @@ export default function CheckoutPage() {
             <div>
               <label
                 className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Notas adicionales
               </label>
@@ -303,7 +303,7 @@ export default function CheckoutPage() {
             <div>
               <p
                 className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-2"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Método de pago
               </p>
@@ -333,8 +333,8 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all gold-glow"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              className="w-full bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all"
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Confirmar Pedido
             </button>
@@ -344,7 +344,7 @@ export default function CheckoutPage() {
           <div>
             <h2
               className="text-lg font-bold text-white uppercase mb-4"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Tu Pedido
             </h2>
@@ -357,7 +357,7 @@ export default function CheckoutPage() {
                   <div className="flex-1 min-w-0">
                     <p
                       className="text-white text-xs font-semibold leading-tight truncate"
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {item.name}
                     </p>
@@ -367,7 +367,7 @@ export default function CheckoutPage() {
                   </div>
                   <span
                     className="text-[#D4A017] text-sm font-bold flex-shrink-0"
-                    style={{ fontFamily: "var(--font-jetbrains)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(item.price * item.quantity)}
                   </span>
@@ -375,12 +375,12 @@ export default function CheckoutPage() {
               ))}
 
               <div className="border-t border-[#B8860B]/10 pt-3 flex justify-between">
-                <span className="text-white font-bold uppercase text-sm" style={{ fontFamily: "var(--font-oswald)" }}>
+                <span className="text-white font-bold uppercase text-sm" style={{ fontFamily: "var(--font-inter)" }}>
                   Total
                 </span>
                 <span
                   className="text-[#D4A017] text-xl font-bold"
-                  style={{ fontFamily: "var(--font-jetbrains)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {formatCOP(total)}
                 </span>

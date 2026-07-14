@@ -109,7 +109,7 @@ export function Navbar() {
                   href="/super-clasico"
                   className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
                   style={{
-                    fontFamily: "var(--font-oswald)",
+                    fontFamily: "var(--font-inter)",
                     background: "linear-gradient(90deg, #D32F2F, #D4AF37)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
@@ -123,7 +123,7 @@ export function Navbar() {
                   href="/campeones-barca"
                   className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
                   style={{
-                    fontFamily: "var(--font-oswald)",
+                    fontFamily: "var(--font-inter)",
                     background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
@@ -141,7 +141,7 @@ export function Navbar() {
                       ? "text-[#D4AF37]"
                       : "text-[#A0A0A0] hover:text-white"
                   }`}
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {link.label}
                 </Link>
@@ -151,7 +151,7 @@ export function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wide transition-colors"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 <MessageCircle size={14} />
                 WhatsApp
@@ -245,7 +245,7 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
                 style={{
-                  fontFamily: "var(--font-oswald)",
+                  fontFamily: "var(--font-inter)",
                   background: "linear-gradient(90deg, #D32F2F, #D4AF37)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -260,7 +260,7 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
                 style={{
-                  fontFamily: "var(--font-oswald)",
+                  fontFamily: "var(--font-inter)",
                   background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -276,7 +276,7 @@ export function Navbar() {
                 className={`text-2xl font-bold uppercase tracking-wider py-4 px-8 w-full text-center transition-colors ${
                   pathname === link.href ? "text-[#D4AF37]" : "text-white hover:text-[#D4AF37]"
                 }`}
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {link.label}
               </Link>
@@ -286,7 +286,7 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 bg-[#25D366] text-white py-4 px-12 rounded-xl font-bold uppercase tracking-wider flex items-center gap-3 text-lg"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               <MessageCircle size={20} />
               WhatsApp

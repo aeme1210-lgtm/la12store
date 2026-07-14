@@ -55,19 +55,19 @@ export default async function CampeonesBarcaPage() {
           <div className="flex items-center gap-3">
             <span
               className="bg-[#A50044] text-white font-black px-4 py-1.5 rounded-lg text-base sm:text-xl uppercase tracking-widest"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               FCB
             </span>
             <span
               className="text-[#FFD700] text-2xl sm:text-4xl font-black"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-playfair)" }}
             >
               🏆
             </span>
             <span
               className="bg-[#004D98] text-[#FFD700] font-black px-4 py-1.5 rounded-lg text-base sm:text-xl uppercase tracking-widest"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               LIGA
             </span>
@@ -76,7 +76,7 @@ export default async function CampeonesBarcaPage() {
           <div>
             <p
               className="text-[#FFD700] text-[10px] sm:text-xs tracking-[0.5em] uppercase mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Celebración especial · Solo 24 horas
             </p>
@@ -89,7 +89,7 @@ export default async function CampeonesBarcaPage() {
               <span
                 className="font-black uppercase"
                 style={{
-                  fontFamily: "var(--font-oswald)",
+                  fontFamily: "var(--font-inter)",
                   background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -118,7 +118,7 @@ export default async function CampeonesBarcaPage() {
         <div className="flex items-center justify-between mb-6">
           <h2
             className="text-white font-black text-xl sm:text-2xl uppercase"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Camisetas del Barça
             <span className="ml-2 text-[#FFD700]">({products.length})</span>
@@ -126,7 +126,7 @@ export default async function CampeonesBarcaPage() {
           <Link
             href="/catalogo?liga=la-liga"
             className="text-[#9CA3AF] hover:text-white text-xs transition-colors"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver todo La Liga →
           </Link>
@@ -138,7 +138,7 @@ export default async function CampeonesBarcaPage() {
             <Link
               href="/catalogo"
               className="mt-6 inline-block bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest text-sm transition-colors"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver catálogo completo
             </Link>
@@ -162,7 +162,7 @@ export default async function CampeonesBarcaPage() {
         <Link
           href="/catalogo"
           className="text-[#9CA3AF] hover:text-white text-sm transition-colors"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           ← Volver al catálogo completo
         </Link>

@@ -49,17 +49,22 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Documentación en `ADMIN_GUIDE.md`
 - [x] `pg_trgm`/`unaccent` habilitados en Supabase + índices GIN en `name`/`team` — **ejecutado con aprobación explícita del dueño**. SQL en `docs/db-search-extensions.sql`
 
-## Fase 4: Implementación visual
-- [ ] Header
-- [ ] Portada (8 bloques narrativos)
-- [ ] Catálogo (tarjetas, filtros, orden, paginación)
-- [ ] Ficha de producto
-- [ ] Carrito
-- [ ] Buscador
-- [ ] Nosotros
-- [ ] FAQ
-- [ ] Footer
-- [ ] Estados vacíos y de error
+## Fase 4: Implementación visual — EN CURSO
+- [x] Base tipográfica: consolidada a Playfair Display + Inter en las 32 archivos que usaban Oswald/JetBrains Mono (205 + 19 usos migrados con heurística titular→Playfair, resto→Inter); `app/layout.tsx` ya no carga las 4 fuentes originales
+- [x] Tokens de color actualizados en `globals.css` (paleta sobria); eliminado `.gold-glow` (antipatrón "dorado saturado") de los 3 componentes que lo usaban
+- [x] `prefers-reduced-motion` respetado globalmente (regla CSS en `globals.css`) — pendiente revisar además los `useEffect`/`setInterval` de `HeroSlider`/`LogoIntro` en detalle
+- [x] FAQ: acordeón accesible (`aria-expanded`, `aria-controls`, `role="region"`, respuestas siempre en el HTML vía `hidden` en vez de desmontarse)
+- [x] Se eliminó `SocialProofNotification` (notificaciones de compra 100% inventadas — violaba directamente el brief)
+- [x] Limpieza de `next.config.ts` (headers vestigiales de `/_next/image` que ya no aplican con el loader custom)
+- [ ] Header — pendiente: buscador protagonista, menú móvil con foco atrapado y cierre por Escape
+- [ ] Portada (8 bloques narrativos del brief) — pendiente reconstrucción completa
+- [ ] Catálogo (tarjetas, filtros visuales, orden, paginación) — filtros Tipo/Color ya separados (Fase 3), falta rediseño visual
+- [ ] Ficha de producto — pendiente: materiales, cuidados, selector real de parches, política de cambios, FAQ embebido, "vistos recientemente", cantidad
+- [ ] Carrito — funcional (Fase 3), pendiente rediseño visual
+- [ ] Buscador — pendiente dar protagonismo real (hoy sigue oculto tras ícono)
+- [ ] Nosotros — pendiente presentación editorial
+- [ ] Footer — pendiente rediseño visual (datos ya centralizados en Fase 3)
+- [ ] Estados vacíos y de error — pendiente diseño sistemático
 
 ## Fase 5: Optimización
 - [ ] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago)

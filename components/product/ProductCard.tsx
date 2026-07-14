@@ -90,7 +90,7 @@ export function ProductCard({
               <span
                 className="text-[10px] font-black px-2 py-0.5 rounded tracking-wide"
                 style={{
-                  fontFamily: "var(--font-oswald)",
+                  fontFamily: "var(--font-inter)",
                   background: "linear-gradient(135deg, #A50044, #004D98)",
                   color: "#FFD700",
                 }}
@@ -101,7 +101,7 @@ export function ProductCard({
             {product.isTrending && (
               <span
                 className="bg-[#D4A017] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Tendencia
               </span>
@@ -109,7 +109,7 @@ export function ProductCard({
             {product.isNew && !product.isTrending && (
               <span
                 className="bg-[#22C55E] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Nuevo
               </span>
@@ -118,7 +118,7 @@ export function ProductCard({
             {smartBadge && !product.isRetro && (
               <span
                 className="text-[10px] font-black px-2 py-0.5 rounded tracking-wide"
-                style={{ fontFamily: "var(--font-oswald)", background: smartBadge.bg, color: smartBadge.color }}
+                style={{ fontFamily: "var(--font-inter)", background: smartBadge.bg, color: smartBadge.color }}
               >
                 {smartBadge.text}
               </span>
@@ -126,7 +126,7 @@ export function ProductCard({
             {product.isRetro && (
               <span
                 className="bg-[#1A1A1A]/90 border border-[#D4A017]/60 text-[#D4A017] text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Retro
               </span>
@@ -134,7 +134,7 @@ export function ProductCard({
             {product.isLongSleeve && (
               <span
                 className="bg-[#1A1A1A]/90 border border-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 Manga Larga
               </span>
@@ -145,7 +145,7 @@ export function ProductCard({
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-center pb-3 opacity-0 group-hover:opacity-100">
             <span
               className="bg-[#D4A017] text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver detalles
             </span>
@@ -156,27 +156,27 @@ export function ProductCard({
         <div className="p-3">
           <p
             className="text-[#666666] text-[10px] uppercase tracking-wider mb-1 truncate"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             {product.type}{product.season ? ` · ${product.season}` : ""}
           </p>
           <h3
             className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors min-h-[2.5rem]"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             {cleanProductName(product.name)}
           </h3>
           <div className="flex items-baseline gap-2">
             <span
               className="text-[#D4A017] font-bold text-sm"
-              style={{ fontFamily: "var(--font-jetbrains)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               {formatCOP(displayPrice)}
             </span>
             {discountPercent && (
               <span
                 className="text-[#666] text-xs line-through"
-                style={{ fontFamily: "var(--font-jetbrains)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {formatCOP(basePrice)}
               </span>

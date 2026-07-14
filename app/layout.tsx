@@ -1,35 +1,26 @@
 import type { Metadata } from "next";
-import { Oswald, Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
-import { SocialProofNotification } from "@/components/ui/SocialProofNotification";
 import { LogoIntro } from "@/components/ui/LogoIntro";
 
-const oswald = Oswald({
-  variable: "--font-oswald",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
+// Sistema tipográfico consolidado a 2 familias (REDESIGN_SYSTEM.md §3):
+// Playfair Display para titulares editoriales, Inter para todo lo demás
+// (interfaz, precios con tabular-nums, cuerpo). Se eliminaron Oswald y
+// JetBrains Mono — el brief pide máximo 2 familias.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["700", "800"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -64,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es"
-      className={`${oswald.variable} ${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${playfair.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
         <LogoIntro />
@@ -73,7 +64,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1" style={{ paddingTop: "calc(var(--urgency-h, 0px) + var(--nav-h, 64px))" }}>{children}</main>
         <Footer />
         <WhatsAppButton />
-        <SocialProofNotification />
       </body>
     </html>
   );

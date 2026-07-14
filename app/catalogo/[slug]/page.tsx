@@ -52,7 +52,7 @@ export default async function ProductPage({ params }: Props) {
             <FadeInUp>
               <h2
                 className="text-2xl font-black text-white uppercase mb-6"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 También te puede gustar
               </h2>

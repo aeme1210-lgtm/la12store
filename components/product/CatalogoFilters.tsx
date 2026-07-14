@@ -75,7 +75,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
       <div>
         <label
           className="text-[#9CA3AF] text-[10px] uppercase tracking-wider mb-2 block"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Buscar
         </label>
@@ -94,7 +94,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
       <div>
         <p
           className="text-[#9CA3AF] text-[10px] uppercase tracking-wider mb-3"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Liga / Competición
         </p>
@@ -114,7 +114,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
                     ? "bg-[#D4AF37]/15 text-[#D4AF37] font-semibold"
                     : "text-[#9CA3AF] hover:text-white hover:bg-white/5"
                 }`}
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {league}
               </button>
@@ -127,7 +127,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
       <div>
         <p
           className="text-[#9CA3AF] text-[10px] uppercase tracking-wider mb-3"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Tipo
         </p>
@@ -146,7 +146,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
                     ? "bg-[#D4AF37] text-black"
                     : "bg-[#1A1A1A] text-[#9CA3AF] hover:text-white border border-white/10"
                 }`}
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {tipo}
               </button>
@@ -160,7 +160,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
         <div>
           <p
             className="text-[#9CA3AF] text-[10px] uppercase tracking-wider mb-3"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Color
           </p>
@@ -179,7 +179,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
                       ? "bg-[#D4AF37] text-black"
                       : "bg-[#1A1A1A] text-[#9CA3AF] hover:text-white border border-white/10"
                   }`}
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {color}
                 </button>
@@ -210,7 +210,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
         <button
           onClick={() => setDrawerOpen(true)}
           className="flex items-center gap-2 bg-[#141414] border border-white/10 text-white px-4 py-2.5 rounded-lg text-sm font-semibold w-full justify-between"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           <span className="flex items-center gap-2">
             <SlidersHorizontal size={15} />
@@ -235,7 +235,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
               <div className="flex items-center justify-between mb-6">
                 <h3
                   className="text-white font-bold uppercase tracking-wider text-sm"
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Filtros
                 </h3>
@@ -257,7 +257,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
         <div className="sticky top-28 bg-[#111111] border border-white/5 rounded-xl p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
           <h3
             className="text-white font-bold uppercase tracking-wider mb-5 text-xs"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Filtros
           </h3>

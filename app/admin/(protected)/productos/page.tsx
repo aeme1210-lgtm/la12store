@@ -16,7 +16,7 @@ export default async function AdminProductos() {
         <div>
           <h1
             className="text-3xl font-black text-white uppercase"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             Productos
           </h1>
@@ -34,7 +34,7 @@ export default async function AdminProductos() {
                   <th
                     key={h}
                     className="text-left px-4 py-3 text-[#666666] text-xs uppercase tracking-wider"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {h}
                   </th>
@@ -51,7 +51,7 @@ export default async function AdminProductos() {
                     <div>
                       <p
                         className="text-white font-semibold"
-                        style={{ fontFamily: "var(--font-oswald)" }}
+                        style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {product.name}
                       </p>
@@ -63,7 +63,7 @@ export default async function AdminProductos() {
                   <td className="px-4 py-3">
                     <span
                       className="text-[#D4A017] font-bold"
-                      style={{ fontFamily: "var(--font-jetbrains)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(product.isRetro ? (product.priceRetro ?? 170000) : (product.priceFan ?? 150000))}
                     </span>

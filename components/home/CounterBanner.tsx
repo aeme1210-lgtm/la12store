@@ -57,19 +57,19 @@ export function CounterBanner({ total }: { total: number }) {
         {/* Counter */}
         <p
           className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-4"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Nuestro catálogo
         </p>
         <h2
           className="text-6xl md:text-8xl font-black text-white mb-2 tabular-nums"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           +{count.toLocaleString("es-CO")}
         </h2>
         <p
           className="text-xl md:text-3xl font-bold text-[#D4AF37] uppercase tracking-wider mb-8"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           camisetas disponibles
         </p>
@@ -81,7 +81,7 @@ export function CounterBanner({ total }: { total: number }) {
           href="/catalogo"
           className="inline-flex items-center gap-3 bg-[#D4AF37] hover:bg-[#F0D060] text-black font-black px-10 py-4 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
           style={{
-            fontFamily: "var(--font-oswald)",
+            fontFamily: "var(--font-inter)",
             boxShadow: "0 0 30px rgba(212,175,55,0.3)",
           }}
         >

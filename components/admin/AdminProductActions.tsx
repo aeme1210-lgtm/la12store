@@ -117,7 +117,7 @@ export function AdminProductActions({ mode, product }: Props) {
           <button
             onClick={() => setOpen(true)}
             className="flex items-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-4 py-2 rounded-lg text-sm transition-all"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             <Plus size={16} />
             Nuevo Producto
@@ -146,7 +146,7 @@ export function AdminProductActions({ mode, product }: Props) {
             <div className="flex items-center justify-between mb-5">
               <h2
                 className="text-xl font-black text-white uppercase"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {mode === "create" ? "Nuevo Producto" : "Editar Producto"}
               </h2>
@@ -163,7 +163,7 @@ export function AdminProductActions({ mode, product }: Props) {
                 { name: "description", label: "Descripción", type: "textarea" },
               ].map((f) => (
                 <div key={f.name}>
-                  <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                  <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
                     {f.label}
                   </label>
                   {f.type === "textarea" ? (
@@ -187,7 +187,7 @@ export function AdminProductActions({ mode, product }: Props) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                  <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
                     Liga
                   </label>
                   <select
@@ -201,7 +201,7 @@ export function AdminProductActions({ mode, product }: Props) {
                   </select>
                 </div>
                 <div>
-                  <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                  <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
                     Tipo
                   </label>
                   <select
@@ -223,7 +223,7 @@ export function AdminProductActions({ mode, product }: Props) {
                   { name: "priceRetro", label: "Precio Retro" },
                 ].map((f) => (
                   <div key={f.name}>
-                    <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+                    <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
                       {f.label}
                     </label>
                     <input
@@ -250,7 +250,7 @@ export function AdminProductActions({ mode, product }: Props) {
                   type="button"
                   onClick={() => setOpen(false)}
                   className="flex-1 py-2.5 rounded-lg border border-[#B8860B]/20 text-[#A0A0A0] text-sm font-semibold hover:text-white transition-colors"
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Cancelar
                 </button>
@@ -258,7 +258,7 @@ export function AdminProductActions({ mode, product }: Props) {
                   type="submit"
                   disabled={loading}
                   className="flex-1 py-2.5 rounded-lg bg-[#D4A017] hover:bg-[#F0D060] text-black text-sm font-bold uppercase tracking-wide disabled:opacity-50 transition-all"
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {loading ? "Guardando..." : "Guardar"}
                 </button>

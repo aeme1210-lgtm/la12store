@@ -77,7 +77,7 @@ export function BarcaCountdown({ endAt }: Props) {
         style={{ background: "linear-gradient(135deg, #A50044 0%, #A50044 45%, #004D98 55%, #004D98 100%)" }}
       >
         <p className="text-white text-2xl font-black uppercase tracking-widest"
-           style={{ fontFamily: "var(--font-oswald)" }}>
+           style={{ fontFamily: "var(--font-inter)" }}>
           La promo terminó
         </p>
         <p className="text-white/70 text-sm">Redirigiendo al catálogo en 5 segundos...</p>
@@ -109,7 +109,7 @@ export function BarcaCountdown({ endAt }: Props) {
         {/* Título pulsante */}
         <motion.p
           className="text-center font-black uppercase tracking-widest text-white text-base sm:text-lg md:text-xl"
-          style={{ fontFamily: "var(--font-oswald)", textShadow: "0 2px 8px #00000080" }}
+          style={{ fontFamily: "var(--font-inter)", textShadow: "0 2px 8px #00000080" }}
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -118,7 +118,7 @@ export function BarcaCountdown({ endAt }: Props) {
 
         {/* Label superior */}
         <p className="text-white/70 text-[10px] uppercase tracking-[0.4em]"
-           style={{ fontFamily: "var(--font-oswald)" }}>
+           style={{ fontFamily: "var(--font-inter)" }}>
           Termina en
         </p>
 
@@ -170,7 +170,7 @@ function Colon() {
   return (
     <span
       className="text-[#FFD700] font-black text-3xl sm:text-4xl md:text-5xl leading-none mt-1"
-      style={{ fontFamily: "var(--font-oswald)" }}
+      style={{ fontFamily: "var(--font-playfair)" }}
     >
       :
     </span>
@@ -188,7 +188,7 @@ function DigitBlock({
     <div className="flex flex-col items-center gap-1">
       <motion.span
         className="text-[#FFD700] font-black text-4xl sm:text-5xl md:text-6xl tabular-nums leading-none"
-        style={{ fontFamily: "var(--font-oswald)", textShadow: "0 2px 12px #00000080" }}
+        style={{ fontFamily: "var(--font-playfair)", textShadow: "0 2px 12px #00000080" }}
         initial={doAnimate ? { opacity: 0, y: -4 } : false}
         animate={doAnimate ? { opacity: 1, y: 0 } : false}
         exit={doAnimate ? { opacity: 0, y: 4 } : undefined}
@@ -198,7 +198,7 @@ function DigitBlock({
       </motion.span>
       <span
         className="text-white/50 text-[9px] uppercase tracking-widest"
-        style={{ fontFamily: "var(--font-oswald)" }}
+        style={{ fontFamily: "var(--font-inter)" }}
       >
         {label}
       </span>

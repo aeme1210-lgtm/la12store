@@ -19,7 +19,7 @@ export function LifestyleGallery() {
       >
         <p
           className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Nuestra comunidad
         </p>

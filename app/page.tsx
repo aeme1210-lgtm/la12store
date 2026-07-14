@@ -84,7 +84,7 @@ export default async function HomePage() {
           href="/campeones-barca"
           className="block w-full text-center py-3 px-4 font-black text-sm uppercase tracking-widest transition-opacity hover:opacity-90 animate-pulse"
           style={{
-            fontFamily: "var(--font-oswald)",
+            fontFamily: "var(--font-inter)",
             background: "linear-gradient(90deg, #A50044 0%, #1A1A1A 40%, #1A1A1A 60%, #004D98 100%)",
             color: "#FFD700",
           }}
@@ -99,7 +99,7 @@ export default async function HomePage() {
           href="/super-clasico"
           className="block w-full text-center py-3 px-4 font-black text-sm uppercase tracking-widest transition-opacity hover:opacity-90"
           style={{
-            fontFamily: "var(--font-oswald)",
+            fontFamily: "var(--font-inter)",
             background: "linear-gradient(90deg, #D32F2F 0%, #1A1A1A 40%, #1A1A1A 60%, #003087 100%)",
             color: "#FFD700",
           }}
@@ -117,7 +117,7 @@ export default async function HomePage() {
           <div>
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Lo más pedido
             </p>
@@ -131,7 +131,7 @@ export default async function HomePage() {
           <Link
             href="/catalogo"
             className="hidden md:inline text-[#D4AF37] hover:text-[#F0D060] text-xs font-semibold uppercase tracking-widest transition-colors"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver todo →
           </Link>
@@ -149,7 +149,7 @@ export default async function HomePage() {
           <Link
             href="/catalogo"
             className="text-[#D4AF37] font-semibold uppercase tracking-widest text-xs"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver catálogo completo →
           </Link>
@@ -168,7 +168,7 @@ export default async function HomePage() {
           <FadeInUp className="text-center mb-12">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Explora
             </p>
@@ -215,7 +215,7 @@ export default async function HomePage() {
           <FadeInUp className="text-center mb-12">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               La diferencia
             </p>
@@ -236,7 +236,7 @@ export default async function HomePage() {
                   </div>
                   <h3
                     className="text-[#FAFAFA] font-semibold uppercase tracking-wide mb-2 text-sm"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {f.title}
                   </h3>
@@ -286,7 +286,7 @@ export default async function HomePage() {
               </video>
               <div
                 className="absolute top-3 left-3 bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 ⭐ Reseña verificada
               </div>
@@ -303,7 +303,7 @@ export default async function HomePage() {
                 <p className="text-[#9CA3AF] text-sm italic leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
                   &ldquo;Uy amigo super feliz, las camisas son de muy buena calidad, pero las tipo jugador son otra categoría&rdquo;
                 </p>
-                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-oswald)" }}>
+                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-inter)" }}>
                   Cliente verificado
                 </p>
                 <p className="text-[#D4AF37] text-xs">Compra verificada ✓</p>
@@ -316,7 +316,7 @@ export default async function HomePage() {
                 <p className="text-[#9CA3AF] text-sm italic leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
                   &ldquo;La calidad es premium, se siente igual que la original. El dorsal quedó perfecto.&rdquo;
                 </p>
-                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-oswald)" }}>
+                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-inter)" }}>
                   500+ clientes
                 </p>
                 <p className="text-[#D4AF37] text-xs">En toda Colombia y el mundo</p>
@@ -324,15 +324,15 @@ export default async function HomePage() {
 
               <div className="flex items-center gap-6">
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>100%</p>
+                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>100%</p>
                   <p className="text-xs text-[#9CA3AF]">Calidad premium</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>500+</p>
+                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>500+</p>
                   <p className="text-xs text-[#9CA3AF]">Clientes felices</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>+10</p>
+                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>+10</p>
                   <p className="text-xs text-[#9CA3AF]">Países</p>
                 </div>
               </div>
@@ -350,7 +350,7 @@ export default async function HomePage() {
           <FadeInUp className="text-center mb-8">
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Síguenos
             </p>
@@ -402,7 +402,7 @@ export default async function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#D4AF37]/10 border border-white/10 hover:border-[#D4AF37]/40 text-[#9CA3AF] hover:text-[#D4AF37] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -416,7 +416,7 @@ export default async function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#D4AF37]/10 border border-white/10 hover:border-[#D4AF37]/40 text-[#9CA3AF] hover:text-[#D4AF37] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.04a8.23 8.23 0 004.83 1.55V7.16a4.85 4.85 0 01-1.06-.47z" />
@@ -444,7 +444,7 @@ export default async function HomePage() {
             <Link
               href="/catalogo"
               className="inline-flex items-center justify-center bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver Catálogo
             </Link>
@@ -453,7 +453,7 @@ export default async function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               <MessageCircle size={16} />
               Pedir por WhatsApp

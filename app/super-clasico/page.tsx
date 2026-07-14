@@ -19,19 +19,19 @@ function RiverVsBoca() {
     <div className="flex items-center justify-center gap-3 md:gap-5">
       <span
         className="bg-[#D32F2F] text-white font-black px-3 md:px-5 py-2 rounded-lg text-base md:text-xl"
-        style={{ fontFamily: "var(--font-oswald)" }}
+        style={{ fontFamily: "var(--font-inter)" }}
       >
         RIVER
       </span>
       <span
         className="text-[#D4AF37] text-xl md:text-3xl font-black"
-        style={{ fontFamily: "var(--font-oswald)" }}
+        style={{ fontFamily: "var(--font-playfair)" }}
       >
         VS
       </span>
       <span
         className="bg-[#003087] text-[#FFD700] font-black px-3 md:px-5 py-2 rounded-lg text-base md:text-xl"
-        style={{ fontFamily: "var(--font-oswald)" }}
+        style={{ fontFamily: "var(--font-inter)" }}
       >
         BOCA
       </span>
@@ -63,7 +63,7 @@ export default async function SuperClasicoPage() {
         <Link
           href="/catalogo"
           className="bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest text-sm transition-colors"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Ver catálogo completo
         </Link>
@@ -81,7 +81,7 @@ export default async function SuperClasicoPage() {
           <div>
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Próximamente
             </p>
@@ -95,7 +95,7 @@ export default async function SuperClasicoPage() {
 
           <p
             className="text-[#D32F2F] text-lg md:text-xl font-black"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             🔥 15% OFF en todas las camisetas de Boca y River
           </p>
@@ -107,7 +107,7 @@ export default async function SuperClasicoPage() {
           <div>
             <p
               className="text-white text-[10px] uppercase tracking-widest font-semibold mb-3"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               La promo comienza en:
             </p>
@@ -117,7 +117,7 @@ export default async function SuperClasicoPage() {
           <Link
             href="/catalogo"
             className="inline-block text-[#D4AF37] hover:text-[#F0D060] text-xs font-semibold uppercase tracking-widest transition-colors"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Explorar catálogo →
           </Link>
@@ -161,7 +161,7 @@ export default async function SuperClasicoPage() {
           <div>
             <p
               className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Oferta exclusiva · Solo hoy
             </p>
@@ -175,7 +175,7 @@ export default async function SuperClasicoPage() {
 
           <p
             className="text-[#D32F2F] text-lg md:text-2xl font-black"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             🔥 15% OFF — 19 de abril · Hora Colombia
           </p>
@@ -187,7 +187,7 @@ export default async function SuperClasicoPage() {
           <div className="pt-2">
             <p
               className="text-white text-[10px] uppercase tracking-widest font-semibold mb-3"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Termina en:
             </p>
@@ -200,7 +200,7 @@ export default async function SuperClasicoPage() {
       <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-10">
         <p
           className="text-[#9CA3AF] text-xs uppercase tracking-widest mb-6 text-center"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           {products.length} camisetas con 15% de descuento
         </p>
@@ -211,7 +211,7 @@ export default async function SuperClasicoPage() {
             <Link
               href="/catalogo"
               className="mt-6 inline-block text-[#D4AF37] text-sm font-semibold uppercase tracking-widest"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver catálogo →
             </Link>

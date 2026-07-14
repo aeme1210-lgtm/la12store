@@ -39,7 +39,7 @@ export default function CarritoPage() {
           <ShoppingBag size={64} className="text-[#B8860B]/30 mx-auto mb-4" />
           <h1
             className="text-2xl font-black text-white uppercase mb-2"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             Tu carrito está vacío
           </h1>
@@ -47,7 +47,7 @@ export default function CarritoPage() {
           <Link
             href="/catalogo"
             className="inline-flex items-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all duration-300"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver Catálogo
             <ArrowRight size={16} />
@@ -65,7 +65,7 @@ export default function CarritoPage() {
         <div className="flex items-center justify-between mb-10">
           <h1
             className="text-3xl md:text-4xl font-black text-white uppercase"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             Tu Carrito{" "}
             <span className="text-[#D4AF37] text-xl">({totalItems()})</span>
@@ -101,7 +101,7 @@ export default function CarritoPage() {
                   <div>
                     <h3
                       className="text-white font-bold text-base md:text-lg leading-tight mb-2"
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {item.name}
                     </h3>
@@ -141,7 +141,7 @@ export default function CarritoPage() {
                     {/* Price */}
                     <span
                       className="text-[#D4AF37] font-bold text-xl"
-                      style={{ fontFamily: "var(--font-jetbrains)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(item.price * item.quantity)}
                     </span>
@@ -166,14 +166,14 @@ export default function CarritoPage() {
                 <>
                   <h2
                     className="text-white font-bold uppercase tracking-wider mb-6 text-lg"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     Resumen del Pedido
                   </h2>
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-sm">
                       <span className="text-[#A0A0A0]">Subtotal</span>
-                      <span className="text-white" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                      <span className="text-white" style={{ fontFamily: "var(--font-inter)" }}>
                         {formatCOP(total)}
                       </span>
                     </div>
@@ -185,13 +185,13 @@ export default function CarritoPage() {
                   <div className="border-t border-gray-700 pt-4 flex justify-between items-baseline mb-8">
                     <span
                       className="text-white font-bold uppercase text-xl"
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       Total
                     </span>
                     <span
                       className="text-[#D4AF37] font-bold text-2xl"
-                      style={{ fontFamily: "var(--font-jetbrains)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(total)}
                     </span>
@@ -199,7 +199,7 @@ export default function CarritoPage() {
                   <button
                     onClick={() => setStep("payment")}
                     className="w-full flex items-center justify-center gap-2 bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold py-4 rounded-xl uppercase tracking-wider text-lg transition-all duration-300 mb-3"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     <CreditCard size={18} />
                     Proceder al Pago
@@ -219,7 +219,7 @@ export default function CarritoPage() {
                   </button>
                   <h2
                     className="text-white font-bold uppercase tracking-wider mb-1 text-lg"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     Confirmar Pedido
                   </h2>
@@ -227,7 +227,7 @@ export default function CarritoPage() {
                     Total:{" "}
                     <span
                       className="text-[#D4A017] font-bold"
-                      style={{ fontFamily: "var(--font-jetbrains)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(total)}
                     </span>
@@ -236,7 +236,7 @@ export default function CarritoPage() {
                   <div className="bg-[#0F0F0F] rounded-lg p-4 mb-5 space-y-3 border border-white/5">
                     <p
                       className="text-[#D4AF37] text-[10px] uppercase tracking-widest"
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       Métodos de pago
                     </p>
@@ -250,7 +250,7 @@ export default function CarritoPage() {
                         <span className="text-[#9CA3AF]">{m.label}</span>
                         <span
                           className="text-white font-semibold"
-                          style={{ fontFamily: "var(--font-jetbrains)" }}
+                          style={{ fontFamily: "var(--font-inter)" }}
                         >
                           {m.value}
                         </span>
@@ -261,7 +261,7 @@ export default function CarritoPage() {
                   <button
                     onClick={handleWhatsApp}
                     className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold py-4 rounded-xl uppercase tracking-wider text-sm transition-all duration-300 mb-4"
-                    style={{ fontFamily: "var(--font-oswald)" }}
+                    style={{ fontFamily: "var(--font-inter)" }}
                   >
                     <MessageCircle size={18} />
                     Enviar Comprobante por WhatsApp
@@ -270,7 +270,7 @@ export default function CarritoPage() {
                   <div className="bg-[#1A1A0A] border border-[#D4AF37]/20 rounded-lg p-4">
                     <p
                       className="text-[#D4AF37] text-xs font-semibold mb-2"
-                      style={{ fontFamily: "var(--font-oswald)" }}
+                      style={{ fontFamily: "var(--font-inter)" }}
                     >
                       ¿Cómo confirmar tu pedido?
                     </p>

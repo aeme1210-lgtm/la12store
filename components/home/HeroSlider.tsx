@@ -52,7 +52,7 @@ export function HeroSlider() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-[#D4AF37] text-[10px] md:text-xs tracking-[0.5em] uppercase mb-6"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Santa Marta · Colombia
         </motion.p>
@@ -69,7 +69,7 @@ export function HeroSlider() {
               className={`text-3xl sm:text-4xl md:text-6xl font-black tracking-wider uppercase ${
                 i >= 6 ? "text-[#D4AF37]" : "text-white"
               }`}
-              style={{ fontFamily: "var(--font-oswald)", letterSpacing: "0.08em" }}
+              style={{ fontFamily: "var(--font-playfair)", letterSpacing: "0.08em" }}
             >
               {char === " " ? "\u00A0" : char}
             </motion.span>
@@ -93,7 +93,7 @@ export function HeroSlider() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65 }}
           className="text-[#D4AF37] text-xs md:text-sm tracking-widest uppercase mb-10"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           Ediciones limitadas · Dorsal gratis · Envío a todo el mundo
         </motion.p>
@@ -108,7 +108,7 @@ export function HeroSlider() {
           <Link
             href="/catalogo"
             className="px-8 py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-[#F0D060] transition-colors duration-200 rounded-lg text-sm"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Explorar Colección
           </Link>
@@ -117,7 +117,7 @@ export function HeroSlider() {
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3 border border-white/40 text-white font-bold uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all duration-200 rounded-lg text-sm flex items-center gap-2 justify-center"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             <MessageCircle size={15} />
             WhatsApp

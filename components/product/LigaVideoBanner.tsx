@@ -25,7 +25,7 @@ export function LigaVideoBanner({ src, title, subtitle }: Props) {
       <div className="absolute bottom-0 left-0 p-6 md:p-8">
         <p
           className="text-[#D4AF37] text-[10px] tracking-widest uppercase mb-1"
-          style={{ fontFamily: "var(--font-oswald)" }}
+          style={{ fontFamily: "var(--font-inter)" }}
         >
           {subtitle}
         </p>

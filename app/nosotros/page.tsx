@@ -24,13 +24,13 @@ export default function NosotrosPage() {
           <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 flex flex-col justify-center">
             <p
               className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-3"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Nuestra historia
             </p>
             <h1
               className="text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-playfair)" }}
             >
               Sobre Nosotros
             </h1>
@@ -86,20 +86,20 @@ export default function NosotrosPage() {
               <div className="w-16 h-16 rounded-full bg-[#D4A017]/10 border border-[#D4A017]/30 flex items-center justify-center mx-auto mb-4">
                 <span
                   className="text-[#D4A017] text-2xl font-black"
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {person.name[0]}
                 </span>
               </div>
               <h3
                 className="text-white text-lg font-black uppercase mb-1"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {person.name}
               </h3>
               <p
                 className="text-[#D4A017] text-xs uppercase tracking-wider mb-3"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {person.role}
               </p>
@@ -117,7 +117,7 @@ export default function NosotrosPage() {
             >
               <p
                 className="text-4xl font-black text-[#D4A017] mb-1"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-playfair)" }}
               >
                 {stat.value}
               </p>
@@ -130,7 +130,7 @@ export default function NosotrosPage() {
         <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 mb-10">
           <h2
             className="text-2xl font-black text-white uppercase mb-6"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Nuestros valores
           </h2>
@@ -152,7 +152,7 @@ export default function NosotrosPage() {
               <div key={v.title}>
                 <h3
                   className="text-[#D4A017] font-bold uppercase tracking-wide text-sm mb-2"
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {v.title}
                 </h3>
@@ -170,8 +170,8 @@ export default function NosotrosPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/catalogo"
-              className="inline-flex items-center justify-center bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all gold-glow text-sm"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              className="inline-flex items-center justify-center bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all text-sm"
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver Catálogo
             </a>
@@ -180,7 +180,7 @@ export default function NosotrosPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all text-sm"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Escríbenos
             </a>

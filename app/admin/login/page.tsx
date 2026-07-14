@@ -40,7 +40,7 @@ export default function AdminLogin() {
         <div className="text-center mb-8">
           <h1
             className="text-3xl font-black text-[#D4A017] uppercase tracking-widest"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             LA 12 STORE
           </h1>
@@ -52,7 +52,7 @@ export default function AdminLogin() {
           className="bg-[#141414] rounded-2xl border border-[#B8860B]/20 p-6 space-y-4"
         >
           <div>
-            <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+            <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
               Email
             </label>
             <input
@@ -64,7 +64,7 @@ export default function AdminLogin() {
             />
           </div>
           <div>
-            <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-oswald)" }}>
+            <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
               Contraseña
             </label>
             <input
@@ -84,7 +84,7 @@ export default function AdminLogin() {
             type="submit"
             disabled={loading}
             className="w-full bg-[#D4A017] hover:bg-[#F0D060] disabled:opacity-50 text-black font-bold py-3 rounded-lg uppercase tracking-widest text-sm transition-all"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             {loading ? "Ingresando..." : "Ingresar"}
           </button>

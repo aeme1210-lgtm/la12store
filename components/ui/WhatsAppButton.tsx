@@ -13,7 +13,7 @@ export function WhatsAppButton() {
       aria-label="Contactar por WhatsApp"
     >
       <MessageCircle size={22} className="flex-shrink-0" />
-      <span className="text-sm font-semibold hidden sm:block" style={{ fontFamily: "var(--font-oswald)" }}>
+      <span className="text-sm font-semibold hidden sm:block" style={{ fontFamily: "var(--font-inter)" }}>
         WhatsApp
       </span>
     </a>

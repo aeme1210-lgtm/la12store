@@ -116,13 +116,13 @@ export default function FAQPage() {
         <div className="text-center mb-12">
           <p
             className="text-[#D4A017] text-xs tracking-widest uppercase mb-2"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Resolvemos tus dudas
           </p>
           <h1
             className="text-4xl md:text-5xl font-black text-white uppercase mb-4"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             Preguntas Frecuentes
           </h1>
@@ -134,7 +134,7 @@ export default function FAQPage() {
             <div key={section.category}>
               <h2
                 className="text-[#D4A017] text-xs uppercase tracking-widest font-bold mb-3"
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {section.category}
               </h2>
@@ -142,31 +142,43 @@ export default function FAQPage() {
                 {section.items.map((item, i) => {
                   const key = `${section.category}-${i}`;
                   const isOpen = open === key;
+                  const panelId = `faq-panel-${key}`;
+                  const buttonId = `faq-button-${key}`;
                   return (
                     <div
                       key={key}
                       className="bg-[#141414] rounded-xl border border-[#B8860B]/10 overflow-hidden"
                     >
                       <button
+                        id={buttonId}
                         onClick={() => setOpen(isOpen ? null : key)}
+                        aria-expanded={isOpen}
+                        aria-controls={panelId}
                         className="w-full flex items-center justify-between p-4 text-left hover:bg-[#1A1A1A] transition-colors"
                       >
                         <span
                           className={`font-semibold text-sm pr-4 ${isOpen ? "text-[#D4A017]" : "text-white"}`}
-                          style={{ fontFamily: "var(--font-oswald)" }}
+                          style={{ fontFamily: "var(--font-inter)" }}
                         >
                           {item.q}
                         </span>
                         <ChevronDown
                           size={16}
+                          aria-hidden="true"
                           className={`flex-shrink-0 text-[#666666] transition-transform duration-200 ${isOpen ? "rotate-180 text-[#D4A017]" : ""}`}
                         />
                       </button>
-                      {isOpen && (
-                        <div className="px-4 pb-4 border-t border-[#B8860B]/10 pt-3">
-                          <p className="text-[#A0A0A0] text-sm leading-relaxed">{item.a}</p>
-                        </div>
-                      )}
+                      {/* Siempre en el HTML (indexable/legible) — solo se oculta visual y
+                          semánticamente con `hidden` cuando está colapsado. */}
+                      <div
+                        id={panelId}
+                        role="region"
+                        aria-labelledby={buttonId}
+                        hidden={!isOpen}
+                        className="px-4 pb-4 border-t border-[#B8860B]/10 pt-3"
+                      >
+                        <p className="text-[#A0A0A0] text-sm leading-relaxed">{item.a}</p>
+                      </div>
                     </div>
                   );
                 })}
@@ -178,7 +190,7 @@ export default function FAQPage() {
         <div className="mt-12 bg-[#141414] rounded-2xl border border-[#D4A017]/20 p-6 text-center">
           <p
             className="text-white font-bold uppercase tracking-wider mb-2"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             ¿No encontraste tu respuesta?
           </p>
@@ -190,7 +202,7 @@ export default function FAQPage() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-6 py-3 rounded-lg uppercase tracking-wider text-sm transition-all"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Preguntar por WhatsApp
           </a>

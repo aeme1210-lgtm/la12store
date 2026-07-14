@@ -154,13 +154,13 @@ export function ProductDetail({ product }: { product: Product }) {
         <div>
           <p
             className="text-[#D4A017] text-xs uppercase tracking-widest mb-1"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             {product.type} {product.season && `· ${product.season}`}
           </p>
           <h1
             className="text-3xl md:text-4xl font-black text-white uppercase leading-tight"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-playfair)" }}
           >
             {product.name}
           </h1>
@@ -173,7 +173,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </p>
           <p
             className="text-[#D4A017] text-4xl font-bold"
-            style={{ fontFamily: "var(--font-jetbrains)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             {formatCOP(getPrice())}
           </p>
@@ -189,7 +189,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div>
             <p
               className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Versión
             </p>
@@ -203,7 +203,7 @@ export function ProductDetail({ product }: { product: Product }) {
                       ? "bg-[#D4A017] text-black"
                       : "bg-[#1A1A1A] text-[#A0A0A0] border border-[#B8860B]/20 hover:border-[#D4A017]/40 hover:text-white"
                   }`}
-                  style={{ fontFamily: "var(--font-oswald)" }}
+                  style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {v}
                   {v === "Fan" && product.priceFan && (
@@ -223,7 +223,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="flex items-center justify-between mb-2">
             <p
               className="text-[#A0A0A0] text-xs uppercase tracking-wider"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Talla
             </p>
@@ -245,7 +245,7 @@ export function ProductDetail({ product }: { product: Product }) {
                     ? "bg-[#D4A017] text-black"
                     : "bg-[#1A1A1A] text-[#A0A0A0] border border-[#B8860B]/20 hover:border-[#D4A017]/40 hover:text-white"
                 }`}
-                style={{ fontFamily: "var(--font-oswald)" }}
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {size}
               </button>
@@ -254,7 +254,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
           {showSizeGuide && (
             <div className="mt-3 bg-[#141414] rounded-xl p-4 border border-[#B8860B]/20 text-sm">
-              <p className="text-[#D4A017] font-bold uppercase mb-2" style={{ fontFamily: "var(--font-oswald)" }}>
+              <p className="text-[#D4A017] font-bold uppercase mb-2" style={{ fontFamily: "var(--font-inter)" }}>
                 Guía de Tallas
               </p>
               <table className="w-full text-xs text-[#A0A0A0]">
@@ -283,7 +283,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="bg-[#141414] rounded-xl p-4 border border-[#B8860B]/10">
           <p
             className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-3"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             Dorsal personalizado{" "}
             <span className="text-[#22C55E] ml-1">GRATIS</span>
@@ -315,9 +315,9 @@ export function ProductDetail({ product }: { product: Product }) {
             className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all duration-300 ${
               addedToCart
                 ? "bg-[#22C55E] text-white"
-                : "bg-[#D4A017] hover:bg-[#F0D060] text-black gold-glow"
+                : "bg-[#D4A017] hover:bg-[#F0D060] text-black"
             }`}
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             <ShoppingCart size={18} />
             {addedToCart ? "¡Agregado!" : "Agregar al Carrito"}
@@ -326,7 +326,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <button
             onClick={handleWhatsApp}
             className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold uppercase tracking-widest text-sm bg-[#25D366] hover:bg-[#20ba5a] text-white transition-all duration-300"
-            style={{ fontFamily: "var(--font-oswald)" }}
+            style={{ fontFamily: "var(--font-inter)" }}
           >
             <MessageCircle size={18} />
             Comprar por WhatsApp
@@ -355,15 +355,15 @@ export function ProductDetail({ product }: { product: Product }) {
         {/* Trust stats */}
         <div className="grid grid-cols-3 gap-4 text-center border-t border-[#B8860B]/10 pt-6">
           <div>
-            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>500+</p>
+            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>500+</p>
             <p className="text-xs text-[#9CA3AF]">Clientes felices</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>100%</p>
+            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>100%</p>
             <p className="text-xs text-[#9CA3AF]">Calidad premium</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-oswald)" }}>+10</p>
+            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>+10</p>
             <p className="text-xs text-[#9CA3AF]">Países</p>
           </div>
         </div>
@@ -373,7 +373,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="pt-4 border-t border-[#B8860B]/10">
             <h3
               className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-2"
-              style={{ fontFamily: "var(--font-oswald)" }}
+              style={{ fontFamily: "var(--font-inter)" }}
             >
               Descripción
             </h3>
