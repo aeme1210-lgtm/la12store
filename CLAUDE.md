@@ -22,11 +22,31 @@
 - Fan: `priceFan` ?? **150,000** (default/fallback)
 - Retro: `priceRetro` ?? **170,000**
 - Player: `pricePlayer` ?? **180,000**
-- ⚠️ No existe un cuarto tier "Manga Larga" (185,000) en el código actual
-  (`schema.prisma` solo tiene `priceFan`/`pricePlayer`/`priceRetro`; "long sleeve"
-  se trata como modificador de nombre en `prisma/import-products.ts`, no como
-  tipo con precio propio). Si se necesita ese precio, hay que agregar el campo
-  y su lógica antes de documentarlo aquí como real.
+- Manga Larga: `priceLongSleeve` ?? **185,000** (agregado 2026-07-14, ver
+  migración aditiva vía `prisma db push`; producto marcado con `isLongSleeve`).
+  ⚠️ El parser (`prisma/import-products.ts`) descartaba el modificador "long
+  sleeve" del nombre sin guardarlo — los productos ya importados antes de esta
+  fecha NO están marcados como `isLongSleeve` retroactivamente. Solo
+  importaciones futuras (tras corregir el parser en Fase 3) quedarán marcadas
+  correctamente.
+- ⚠️ Todavía hay **tres implementaciones separadas** de cálculo de precio
+  (`components/product/ProductCard.tsx` inline, `ProductDetail.tsx` `getPrice()`,
+  `lib/utils.ts` `getProductPrice()` sin usar) — pendiente de consolidar en
+  Fase 3/4 a una sola fuente de verdad que incluya el nuevo tier.
+
+## Migraciones de esquema — usar `prisma db push`, NO `prisma migrate`
+- La base real de Supabase **nunca tuvo tabla `_prisma_migrations`** ni se creó
+  vía `prisma migrate`; el `migration_lock.toml` versionado incluso declara
+  `provider = "sqlite"` (desalineado con `schema.prisma`, que declara
+  `postgresql`). El único flujo que realmente sincroniza el esquema con la BD
+  real en este proyecto es `npx prisma db push` (confirmado: columna por
+  columna, el `Product` real coincidía exacto con `schema.prisma` antes de
+  cualquier cambio de esta sesión).
+- Para cualquier cambio de esquema futuro: edita `schema.prisma`, confirma que
+  sea aditivo (columnas nullable o con default), muéstralo al dueño, y aplica
+  con `npx prisma db push` (no `migrate dev`/`deploy` — fallarán por el
+  historial roto). No se debe reintentar "arreglar" el historial de
+  migraciones sin decisión explícita del dueño (implica riesgo mayor).
 
 ## Imágenes de Supabase Storage
 - Loader custom en `supabase-image-loader.js`: sirve el objeto público

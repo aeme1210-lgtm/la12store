@@ -7,58 +7,60 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?
-  team        String
-  league      String
-  season      String?
-  type        String
-  priceFan    Int?
-  pricePlayer Int?
-  priceRetro  Int?
-  images      String   @default("[]")
-  sizes       String   @default("[\"S\",\"M\",\"L\",\"XL\",\"2XL\",\"3XL\",\"4XL\"]")
-  hasPlayer   Boolean  @default(true)
-  isRetro     Boolean  @default(false)
-  isFeatured  Boolean  @default(false)
-  isTrending  Boolean  @default(false)
-  isNew       Boolean  @default(true)
-  isActive    Boolean  @default(true)
-  stock       Int      @default(99)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  orderItems  OrderItem[]
+  id              String      @id @default(cuid())
+  name            String
+  slug            String      @unique
+  description     String?
+  team            String
+  league          String
+  season          String?
+  type            String
+  priceFan        Int?
+  pricePlayer     Int?
+  priceRetro      Int?
+  priceLongSleeve Int?
+  isLongSleeve    Boolean     @default(false)
+  images          String      @default("[]")
+  sizes           String      @default("[\"S\",\"M\",\"L\",\"XL\",\"2XL\",\"3XL\",\"4XL\"]")
+  hasPlayer       Boolean     @default(true)
+  isRetro         Boolean     @default(false)
+  isFeatured      Boolean     @default(false)
+  isTrending      Boolean     @default(false)
+  isNew           Boolean     @default(true)
+  isActive        Boolean     @default(true)
+  stock           Int         @default(99)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  orderItems      OrderItem[]
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  orderNumber     String      @unique
-  status          String      @default("pending")
-  customerName    String
-  customerPhone   String
-  customerEmail   String?
-  address         String?
-  city            String?
-  department      String?
-  notes           String?
-  subtotal        Int
-  shipping        Int         @default(0)
-  total           Int
-  paymentMethod   String?
-  paymentProof    String?
-  items           OrderItem[]
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id            String      @id @default(cuid())
+  orderNumber   String      @unique
+  status        String      @default("pending")
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  address       String?
+  city          String?
+  department    String?
+  notes         String?
+  subtotal      Int
+  shipping      Int         @default(0)
+  total         Int
+  paymentMethod String?
+  paymentProof  String?
+  items         OrderItem[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model OrderItem {
-  id           String   @id @default(cuid())
+  id           String  @id @default(cuid())
   orderId      String
   productId    String
-  order        Order    @relation(fields: [orderId], references: [id])
-  product      Product  @relation(fields: [productId], references: [id])
+  order        Order   @relation(fields: [orderId], references: [id])
+  product      Product @relation(fields: [productId], references: [id])
   quantity     Int
   size         String
   version      String

@@ -99,5 +99,12 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
   productos, 623 grupos duplicados = 794 filas sobrantes, caso Barcelona/Premier League real.
   Hallazgo nuevo no anticipado: solo 1 fila en `OrderItem` en toda la BD (reduce mucho el riesgo
   del dedupe). Brecha más grave encontrada: cero `og:image`/structured data en todo el sitio.
-  Contradicción confirmada con la adenda: el tier de precio "Manga Larga" ($185.000) NO existe en
-  el esquema — pendiente de decisión del dueño antes de Fase 3. Ver `docs/REDESIGN_AUDIT.md`.
+- 2026-07-14: Decisión del dueño — el tier "Manga Larga" ($185.000) SÍ es real y se agregó al
+  esquema (`priceLongSleeve Int?`, `isLongSleeve Boolean @default(false)`), migración 100%
+  aditiva. Al aplicarla con `prisma migrate deploy` se descubrió que la tabla `_prisma_migrations`
+  no existe en la BD real y `migration_lock.toml` está desalineado (dice `sqlite`) — el proyecto
+  en realidad siempre sincronizó el esquema con `prisma db push`, nunca con migraciones
+  versionadas. Se aplicó con `db push` (confirmado en BD real, columna por columna) y se
+  documentó en `CLAUDE.md`. Limitación conocida: los productos ya existentes NO quedan marcados
+  retroactivamente como `isLongSleeve` (el parser descartaba ese dato); solo lo estarán las
+  importaciones futuras tras el fix del parser en Fase 3.
