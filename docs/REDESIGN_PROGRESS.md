@@ -28,14 +28,14 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Verificar cada uno de los 16 hallazgos del brief contra el código real
 - [x] Documento de diagnóstico interno (`docs/REDESIGN_AUDIT.md`)
 
-## Fase 2: Sistema y estructura
-- [ ] Arquitectura de información / rutas
-- [ ] Taxonomía de producto (modelo de datos)
-- [ ] Sistema visual (tokens: color, tipografía, espaciado, radios, sombras)
-- [ ] Componentes reutilizables
-- [ ] Estrategia de búsqueda (server-side ILIKE/unaccent/pg_trgm)
-- [ ] Estrategia de filtros
-- [ ] Flujo de pedido por WhatsApp
+## Fase 2: Sistema y estructura — COMPLETA (ver `docs/REDESIGN_SYSTEM.md`)
+- [x] Arquitectura de información / rutas
+- [x] Taxonomía de producto (normalización derivada, no reestructuración completa)
+- [x] Sistema visual (tokens: color, tipografía consolidada a 2 familias, espaciado, radios, sombras)
+- [x] Componentes reutilizables (lista definida)
+- [x] Estrategia de búsqueda (server-side ILIKE + pg_trgm/unaccent, SQL a mostrar en Fase 3)
+- [x] Estrategia de filtros
+- [x] Flujo de pedido por WhatsApp (lib/whatsapp.ts + lib/shipping.ts centralizados)
 
 ## Fase 3: Correcciones estructurales (datos primero)
 - [ ] Config centralizada de WhatsApp (+57 300 844 3885)
@@ -108,3 +108,9 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
   documentó en `CLAUDE.md`. Limitación conocida: los productos ya existentes NO quedan marcados
   retroactivamente como `isLongSleeve` (el parser descartaba ese dato); solo lo estarán las
   importaciones futuras tras el fix del parser en Fase 3.
+- 2026-07-14: Fase 2 completa. Decisión clave: NO se reestructura el modelo Product completo del
+  brief (alto riesgo con 3,344 filas ya cargadas); en su lugar, capa de normalización derivada en
+  código para separar tipo/color del campo `type` mezclado. Tipografía consolidada a 2 familias
+  (Playfair Display + Inter, se eliminan Oswald y JetBrains Mono en Fase 4). Paleta rediseñada para
+  uso sobrio del dorado (se elimina el efecto `.gold-glow`, antipatrón que el propio brief prohíbe).
+  Ver `docs/REDESIGN_SYSTEM.md`.
