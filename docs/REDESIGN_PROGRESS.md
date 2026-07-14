@@ -57,7 +57,7 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Se eliminó `SocialProofNotification` (notificaciones de compra 100% inventadas — violaba directamente el brief)
 - [x] Limpieza de `next.config.ts` (headers vestigiales de `/_next/image` que ya no aplican con el loader custom)
 - [x] Header — buscador persistente visible en pantallas grandes (antes escondido tras un ícono), menú móvil con `role="dialog"`, trap de Tab, cierre con Escape y restauración de foco al botón
-- [ ] Portada (8 bloques narrativos del brief) — pendiente reconstrucción completa
+- [ ] Portada (8 bloques narrativos del brief) — sección "Comunidad y confianza" corregida (se quitaron cifras inventadas: 500+ clientes/+10 países/100%, se mantiene el video real y se agregan enlaces reales a Instagram); mismo fix en los "trust stats" de la ficha de producto (ahora son compromisos reales: dorsal/parches gratis, cambios por talla, WhatsApp). Meta description corregida (2,500 en vez de 2800, post-dedupe). Falta: bloque "Encuentra tu camiseta" (buscador guiado, requerido por el brief, no existe hoy), revisar los 8 bloques como narrativa completa
 - [ ] Catálogo (tarjetas, filtros visuales, orden, paginación) — filtros Tipo/Color ya separados (Fase 3), falta rediseño visual
 - [ ] Ficha de producto — pendiente: materiales, cuidados, selector real de parches, política de cambios, FAQ embebido, "vistos recientemente", cantidad
 - [ ] Carrito — funcional (Fase 3), pendiente rediseño visual

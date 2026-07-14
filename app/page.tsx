@@ -255,17 +255,21 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. TESTIMONIOS ── */}
+      {/* ── 7. COMUNIDAD Y CONFIANZA ──
+           Solo información verificable: el video es una reseña real recibida
+           por el negocio. Se quitaron las cifras que no se podían verificar
+           (conteo de clientes, países alcanzados, % de satisfacción) — ver
+           docs/REDESIGN_AUDIT.md §9. */}
       <section className="py-16 px-3 md:px-6 bg-[#0A0A0A]">
         <FadeInUp className="text-center mb-10">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-3"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Clientes reales, opiniones reales
+            Cultura futbolera, hecha comunidad
           </h2>
           <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "var(--font-inter)" }}>
-            +500 clientes satisfechos en toda Colombia y el mundo
+            Reseñas reales de quienes ya recibieron su camiseta
           </p>
         </FadeInUp>
 
@@ -284,58 +288,38 @@ export default async function HomePage() {
                   type="video/mp4"
                 />
               </video>
-              <div
-                className="absolute top-3 left-3 bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                ⭐ Reseña verificada
-              </div>
             </div>
           </FadeInLeft>
 
-          {/* Textos */}
+          {/* Texto + enlaces reales */}
           <FadeInRight delay={0.15}>
             <div className="space-y-6">
               <div className="bg-[#111111] rounded-xl p-5 border border-gray-800">
-                <div className="flex mb-2">
-                  <span className="text-[#D4AF37] text-base">★★★★★</span>
-                </div>
                 <p className="text-[#9CA3AF] text-sm italic leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
                   &ldquo;Uy amigo super feliz, las camisas son de muy buena calidad, pero las tipo jugador son otra categoría&rdquo;
                 </p>
-                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-inter)" }}>
-                  Cliente verificado
-                </p>
-                <p className="text-[#D4AF37] text-xs">Compra verificada ✓</p>
               </div>
 
-              <div className="bg-[#111111] rounded-xl p-5 border border-gray-800">
-                <div className="flex mb-2">
-                  <span className="text-[#D4AF37] text-base">★★★★★</span>
+              <div>
+                <p className="text-white font-semibold text-sm mb-2" style={{ fontFamily: "var(--font-inter)" }}>
+                  Más reseñas y contenido real en nuestras redes
+                </p>
+                <div className="flex items-center gap-4">
+                  <a
+                    href="https://instagram.com/la12s_tore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#D4AF37] hover:text-[#F0D060] text-sm font-semibold transition-colors"
+                  >
+                    @la12s_tore en Instagram →
+                  </a>
                 </div>
-                <p className="text-[#9CA3AF] text-sm italic leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
-                  &ldquo;La calidad es premium, se siente igual que la original. El dorsal quedó perfecto.&rdquo;
-                </p>
-                <p className="text-white font-semibold text-sm mt-3" style={{ fontFamily: "var(--font-inter)" }}>
-                  500+ clientes
-                </p>
-                <p className="text-[#D4AF37] text-xs">En toda Colombia y el mundo</p>
               </div>
 
-              <div className="flex items-center gap-6">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>100%</p>
-                  <p className="text-xs text-[#9CA3AF]">Calidad premium</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>500+</p>
-                  <p className="text-xs text-[#9CA3AF]">Clientes felices</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>+10</p>
-                  <p className="text-xs text-[#9CA3AF]">Países</p>
-                </div>
-              </div>
+              <p className="text-[#9CA3AF] text-sm leading-relaxed" style={{ fontFamily: "var(--font-inter)" }}>
+                Con base en Santa Marta, Colombia — dorsal y parches gratis en cada pedido,
+                sin costos ocultos.
+              </p>
             </div>
           </FadeInRight>
         </div>

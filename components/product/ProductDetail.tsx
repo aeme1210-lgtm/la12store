@@ -352,19 +352,19 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         </div>
 
-        {/* Trust stats */}
+        {/* Confianza — solo compromisos reales y verificables, no cifras inventadas */}
         <div className="grid grid-cols-3 gap-4 text-center border-t border-[#B8860B]/10 pt-6">
           <div>
-            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>500+</p>
-            <p className="text-xs text-[#9CA3AF]">Clientes felices</p>
+            <p className="text-xl" aria-hidden="true">👚</p>
+            <p className="text-xs text-[#9CA3AF] mt-1">Dorsal y parches gratis</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>100%</p>
-            <p className="text-xs text-[#9CA3AF]">Calidad premium</p>
+            <p className="text-xl" aria-hidden="true">🔄</p>
+            <p className="text-xs text-[#9CA3AF] mt-1">Cambios por talla incorrecta</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-[#D4AF37]" style={{ fontFamily: "var(--font-inter)" }}>+10</p>
-            <p className="text-xs text-[#9CA3AF]">Países</p>
+            <p className="text-xl" aria-hidden="true">💬</p>
+            <p className="text-xs text-[#9CA3AF] mt-1">Asesoría directa por WhatsApp</p>
           </div>
         </div>
 

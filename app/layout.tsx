@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | La 12 Store",
   },
   description:
-    "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2800 camisetas disponibles. Dorsal y parches gratis. Envío a toda Colombia y el mundo.",
+    "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2,500 camisetas disponibles. Dorsal y parches gratis. Envío a toda Colombia y el mundo.",
   keywords: [
     "camisetas de fútbol",
     "jerseys fútbol Colombia",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     locale: "es_CO",
     siteName: "La 12 Store",
     title: "La 12 Store | Camisetas de Fútbol Premium en Colombia",
-    description: "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2800 camisetas disponibles. Dorsal y parches gratis.",
+    description: "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2,500 camisetas disponibles. Dorsal y parches gratis.",
   },
 };
 
