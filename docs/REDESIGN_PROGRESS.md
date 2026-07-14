@@ -12,21 +12,21 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Crear rama `redesign`
 - [x] Crear este checklist
 
-## Fase 1: Auditoría
-- [ ] Arquitectura (framework, versión, estructura de carpetas)
-- [ ] Datos (modelo Prisma, origen del catálogo, scripts de importación)
-- [ ] Diseño (sistema visual actual, tipografía, paleta)
-- [ ] Navegación / arquitectura de información
-- [ ] Producto (ficha, galería, selector de talla, personalización)
-- [ ] Carrito y flujo de WhatsApp
-- [ ] Rendimiento (imágenes, JS, fuentes)
-- [ ] SEO (metadatos, sitemap, structured data, og:image)
-- [ ] Accesibilidad
-- [ ] Confianza (reseñas, cifras, footer bancario)
-- [ ] Contenido (tono, textos de prueba, idioma)
-- [ ] Riesgos (costos, migraciones destructivas, límites de Supabase/Vercel)
-- [ ] Verificar cada uno de los 16 hallazgos del brief contra el código real
-- [ ] Documento de diagnóstico interno
+## Fase 1: Auditoría — COMPLETA (ver `docs/REDESIGN_AUDIT.md`)
+- [x] Arquitectura (framework, versión, estructura de carpetas)
+- [x] Datos (modelo Prisma, origen del catálogo, scripts de importación) — verificado contra BD real
+- [x] Diseño (sistema visual actual, tipografía, paleta)
+- [x] Navegación / arquitectura de información
+- [x] Producto (ficha, galería, selector de talla, personalización)
+- [x] Carrito y flujo de WhatsApp
+- [x] Rendimiento (imágenes, JS, fuentes)
+- [x] SEO (metadatos, sitemap, structured data, og:image) — brecha crítica encontrada
+- [x] Accesibilidad — brecha crítica encontrada
+- [x] Confianza (reseñas, cifras, footer bancario) — notificaciones falsas confirmadas
+- [x] Contenido (tono, textos de prueba, idioma)
+- [x] Riesgos (costos, migraciones destructivas, límites de Supabase/Vercel)
+- [x] Verificar cada uno de los 16 hallazgos del brief contra el código real
+- [x] Documento de diagnóstico interno (`docs/REDESIGN_AUDIT.md`)
 
 ## Fase 2: Sistema y estructura
 - [ ] Arquitectura de información / rutas
@@ -94,3 +94,10 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
   preexistentes no relacionados (README.md, prisma/seed.ts ya no hardcodean password) y
   `promo-rls.sql` (política RLS para tabla Promo, documentada pero NO aplicada aún a la BD).
   Ese commit vive en `master` local, sin pushear (pendiente de aprobación del dueño).
+- 2026-07-14: Fase 1 completa. Auditoría con 3 agentes paralelos + verificación directa de solo
+  lectura contra la BD real (script temporal, borrado tras usarlo). Confirmados exactos: 3,344
+  productos, 623 grupos duplicados = 794 filas sobrantes, caso Barcelona/Premier League real.
+  Hallazgo nuevo no anticipado: solo 1 fila en `OrderItem` en toda la BD (reduce mucho el riesgo
+  del dedupe). Brecha más grave encontrada: cero `og:image`/structured data en todo el sitio.
+  Contradicción confirmada con la adenda: el tier de precio "Manga Larga" ($185.000) NO existe en
+  el esquema — pendiente de decisión del dueño antes de Fase 3. Ver `docs/REDESIGN_AUDIT.md`.
