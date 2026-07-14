@@ -7,9 +7,11 @@ import { SlidersHorizontal, X } from "lucide-react";
 interface Props {
   leagues: string[];
   types: string[];
+  colors: string[];
   currentParams: {
     liga?: string;
     tipo?: string;
+    color?: string;
     q?: string;
   };
 }
@@ -29,7 +31,7 @@ const leagueToSlug: Record<string, string> = {
   "Liga Argentina": "liga-argentina",
 };
 
-export function CatalogoFilters({ leagues, types, currentParams }: Props) {
+export function CatalogoFilters({ leagues, types, colors, currentParams }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -40,6 +42,7 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
     const params = new URLSearchParams();
     if (currentParams.liga && key !== "liga") params.set("liga", currentParams.liga);
     if (currentParams.tipo && key !== "tipo") params.set("tipo", currentParams.tipo);
+    if (currentParams.color && key !== "color") params.set("color", currentParams.color);
     if (currentParams.q && key !== "q") params.set("q", currentParams.q);
     if (value) params.set(key, value);
     router.push(`${pathname}?${params.toString()}`);
@@ -63,8 +66,8 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
     updateFilter("q", search.trim() || undefined);
   }
 
-  const hasFilters = currentParams.liga || currentParams.tipo || currentParams.q;
-  const filterCount = [currentParams.liga, currentParams.tipo, currentParams.q].filter(Boolean).length;
+  const hasFilters = currentParams.liga || currentParams.tipo || currentParams.color || currentParams.q;
+  const filterCount = [currentParams.liga, currentParams.tipo, currentParams.color, currentParams.q].filter(Boolean).length;
 
   const filterContent = (
     <div className="space-y-6">
@@ -151,6 +154,40 @@ export function CatalogoFilters({ leagues, types, currentParams }: Props) {
           })}
         </div>
       </div>
+
+      {/* Color */}
+      {colors.length > 0 && (
+        <div>
+          <p
+            className="text-[#9CA3AF] text-[10px] uppercase tracking-wider mb-3"
+            style={{ fontFamily: "var(--font-oswald)" }}
+          >
+            Color
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {colors.map((color) => {
+              const active = currentParams.color === color;
+              return (
+                <button
+                  key={color}
+                  onClick={() => {
+                    updateFilter("color", active ? undefined : color);
+                    setDrawerOpen(false);
+                  }}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors duration-150 ${
+                    active
+                      ? "bg-[#D4AF37] text-black"
+                      : "bg-[#1A1A1A] text-[#9CA3AF] hover:text-white border border-white/10"
+                  }`}
+                  style={{ fontFamily: "var(--font-oswald)" }}
+                >
+                  {color}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Clear */}
       {hasFilters && (

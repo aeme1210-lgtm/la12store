@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircle, Mail } from "lucide-react";
+import { whatsAppLink } from "@/lib/whatsapp";
 
 function InstagramIcon({ size = 20, className = "" }) {
   return (
@@ -42,7 +43,7 @@ export default function ContactoPage() {
             </h2>
 
             <a
-              href="https://wa.me/573008443885?text=Hola%20La%2012%20Store%2C%20quiero%20información"
+              href={whatsAppLink("Hola La 12 Store, quiero información")}
               target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-4 p-4 rounded-xl border bg-[#25D366]/10 border-[#25D366]/20 hover:border-[#25D366]/40 transition-all"
             >
@@ -129,7 +130,7 @@ export default function ContactoPage() {
                 const data = new FormData(e.target as HTMLFormElement);
                 const nombre = data.get("nombre");
                 const mensaje = data.get("mensaje");
-                const url = `https://wa.me/573008443885?text=${encodeURIComponent(`Hola La 12 Store! Soy ${nombre}.\n\n${mensaje}`)}`;
+                const url = whatsAppLink(`Hola La 12 Store! Soy ${nombre}.\n\n${mensaje}`);
                 window.open(url, "_blank");
               }}
             >

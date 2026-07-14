@@ -8,6 +8,7 @@ import { MessageCircle, ChevronDown } from "lucide-react";
 
 import { BRAND_URLS } from "@/lib/brand-urls";
 export { BRAND_URLS } from "@/lib/brand-urls";
+import { whatsAppLink } from "@/lib/whatsapp";
 
 export function HeroSlider() {
   const [current, setCurrent] = useState(0);
@@ -112,7 +113,7 @@ export function HeroSlider() {
             Explorar Colección
           </Link>
           <a
-            href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
+            href={whatsAppLink("Hola La 12 Store!")}
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3 border border-white/40 text-white font-bold uppercase tracking-widest hover:border-white hover:bg-white/10 transition-all duration-200 rounded-lg text-sm flex items-center gap-2 justify-center"

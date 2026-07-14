@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
+import { whatsAppLink } from "@/lib/whatsapp";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
@@ -146,7 +147,7 @@ export function Navbar() {
                 </Link>
               ))}
               <a
-                href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
+                href={whatsAppLink("Hola La 12 Store!")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wide transition-colors"
@@ -281,7 +282,7 @@ export function Navbar() {
               </Link>
             ))}
             <a
-              href="https://wa.me/573008443885?text=Hola%20La%2012%20Store!"
+              href={whatsAppLink("Hola La 12 Store!")}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 bg-[#25D366] text-white py-4 px-12 rounded-xl font-bold uppercase tracking-wider flex items-center gap-3 text-lg"

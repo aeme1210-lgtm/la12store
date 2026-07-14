@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { formatCOP } from "@/lib/utils";
+import { getStartingPrice } from "@/lib/pricing";
 
 const PLACEHOLDER = "/images/placeholder.jpg";
 
@@ -18,6 +19,8 @@ interface Product {
   priceFan?: number | null;
   pricePlayer?: number | null;
   priceRetro?: number | null;
+  priceLongSleeve?: number | null;
+  isLongSleeve?: boolean;
   images: string;
   isRetro: boolean;
   isTrending: boolean;
@@ -60,9 +63,7 @@ export function ProductCard({
   const mainImage = images[0] || PLACEHOLDER;
   const [imgSrc, setImgSrc] = useState(mainImage);
 
-  const basePrice = product.isRetro
-    ? product.priceRetro ?? 170000
-    : product.priceFan ?? 150000;
+  const basePrice = getStartingPrice(product);
   const displayPrice = discountPercent
     ? Math.round(basePrice * (1 - discountPercent / 100))
     : basePrice;
@@ -128,6 +129,14 @@ export function ProductCard({
                 style={{ fontFamily: "var(--font-oswald)" }}
               >
                 Retro
+              </span>
+            )}
+            {product.isLongSleeve && (
+              <span
+                className="bg-[#1A1A1A]/90 border border-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                style={{ fontFamily: "var(--font-oswald)" }}
+              >
+                Manga Larga
               </span>
             )}
           </div>

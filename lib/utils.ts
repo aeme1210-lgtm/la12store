@@ -24,17 +24,5 @@ export function generateOrderNumber(): string {
   return `L12-${year}-${rand}`;
 }
 
-export function getProductPrice(product: {
-  priceFan?: number | null;
-  pricePlayer?: number | null;
-  priceRetro?: number | null;
-  isRetro: boolean;
-}, version?: string): number {
-  if (product.isRetro) return product.priceRetro ?? 170000;
-  if (version === "Player") return product.pricePlayer ?? 180000;
-  return product.priceFan ?? 150000;
-}
-
-export function buildWhatsAppMessage(text: string): string {
-  return `https://wa.me/573008443885?text=${encodeURIComponent(text)}`;
-}
+// Cálculo de precio: usar getProductPrice/getStartingPrice de "@/lib/pricing".
+// Mensajes/link de WhatsApp: usar buildOrderMessage/whatsAppLink de "@/lib/whatsapp".

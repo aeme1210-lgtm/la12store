@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ShoppingBag, MessageCircle, ArrowRight, CreditCard, ChevronLeft } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
-import { formatCOP, buildWhatsAppMessage } from "@/lib/utils";
+import { formatCOP } from "@/lib/utils";
+import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 
 export default function CarritoPage() {
   const { items, removeItem, updateQuantity, clearCart, totalPrice, totalItems } = useCart();
@@ -12,26 +13,23 @@ export default function CarritoPage() {
 
   const total = totalPrice();
 
-  function buildOrderSummary() {
-    return items
-      .map(
-        (item) =>
-          `• ${item.name} (Talla: ${item.size}, ${item.version}${item.dorsalName ? `, Dorsal: ${item.dorsalName} #${item.dorsalNumber}` : ""}) x${item.quantity} → ${formatCOP(item.price * item.quantity)}`
-      )
-      .join("\n");
-  }
-
   const handleWhatsApp = () => {
     if (items.length === 0) return;
-    const msg = `Hola La 12 Store! 🙌 Acabo de hacer mi pedido y adjunto el comprobante de pago.
-
-*MI PEDIDO:*
-${buildOrderSummary()}
-
-*Total: ${formatCOP(total)} COP*
-
-Por favor confírmenme cuando reciban el comprobante. ¡Gracias!`;
-    window.open(buildWhatsAppMessage(msg), "_blank");
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const msg = buildOrderMessage({
+      items: items.map((item) => ({
+        name: item.name,
+        url: `${origin}/catalogo/${item.slug}`,
+        size: item.size,
+        version: item.version,
+        dorsalName: item.dorsalName,
+        dorsalNumber: item.dorsalNumber,
+        quantity: item.quantity,
+        unitPrice: item.price,
+      })),
+      subtotal: total,
+    });
+    window.open(whatsAppLink(msg), "_blank");
   };
 
   if (items.length === 0) {

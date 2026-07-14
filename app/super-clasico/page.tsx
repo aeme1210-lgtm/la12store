@@ -10,7 +10,7 @@ import { SuperClasicoCard } from "@/components/promo/SuperClasicoCard";
 export const metadata: Metadata = {
   title: "🔥 PROMO SUPER CLÁSICO - 15% OFF Boca y River | La 12 Store",
   description:
-    "Solo hoy 19 de abril. Todas las camisetas de Boca Juniors y River Plate con 15% de descuento. Envío gratis a toda Colombia.",
+    "Solo hoy 19 de abril. Todas las camisetas de Boca Juniors y River Plate con 15% de descuento.",
 };
 
 // ── Shared header badge ──────────────────────────────────────────────────────

@@ -11,6 +11,9 @@ import sys, os, re, time, json, mimetypes, urllib.parse, subprocess, uuid
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
+sys.path.insert(0, str(Path(__file__).parent))
+from import_common import upsert_product  # noqa: E402
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 if hasattr(sys.stderr, "reconfigure"):
@@ -185,48 +188,8 @@ def paso_download():
     log(f"    Descarga: {new_albs} nuevos, {new_photos} fotos")
 
 # ── IMPORT DB ─────────────────────────────────────────────────────────────────
-
-TYPE_KW = [
-    "Third Away","Third Home","Special Edition",
-    "Goalkeeper Yellow","Goalkeeper White","Goalkeeper Green",
-    "Goalkeeper Blue","Goalkeeper Red","Goalkeeper Orange","Goalkeeper",
-    "Third","Away","Home",
-    "Yellow","White","Red","Black","Blue","Green","Pink",
-    "Purple","Orange","Gold","Grey","Navy",
-]
-
-def parse_season(raw):
-    s = raw.replace("_", "/")
-    return re.sub(r"^0(\d{2})/", r"\1/", s)
-
-def parse_folder(name):
-    text = name.strip()
-    m = re.match(r"^(\d{2,3}[_/]\d{2})\s+", text)
-    season = ""
-    if m:
-        season = parse_season(m.group(1))
-        text = text[len(m.group(0)):].strip()
-    is_retro = bool(re.search(r"\bretro\b", text, re.I))
-    text = re.sub(r"\bretro\b", "", text, flags=re.I)
-    text = re.sub(r"\blong\s+sleeve\b", "", text, flags=re.I)
-    text = re.sub(r"\s{2,}", " ", text).strip()
-    det, team_text = "", text
-    for kw in TYPE_KW:
-        pat = re.compile(r"\b" + kw.replace(" ", r"\s+") + r"\b\s*$", re.I)
-        if pat.search(text):
-            det = kw; team_text = pat.sub("", text).strip(); break
-    team = re.sub(r"^[-_\s]+|[-_\s]+$", "",
-                  re.sub(r"\s{2,}", " ", team_text).strip())
-    return {"season": season, "team": team or name,
-            "type": det or "Home", "isRetro": is_retro}
-
-def to_slug(text):
-    import unicodedata
-    text = unicodedata.normalize("NFD", text.lower())
-    text = "".join(c for c in text if unicodedata.category(c) != "Mn")
-    text = re.sub(r"[^a-z0-9\s-]", "", text)
-    text = re.sub(r"\s+", "-", text.strip())
-    return re.sub(r"-{2,}", "-", text).strip("-")
+# parse_folder/to_slug/upsert_product ahora viven en import_common.py (compartido
+# entre los 5 pipelines). Ya NO se borra la liga completa antes de reimportar.
 
 def paso_import():
     LEAGUE = "Liga Argentina"
@@ -236,58 +199,30 @@ def paso_import():
         log(f"    ERROR: carpeta {FOLDER} no existe"); return 0
     conn = psycopg2.connect(DATABASE_URL, connect_timeout=15)
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    # replace mode: delete existing Liga Argentina products first
-    cur.execute('DELETE FROM "Product" WHERE league=%s', (LEAGUE,))
-    log(f"    Eliminados {cur.rowcount} productos anteriores")
-    conn.commit()
-    cur.execute('SELECT slug FROM "Product"')
-    used = {r["slug"] for r in cur.fetchall()}
     folders = sorted(d for d in dest.iterdir() if d.is_dir())
     log(f"    {len(folders)} álbumes locales")
-    created = errors = 0
+    created = updated = errors = 0
     for fd in folders:
         photos = sorted(f for f in fd.iterdir()
                         if f.suffix.lower() in (".jpg",".jpeg",".png",".webp"))
         if not photos: continue
-        p = parse_folder(fd.name)
-        parts = [p["season"], p["team"], p["type"]]
-        if p["isRetro"]: parts.append("Retro")
-        name = re.sub(r"\s{2,}", " ", " ".join(x for x in parts if x)).strip()
-        sb = to_slug(name)
-        slug = sb; i = 2
-        while slug in used:
-            slug = f"{sb}-{i}"; i += 1
-        used.add(slug)
         imgs = [f"/products/{FOLDER}/{fd.name}/{f.name}" for f in photos]
-        is_r = p["isRetro"]
         try:
-            cur.execute("""
-                INSERT INTO "Product"
-                  (id,name,slug,team,league,season,type,"isRetro",images,
-                   "hasPlayer","isNew","isActive",stock,
-                   "priceRetro","priceFan","pricePlayer",
-                   "isFeatured","isTrending","createdAt","updatedAt")
-                VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
-            """, (
-                str(uuid.uuid4()), name, slug, p["team"], LEAGUE,
-                p["season"] or None, p["type"], is_r, json.dumps(imgs),
-                not is_r, not is_r, True, 99,
-                170000 if is_r else None,
-                None if is_r else 150000,
-                None if is_r else 180000,
-                False, False,
-            ))
-            created += 1
-            if created % 50 == 0:
+            result = upsert_product(cur, LEAGUE, fd.name, imgs)
+            if result == "created":
+                created += 1
+            else:
+                updated += 1
+            if (created + updated) % 50 == 0:
                 conn.commit()
-                log(f"    {created} importados...")
+                log(f"    {created} creados, {updated} actualizados...")
         except Exception as e:
             conn.rollback()
             log(f"    [ERR] {fd.name}: {e}")
             errors += 1
     conn.commit(); cur.close(); conn.close()
-    log(f"    Import: {created} creados, {errors} errores")
-    return created
+    log(f"    Import: {created} creados, {updated} actualizados, {errors} errores")
+    return created + updated
 
 # ── UPLOAD ────────────────────────────────────────────────────────────────────
 

@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { whatsAppLink } from "@/lib/whatsapp";
+import { SHIPPING } from "@/lib/shipping";
+import { formatCOP } from "@/lib/utils";
 
 const faqs = [
   {
@@ -77,7 +80,7 @@ const faqs = [
     items: [
       {
         q: "¿Cuánto cuesta el envío?",
-        a: "El envío en Santa Marta es GRATIS. Para el resto de Colombia el envío es de $25.000 - $30.000 según la ciudad. Los envíos internacionales son GRATIS.",
+        a: `El envío en Santa Marta es GRATIS. Para el resto de Colombia el envío es de ${formatCOP(SHIPPING.nacional.costMin)} - ${formatCOP(SHIPPING.nacional.costMax)} según la ciudad. Los envíos internacionales son GRATIS.`,
       },
       {
         q: "¿Envían a todo Colombia?",
@@ -183,7 +186,7 @@ export default function FAQPage() {
             Escríbenos directamente por WhatsApp y te respondemos al instante.
           </p>
           <a
-            href="https://wa.me/573008443885?text=Hola%20La%2012%20Store%2C%20tengo%20una%20pregunta"
+            href={whatsAppLink("Hola La 12 Store, tengo una pregunta")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-6 py-3 rounded-lg uppercase tracking-wider text-sm transition-all"

@@ -9,6 +9,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { resolveSearchTerms } from "@/lib/search";
 import { getBarcaPromoStatus, isBarcaProduct } from "@/lib/promo-barca";
+import { buildTaxonomyIndex } from "@/lib/taxonomy";
 
 export const metadata: Metadata = {
   title: "Catálogo de Camisetas",
@@ -61,17 +62,36 @@ const slugToLeague: Record<string, string> = {
 interface SearchParams {
   liga?: string;
   tipo?: string;
+  color?: string;
   q?: string;
   page?: string;
 }
 
-function buildWhere(params: SearchParams): Record<string, unknown> {
+function buildWhere(
+  params: SearchParams,
+  taxonomy: ReturnType<typeof buildTaxonomyIndex>
+): Record<string, unknown> {
   const where: Record<string, unknown> = { isActive: true };
   if (params.liga) {
     const leagueName = slugToLeague[params.liga];
     if (leagueName) where.league = leagueName;
   }
-  if (params.tipo) where.type = params.tipo;
+  // "tipo" y "color" llegan normalizados en español (ver lib/taxonomy.ts) — se
+  // traducen de vuelta a los valores crudos de `type` que hay en la BD.
+  const typeFilters: string[][] = [];
+  if (params.tipo && taxonomy.tipoToRaw[params.tipo]) {
+    typeFilters.push(taxonomy.tipoToRaw[params.tipo]);
+  }
+  if (params.color && taxonomy.colorToRaw[params.color]) {
+    typeFilters.push(taxonomy.colorToRaw[params.color]);
+  }
+  if (typeFilters.length === 1) {
+    where.type = { in: typeFilters[0] };
+  } else if (typeFilters.length > 1) {
+    // Intersección: el valor crudo debe estar en ambas listas (tipo Y color).
+    const [a, b] = typeFilters;
+    where.type = { in: a.filter((v) => b.includes(v)) };
+  }
   if (params.q) {
     const terms = resolveSearchTerms(params.q);
     where.OR = terms.flatMap((term) => [
@@ -87,6 +107,7 @@ function buildPageUrl(params: SearchParams, page: number): string {
   const p = new URLSearchParams();
   if (params.liga) p.set("liga", params.liga);
   if (params.tipo) p.set("tipo", params.tipo);
+  if (params.color) p.set("color", params.color);
   if (params.q) p.set("q", params.q);
   if (page > 1) p.set("page", String(page));
   const qs = p.toString();
@@ -106,18 +127,29 @@ export default async function CatalogoPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const where = buildWhere(params);
   const page = Math.max(1, parseInt(params.page ?? "1") || 1);
   const skip = (page - 1) * PAGE_SIZE;
 
   let products: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
   let total = 0;
   let leagues: { league: string }[] = [];
-  let types: { type: string }[] = [];
+  let taxonomy = buildTaxonomyIndex([]);
 
   let barcaPromoActive = false;
   try {
-    const [fetchedProducts, fetchedTotal, fetchedLeagues, fetchedTypes, barcaStatus] = await Promise.all([
+    // Los tipos crudos se obtienen primero (sin filtrar) para construir el
+    // índice tipo/color español -> valores crudos (lib/taxonomy.ts) antes de
+    // armar el `where` de la consulta principal.
+    const [fetchedLeagues, fetchedRawTypes] = await Promise.all([
+      prisma.product.groupBy({ by: ["league"], where: { isActive: true } }),
+      prisma.product.groupBy({ by: ["type"], where: { isActive: true } }),
+    ]);
+    leagues = fetchedLeagues;
+    taxonomy = buildTaxonomyIndex(fetchedRawTypes.map((t) => t.type));
+
+    const where = buildWhere(params, taxonomy);
+
+    const [fetchedProducts, fetchedTotal, barcaStatus] = await Promise.all([
       prisma.product.findMany({
         where,
         orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
@@ -125,14 +157,10 @@ export default async function CatalogoPage({
         take: PAGE_SIZE,
       }),
       prisma.product.count({ where }),
-      prisma.product.groupBy({ by: ["league"], where: { isActive: true } }),
-      prisma.product.groupBy({ by: ["type"], where: { isActive: true } }),
       getBarcaPromoStatus(),
     ]);
     products = fetchedProducts;
     total = fetchedTotal;
-    leagues = fetchedLeagues;
-    types = fetchedTypes;
     barcaPromoActive = barcaStatus.active;
   } catch {
     return (
@@ -211,7 +239,8 @@ export default async function CatalogoPage({
           {/* Sidebar filters */}
           <CatalogoFilters
             leagues={leagues.map((l) => l.league)}
-            types={types.map((t) => t.type)}
+            types={taxonomy.tipos}
+            colors={taxonomy.colores}
             currentParams={params}
           />
 

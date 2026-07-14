@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
+import { SHIPPING } from "@/lib/shipping";
+import { formatCOP } from "@/lib/utils";
 
 export function Footer() {
   return (
@@ -52,7 +55,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://wa.me/573008443885"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#A0A0A0] hover:text-[#25D366] transition-colors"
@@ -117,9 +120,9 @@ export function Footer() {
               </li>
             </ul>
             <p className="text-[#666666] text-xs mt-4">
-              Envío gratis en Santa Marta
+              {SHIPPING.santaMarta.label}
               <br />
-              Envío nacional: $25.000 - $30.000
+              {SHIPPING.nacional.label}: {formatCOP(SHIPPING.nacional.costMin)} - {formatCOP(SHIPPING.nacional.costMax)}
             </p>
           </div>
         </div>

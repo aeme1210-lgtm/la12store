@@ -38,13 +38,16 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Flujo de pedido por WhatsApp (lib/whatsapp.ts + lib/shipping.ts centralizados)
 
 ## Fase 3: Correcciones estructurales (datos primero)
-- [ ] Config centralizada de WhatsApp (+57 300 844 3885)
-- [ ] Config centralizada de envíos (constantes + marcadores TODO_OWNER)
-- [ ] Precios oficiales verificados contra BD (Fan 150k / Retro 170k / Player 180k / Manga Larga 185k)
-- [ ] Informe automático de duplicados/slugs/categorías/precios inconsistentes
-- [ ] Deduplicación de los 794 duplicados reales — SOLO bajo el plan aprobado (backup JSON, nunca borrar filas referenciadas en OrderItem, aprobación explícita del dueño) o alternativa de deduplicar a nivel de consulta mientras tanto
-- [ ] Corrección de causa raíz en /scripts (detectar producto existente antes de crear uno nuevo)
-- [ ] Corrección de errores de conteo/clasificación (ej. Barcelona/Premier League)
+- [x] Config centralizada de WhatsApp (`lib/whatsapp.ts`, +57 300 844 3885) — 9+ archivos migrados
+- [x] Config centralizada de envíos (`lib/shipping.ts`, marcadores `TODO_OWNER`) — Footer/ProductDetail/FAQ migrados; cifra falsa "envío gratis a toda Colombia" quitada de campeones-barca/super-clasico
+- [x] Precios consolidados en `lib/pricing.ts` (una sola fuente; antes había 3 implementaciones distintas — causa del bug de precio catálogo≠ficha)
+- [x] Taxonomía tipo/color separada (`lib/taxonomy.ts`, capa derivada, sin tocar la BD) — filtro Tipo/Color ya separados en `/catalogo`
+- [x] Informe automático de duplicados generado (`docs/duplicate-report.json`, 623 grupos, 794 filas, solo 1 con OrderItem real)
+- [ ] Deduplicación de los 794 duplicados — script listo (`scripts/dedupe-products.ts`, dry-run OK, backup generado en `docs/dedupe-backup-*.json`), **pendiente aprobación explícita del dueño para ejecutar `--execute`**
+- [x] Corrección de causa raíz en /scripts (`scripts/import_common.py`, upsert seguro, ya no borra la liga completa, captura manga larga) — los 5 pipelines migrados
+- [x] Fix seguridad: cuenta bancaria completa ya no se muestra en el paso inicial de checkout, solo tras crear el pedido
+- [x] Documentación en `ADMIN_GUIDE.md`
+- [ ] Habilitar `pg_trgm`/`unaccent` en Supabase — SQL listo, **pendiente aprobación explícita del dueño para ejecutar**
 
 ## Fase 4: Implementación visual
 - [ ] Header
@@ -114,3 +117,14 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
   (Playfair Display + Inter, se eliminan Oswald y JetBrains Mono en Fase 4). Paleta rediseñada para
   uso sobrio del dorado (se elimina el efecto `.gold-glow`, antipatrón que el propio brief prohíbe).
   Ver `docs/REDESIGN_SYSTEM.md`.
+- 2026-07-14: Fase 3 en curso. Dos agentes en paralelo (frontend + scripts Python) chocaron con el
+  límite de sesión de la cuenta antes de completar su trabajo; se retomó manualmente. Se creó
+  `import_common.py` (dedupe real revisado a mano; se descartó un borrador duplicado `lib_import.py`
+  del mismo agente). Se centralizó WhatsApp/precios/envíos/taxonomía en `lib/`, se migró toda la UI
+  que los usaba, se corrigió la causa raíz de duplicados en los 5 pipelines Python, se corrigió el
+  bug de seguridad de la cuenta bancaria en checkout, y se documentó en `ADMIN_GUIDE.md`. Lint
+  reveló ~15 errores/warnings preexistentes (patrones `setState` en `useEffect`, uso de `<a>` en vez
+  de `<Link>`, etc.) en archivos NO tocados esta sesión — quedan documentados para Fase 4/6, no
+  bloquean el cierre de Fase 3. Pendientes de aprobación explícita del dueño antes de ejecutar:
+  (1) borrar las 794 filas duplicadas (dry-run OK, backup listo), (2) habilitar `pg_trgm`/`unaccent`
+  en Supabase.

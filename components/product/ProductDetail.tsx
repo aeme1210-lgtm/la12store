@@ -4,7 +4,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { ShoppingCart, MessageCircle, ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
-import { formatCOP, buildWhatsAppMessage } from "@/lib/utils";
+import { formatCOP } from "@/lib/utils";
+import { getProductPrice } from "@/lib/pricing";
+import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
+import { SHIPPING } from "@/lib/shipping";
 import Link from "next/link";
 import { FadeInLeft, FadeInRight } from "@/components/ui/ScrollAnimations";
 
@@ -20,6 +23,8 @@ interface Product {
   priceFan?: number | null;
   pricePlayer?: number | null;
   priceRetro?: number | null;
+  priceLongSleeve?: number | null;
+  isLongSleeve?: boolean;
   images: string;
   sizes: string;
   isRetro: boolean;
@@ -41,11 +46,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
   const addItem = useCart((s) => s.addItem);
 
-  const getPrice = () => {
-    if (product.isRetro) return product.priceRetro ?? 170000;
-    if (version === "Player") return product.pricePlayer ?? 180000;
-    return product.priceFan ?? 150000;
-  };
+  const getPrice = () => getProductPrice(product, version);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -71,15 +72,23 @@ export function ProductDetail({ product }: { product: Product }) {
   };
 
   const handleWhatsApp = () => {
-    const msg = `Hola La 12 Store! Me interesa esta camiseta:
-
-*${product.name}*
-Talla: ${selectedSize || "(por definir)"}
-Versión: ${product.isRetro ? "Retro" : version}
-${dorsalName ? `Dorsal: ${dorsalName} #${dorsalNumber}` : "Sin dorsal"}
-
-¿Está disponible? 👀`;
-    window.open(buildWhatsAppMessage(msg), "_blank");
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const msg = buildOrderMessage({
+      items: [
+        {
+          name: product.name,
+          url: `${origin}/catalogo/${product.slug}`,
+          size: selectedSize || "(por definir)",
+          version: product.isRetro ? "Retro" : version,
+          dorsalName: dorsalName || undefined,
+          dorsalNumber: dorsalNumber || undefined,
+          quantity: 1,
+          unitPrice: getPrice(),
+        },
+      ],
+      subtotal: getPrice(),
+    });
+    window.open(whatsAppLink(msg), "_blank");
   };
 
   return (
@@ -159,7 +168,9 @@ ${dorsalName ? `Dorsal: ${dorsalName} #${dorsalNumber}` : "Sin dorsal"}
 
         {/* Price */}
         <div className="bg-[#141414] rounded-xl p-4 border border-[#B8860B]/20">
-          <p className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-1">Precio</p>
+          <p className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-1">
+            Precio{product.isLongSleeve && " · Manga Larga"}
+          </p>
           <p
             className="text-[#D4A017] text-4xl font-bold"
             style={{ fontFamily: "var(--font-jetbrains)" }}
@@ -326,11 +337,14 @@ ${dorsalName ? `Dorsal: ${dorsalName} #${dorsalNumber}` : "Sin dorsal"}
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>🚚</span>
-            <span>Envío gratis en Santa Marta · Nacional desde $25.000</span>
+            <span>
+              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label} desde{" "}
+              {formatCOP(SHIPPING.nacional.costMin)}
+            </span>
           </div>
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>🌍</span>
-            <span>Envío internacional GRATIS</span>
+            <span>{SHIPPING.internacional.label} GRATIS</span>
           </div>
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>💳</span>

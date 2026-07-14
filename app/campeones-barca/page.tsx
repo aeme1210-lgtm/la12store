@@ -11,7 +11,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 export const metadata: Metadata = {
   title: "🏆 Barça Campeón de Liga — 20% OFF Camisetas Barcelona | La 12 Store",
   description:
-    "Celebremos el título del Barça con 20% de descuento en todas las camisetas del Barcelona. Solo por 24 horas. Envío gratis a toda Colombia.",
+    "Celebremos el título del Barça con 20% de descuento en todas las camisetas del Barcelona. Solo por 24 horas.",
 };
 
 export default async function CampeonesBarcaPage() {

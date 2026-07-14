@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useCart } from "@/lib/cart-store";
-import { formatCOP, buildWhatsAppMessage } from "@/lib/utils";
+import { formatCOP } from "@/lib/utils";
+import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 import { CheckCircle, MessageCircle, Copy } from "lucide-react";
 import Image from "next/image";
 
@@ -77,13 +78,25 @@ export default function CheckoutPage() {
   };
 
   const whatsappMsg = () => {
-    const lines = items.map(
-      (item) =>
-        `• ${item.name} (${item.size}, ${item.version}${item.dorsalName ? `, ${item.dorsalName} #${item.dorsalNumber}` : ""}) x${item.quantity} - ${formatCOP(item.price * item.quantity)}`
-    );
-    return buildWhatsAppMessage(
-      `Hola! Acabo de realizar el pedido *${orderNumber}*.\n\n${lines.join("\n")}\n\nTotal: ${formatCOP(total)} COP\nMétodo de pago: ${selectedMethod?.label}\n\nAdjunto el comprobante de pago.`
-    );
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const msg = buildOrderMessage({
+      items: items.map((item) => ({
+        name: item.name,
+        url: `${origin}/catalogo/${item.slug}`,
+        size: item.size,
+        version: item.version,
+        dorsalName: item.dorsalName,
+        dorsalNumber: item.dorsalNumber,
+        quantity: item.quantity,
+        unitPrice: item.price,
+      })),
+      subtotal: total,
+      orderNumber,
+      city: form.city || undefined,
+      paymentMethod: selectedMethod?.label,
+      notes: form.notes || undefined,
+    });
+    return whatsAppLink(msg);
   };
 
   if (items.length === 0 && step === "form") {
@@ -313,7 +326,6 @@ export default function CheckoutPage() {
                       className="accent-[#D4A017]"
                     />
                     <span className="text-white font-semibold text-sm">{m.label}</span>
-                    <span className="text-[#666666] text-sm">{m.detail}</span>
                   </label>
                 ))}
               </div>

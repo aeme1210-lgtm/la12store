@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { whatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Sobre Nosotros",
@@ -175,7 +176,7 @@ export default function NosotrosPage() {
               Ver Catálogo
             </a>
             <a
-              href="https://wa.me/573008443885?text=Hola%20Andrés%2C%20quiero%20más%20información%20sobre%20La%2012%20Store"
+              href={whatsAppLink("Hola Andrés, quiero más información sobre La 12 Store")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all text-sm"

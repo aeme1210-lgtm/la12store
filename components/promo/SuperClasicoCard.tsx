@@ -4,7 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { ShoppingCart, MessageCircle } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
-import { formatCOP, buildWhatsAppMessage } from "@/lib/utils";
+import { formatCOP } from "@/lib/utils";
+import { getStartingPrice } from "@/lib/pricing";
+import { whatsAppLink } from "@/lib/whatsapp";
 
 interface PromoProduct {
   id: string;
@@ -22,8 +24,7 @@ interface PromoProduct {
 const DISCOUNT = 0.85; // 15% off
 
 function getOriginalPrice(product: PromoProduct): number {
-  if (product.isRetro) return product.priceRetro ?? 170000;
-  return product.priceFan ?? 150000;
+  return getStartingPrice(product);
 }
 
 function cleanName(name: string): string {
@@ -160,7 +161,7 @@ export function SuperClasicoCard({ product }: { product: PromoProduct }) {
             {added ? "¡Agregado!" : "Agregar al carrito"}
           </button>
           <a
-            href={buildWhatsAppMessage(waMessage)}
+            href={whatsAppLink(waMessage)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20ba5a] text-white text-[11px] font-black uppercase tracking-wide py-2 rounded-lg transition-colors"

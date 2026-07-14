@@ -16,6 +16,7 @@ import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from
 import { LazyVideo } from "@/components/ui/LazyVideo";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 import { getBarcaPromoStatus } from "@/lib/promo-barca";
+import { whatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "La 12 Store | Camisetas de Fútbol Premium",
@@ -448,7 +449,7 @@ export default async function HomePage() {
               Ver Catálogo
             </Link>
             <a
-              href="https://wa.me/573008443885?text=Hola!%20Quiero%20una%20camiseta%20con%20dorsal"
+              href={whatsAppLink("Hola! Quiero una camiseta con dorsal")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
