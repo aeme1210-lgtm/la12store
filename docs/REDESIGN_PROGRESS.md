@@ -1,0 +1,96 @@
+# REDESIGN PROGRESS — LA 12 STORE
+
+> Checklist vivo. Se actualiza al cerrar cada fase/subfase. Una sesión nueva retoma leyendo
+> `REDESIGN_BRIEF.md` + `REDESIGN_ADENDA.md` + este archivo, sin repetir trabajo.
+
+Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver adenda §2).
+
+## Fase 0: Preparación de sesión
+- [x] Guardar `docs/REDESIGN_BRIEF.md` y `docs/REDESIGN_ADENDA.md`
+- [x] Precondición: git status limpio (fix de seguridad comiteado a master local — pendiente de tu aprobación para push)
+- [x] Precondición: `npm run build` pasando
+- [x] Crear rama `redesign`
+- [x] Crear este checklist
+
+## Fase 1: Auditoría
+- [ ] Arquitectura (framework, versión, estructura de carpetas)
+- [ ] Datos (modelo Prisma, origen del catálogo, scripts de importación)
+- [ ] Diseño (sistema visual actual, tipografía, paleta)
+- [ ] Navegación / arquitectura de información
+- [ ] Producto (ficha, galería, selector de talla, personalización)
+- [ ] Carrito y flujo de WhatsApp
+- [ ] Rendimiento (imágenes, JS, fuentes)
+- [ ] SEO (metadatos, sitemap, structured data, og:image)
+- [ ] Accesibilidad
+- [ ] Confianza (reseñas, cifras, footer bancario)
+- [ ] Contenido (tono, textos de prueba, idioma)
+- [ ] Riesgos (costos, migraciones destructivas, límites de Supabase/Vercel)
+- [ ] Verificar cada uno de los 16 hallazgos del brief contra el código real
+- [ ] Documento de diagnóstico interno
+
+## Fase 2: Sistema y estructura
+- [ ] Arquitectura de información / rutas
+- [ ] Taxonomía de producto (modelo de datos)
+- [ ] Sistema visual (tokens: color, tipografía, espaciado, radios, sombras)
+- [ ] Componentes reutilizables
+- [ ] Estrategia de búsqueda (server-side ILIKE/unaccent/pg_trgm)
+- [ ] Estrategia de filtros
+- [ ] Flujo de pedido por WhatsApp
+
+## Fase 3: Correcciones estructurales (datos primero)
+- [ ] Config centralizada de WhatsApp (+57 300 844 3885)
+- [ ] Config centralizada de envíos (constantes + marcadores TODO_OWNER)
+- [ ] Precios oficiales verificados contra BD (Fan 150k / Retro 170k / Player 180k / Manga Larga 185k)
+- [ ] Informe automático de duplicados/slugs/categorías/precios inconsistentes
+- [ ] Deduplicación de los 794 duplicados reales — SOLO bajo el plan aprobado (backup JSON, nunca borrar filas referenciadas en OrderItem, aprobación explícita del dueño) o alternativa de deduplicar a nivel de consulta mientras tanto
+- [ ] Corrección de causa raíz en /scripts (detectar producto existente antes de crear uno nuevo)
+- [ ] Corrección de errores de conteo/clasificación (ej. Barcelona/Premier League)
+
+## Fase 4: Implementación visual
+- [ ] Header
+- [ ] Portada (8 bloques narrativos)
+- [ ] Catálogo (tarjetas, filtros, orden, paginación)
+- [ ] Ficha de producto
+- [ ] Carrito
+- [ ] Buscador
+- [ ] Nosotros
+- [ ] FAQ
+- [ ] Footer
+- [ ] Estados vacíos y de error
+
+## Fase 5: Optimización
+- [ ] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago)
+- [ ] JavaScript (code splitting, imports dinámicos)
+- [ ] Fuentes (next/font, Playfair Display + Inter)
+- [ ] SEO (og:image global + por producto, twitter:card, sitemap, structured data)
+- [ ] Accesibilidad (WCAG 2.2 AA en flujos principales)
+- [ ] Responsive (razonado por código; medición visual la hace el dueño)
+- [ ] Core Web Vitals (razonado por código; medición real la hace el dueño)
+
+## Fase 6: Control de calidad
+- [ ] Build
+- [ ] Typecheck
+- [ ] Lint
+- [ ] Pruebas disponibles
+- [ ] Revisión manual (dev)
+- [ ] Navegación móvil (razonada por código)
+- [ ] Revisión de enlaces
+- [ ] Revisión de consola
+- [ ] Revisión del pedido por WhatsApp
+- [ ] Revisión de precios (catálogo/ficha/carrito consistentes)
+
+## Cierre
+- [ ] Push de la rama `redesign` (nunca `master`)
+- [ ] URL de preview de Vercel
+- [ ] Entrega final (14 puntos del brief)
+- [ ] Lista de qué debe verificar el dueño manualmente (Lighthouse, multi-viewport, TODO_OWNER de envíos)
+
+---
+
+## Notas de sesión
+- 2026-07-14: Sesión inicial. Se encontró y corrigió antes de empezar: `.claude/settings.local.json`
+  estaba trackeado en git (pese a estar en `.gitignore`) con una contraseña de admin en texto plano
+  en el historial de comandos permitidos. Se destrackeó y sanitizó. Se comiteó junto con fixes
+  preexistentes no relacionados (README.md, prisma/seed.ts ya no hardcodean password) y
+  `promo-rls.sql` (política RLS para tabla Promo, documentada pero NO aplicada aún a la BD).
+  Ese commit vive en `master` local, sin pushear (pendiente de aprobación del dueño).
