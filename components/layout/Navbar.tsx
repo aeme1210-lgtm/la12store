@@ -24,6 +24,9 @@ export function Navbar() {
   const [isPromoActive, setIsPromoActive] = useState(false);
   const [isBarcaPromoActive, setIsBarcaPromoActive] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const desktopSearchRef = useRef<HTMLInputElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalItems = useCart((s) => s.totalItems);
 
@@ -72,7 +75,50 @@ export function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
+    if (mobileOpen) {
+      // Mover el foco al menú al abrir; restaurarlo al botón al cerrar.
+      mobileMenuRef.current?.focus();
+    } else {
+      mobileToggleRef.current?.focus();
+    }
     return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  // Cerrar con Escape (menú móvil y buscador) — antes no existía ningún
+  // manejo de teclado para estos overlays.
+  useEffect(() => {
+    if (!mobileOpen && !searchOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen, searchOpen]);
+
+  // Trap de Tab dentro del menú móvil mientras está abierto.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !mobileMenuRef.current) return;
+      const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [mobileOpen]);
 
   const isAdmin = pathname.startsWith("/admin");
@@ -158,12 +204,40 @@ export function Navbar() {
               </a>
             </div>
 
+            {/* Buscador persistente — protagonista en pantallas grandes en vez de
+                estar escondido detrás de un ícono (hallazgo de la auditoría). */}
+            <form
+              onSubmit={handleSearch}
+              className="hidden lg:flex items-center flex-1 max-w-xs mx-4"
+            >
+              <label htmlFor="navbar-search-desktop" className="sr-only">
+                Buscar camiseta, equipo, selección
+              </label>
+              <div className="relative w-full">
+                <Search
+                  size={15}
+                  aria-hidden="true"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]"
+                />
+                <input
+                  id="navbar-search-desktop"
+                  ref={desktopSearchRef}
+                  type="text"
+                  onChange={handleInputChange}
+                  placeholder="Buscar equipo, selección..."
+                  className="w-full bg-white/5 border border-white/10 rounded-full pl-9 pr-3 py-2 text-white text-sm placeholder-[#666] focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/10 transition-colors"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                />
+              </div>
+            </form>
+
             {/* Cart + search + hamburger */}
             <div className="flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => { setSearchOpen(!searchOpen); setMobileOpen(false); }}
-                className="p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
+                className="lg:hidden p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
                 aria-label="Buscar"
+                aria-expanded={searchOpen}
               >
                 {searchOpen ? <X size={20} /> : <Search size={20} />}
               </button>
@@ -179,9 +253,11 @@ export function Navbar() {
                 )}
               </Link>
               <button
+                ref={mobileToggleRef}
                 onClick={() => { setMobileOpen(!mobileOpen); setSearchOpen(false); }}
                 className="md:hidden p-2 text-[#A0A0A0] hover:text-white transition-colors"
                 aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={mobileOpen}
               >
                 {mobileOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -219,7 +295,14 @@ export function Navbar() {
 
       {/* Mobile menu — full screen overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-[9998] md:hidden bg-black/95 backdrop-blur-md flex flex-col">
+        <div
+          ref={mobileMenuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menú de navegación"
+          tabIndex={-1}
+          className="fixed inset-0 z-[9998] md:hidden bg-black/95 backdrop-blur-md flex flex-col outline-none"
+        >
           {/* Close button */}
           <div className="flex items-center justify-between px-4 h-14" style={{ paddingTop: "var(--urgency-h, 0px)" }}>
             <span
