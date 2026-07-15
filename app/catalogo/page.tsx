@@ -63,6 +63,9 @@ interface SearchParams {
   liga?: string;
   tipo?: string;
   color?: string;
+  version?: string;
+  precioMax?: string;
+  talla?: string;
   q?: string;
   page?: string;
 }
@@ -71,10 +74,13 @@ function buildWhere(
   params: SearchParams,
   taxonomy: ReturnType<typeof buildTaxonomyIndex>
 ): Record<string, unknown> {
-  const where: Record<string, unknown> = { isActive: true };
+  // Se acumulan condiciones en un array y se combinan con AND — evita que un
+  // segundo filtro basado en OR (precio, búsqueda) pise al primero.
+  const and: Record<string, unknown>[] = [];
+
   if (params.liga) {
     const leagueName = slugToLeague[params.liga];
-    if (leagueName) where.league = leagueName;
+    if (leagueName) and.push({ league: leagueName });
   }
   // "tipo" y "color" llegan normalizados en español (ver lib/taxonomy.ts) — se
   // traducen de vuelta a los valores crudos de `type` que hay en la BD.
@@ -86,21 +92,43 @@ function buildWhere(
     typeFilters.push(taxonomy.colorToRaw[params.color]);
   }
   if (typeFilters.length === 1) {
-    where.type = { in: typeFilters[0] };
+    and.push({ type: { in: typeFilters[0] } });
   } else if (typeFilters.length > 1) {
     // Intersección: el valor crudo debe estar en ambas listas (tipo Y color).
     const [a, b] = typeFilters;
-    where.type = { in: a.filter((v) => b.includes(v)) };
+    and.push({ type: { in: a.filter((v) => b.includes(v)) } });
+  }
+  if (params.version === "Player") {
+    and.push({ hasPlayer: true });
+  }
+  if (params.precioMax) {
+    const max = parseInt(params.precioMax, 10);
+    if (!isNaN(max)) {
+      and.push({
+        OR: [
+          { priceFan: { lte: max } },
+          { pricePlayer: { lte: max } },
+          { priceRetro: { lte: max } },
+          { priceLongSleeve: { lte: max } },
+        ],
+      });
+    }
+  }
+  if (params.talla) {
+    and.push({ sizes: { contains: `"${params.talla}"` } });
   }
   if (params.q) {
     const terms = resolveSearchTerms(params.q);
-    where.OR = terms.flatMap((term) => [
-      { name: { contains: term, mode: "insensitive" } },
-      { team: { contains: term, mode: "insensitive" } },
-      { league: { contains: term, mode: "insensitive" } },
-    ]);
+    and.push({
+      OR: terms.flatMap((term) => [
+        { name: { contains: term, mode: "insensitive" } },
+        { team: { contains: term, mode: "insensitive" } },
+        { league: { contains: term, mode: "insensitive" } },
+      ]),
+    });
   }
-  return where;
+
+  return and.length > 0 ? { isActive: true, AND: and } : { isActive: true };
 }
 
 function buildPageUrl(params: SearchParams, page: number): string {
@@ -108,6 +136,9 @@ function buildPageUrl(params: SearchParams, page: number): string {
   if (params.liga) p.set("liga", params.liga);
   if (params.tipo) p.set("tipo", params.tipo);
   if (params.color) p.set("color", params.color);
+  if (params.version) p.set("version", params.version);
+  if (params.precioMax) p.set("precioMax", params.precioMax);
+  if (params.talla) p.set("talla", params.talla);
   if (params.q) p.set("q", params.q);
   if (page > 1) p.set("page", String(page));
   const qs = p.toString();

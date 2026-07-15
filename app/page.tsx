@@ -12,6 +12,7 @@ import { BRAND_URLS } from "@/lib/brand-urls";
 import { LifestyleGallery } from "@/components/home/LifestyleGallery";
 import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
+import { ShirtFinder } from "@/components/home/ShirtFinder";
 import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 import { LazyVideo } from "@/components/ui/LazyVideo";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
@@ -209,7 +210,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 6. POR QUÉ ELEGIRNOS ── */}
+      {/* ── 6. ENCUENTRA TU CAMISETA — buscador guiado (brief §"Nueva portada" bloque 6) ── */}
+      <ShirtFinder />
+
+      {/* ── POR QUÉ ELEGIRNOS ── */}
       <section className="py-12 md:py-20 lg:py-28 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-12">
