@@ -82,13 +82,119 @@
 - [x] `/carrito`: quitado un segundo flujo de pago duplicado (leak de cuentas + sin código de pedido ni estados honestos) — ahora dirige a `/checkout`
 - [x] Build + lint verificados tras todos los cambios de Fase 5. Lint pasó de 10 a 13 problemas: los 3 nuevos son la misma regla (`react-hooks/set-state-in-effect`) que ya aparecía 4 veces antes de esta fase en el proyecto (Navbar, BarcaCountdown, SuperClasicoCountdown, UrgencyBar) — es el patrón estándar "mounted guard" para evitar mismatches de hidratación, usado a propósito en `lib/use-hydrated.ts` y sus 2 nuevos consumidores (`app/carrito/page.tsx`, `Navbar.tsx`). No es deuda nueva, es el mismo patrón ya aceptado en el proyecto aplicado a más lugares que lo necesitaban
 
-## Fase 6: Rendimiento y cierre
-- [ ] Build/typecheck/lint
-- [ ] Revisión de consola
-- [ ] Lista de verificación manual para el dueño
-- [ ] Entrega final (14 puntos)
-- [ ] Push de `redesign-v2` + URL de preview
+## Fase 6: Rendimiento y cierre — COMPLETA
+- [x] Build/typecheck/lint — build limpio, lint estable (13 problemas, todos pre-existentes o el mismo patrón `mounted`-guard ya aceptado en el proyecto, ver Fase 5)
+- [x] Revisión de consola — sin errores ni mismatches de hidratación en Home, Catálogo, ficha de producto, Nosotros, Checkout, `/admin/login` (verificado con navegador real en esta sesión)
+- [x] Lista de verificación manual para el dueño — `docs/REDESIGN_V2_QA_CHECKLIST.md` (Lighthouse, multi-viewport y accesibilidad no se pueden medir desde este entorno, se documentó qué revisar en la preview)
+- [x] Entrega final — ver sección "Notas de sesión" abajo
+- [x] Push de `redesign-v2` + URL de preview
 
 ---
+
+## ENTREGA FINAL
+
+### Causas reales del "tambaleo" (Fase 0 audit → Fase 1 fix)
+`LogoIntro.tsx` (video intro a pantalla completa, bloqueante, activado en un
+`useEffect` post-hidratación — el usuario veía la portada real, luego JS la
+tapaba entera, luego la destapaba 3.5s después) era la causa raíz más
+probable — eliminado por completo. Causas secundarias: animación por
+tarjeta de producto en 3 grillas, parallax real (`useScroll`/`useTransform`)
+en la sección Nosotros, 3 animaciones `repeat: Infinity` decorativas
+(BarcaCountdown/Confetti), carrusel automático + logo animado letra por
+letra en el hero viejo, `scale: 0.9` y `translate: 40-100px` en las
+revelaciones de scroll. Ver detalle completo en `docs/redesign-v2-audit.md`.
+
+### Animaciones eliminadas / nuevas transiciones
+Eliminadas: springs de sección completa, `scale` en reveals, parallax
+móvil, animación por tarjeta, scroll reveals repetibles, 3 `repeat:
+Infinity`. Sistema nuevo centralizado en `lib/motion.ts` (micro 160ms,
+drawer 260ms, checkoutStep 280ms, editorial 420ms, curvas
+`cubic-bezier(0.22,1,0.36,1)`/`(0.4,0,1,1)`, `prefers-reduced-motion`
+respetado vía `useReducedMotion()`). Nuevas transiciones funcionales:
+carrito como drawer con backdrop y foco atrapado, buscador como overlay
+estable, menú móvil con `drawerTransition`, checkout con crossfade+slide
+≤16px entre los 5 pasos + indicador de progreso.
+
+### Sistema cromático/tipográfico
+Paleta bronce (`#A47C42`) reemplaza dorado brillante en 34 archivos (302
+usos). Tipografía Archivo (variable, ejes `wght`+`wdth`) reemplaza
+Playfair en 28 archivos (52 usos), + Inter para UI/cuerpo — ambas vía
+`next/font/google`.
+
+### Estructura de portada
+Hero editorial estático (1 foto, sin carrusel) → Estrenos 26/27 (rotación
+diaria determinista) → Mundos (composición asimétrica) → Colección
+destacada (fondo marfil) → Tendencias (grilla limpia) → Encuentra tu
+camiseta → Historia Andrés y Silvana → Cómo comprar → footer. Nav reducido
+a 5 ítems curados por colección.
+
+### Arquitectura del checkout
+5 pasos con estado en `lib/checkout-store.ts` (persistido, sin el archivo
+del comprobante) — Datos → Entrega → Revisión (crea el pedido real vía
+`POST /api/pedidos`, código `L12-YYYYMMDD-XXXX` sin colisión) → Pago →
+Comprobante. Estados honestos en `lib/order-status.ts`, reportados por el
+cliente vía `PATCH /api/pedidos/[id]/status` (endpoint público restringido
+a un subconjunto de estados que nunca puede auto-confirmar ni sobrescribir
+una confirmación manual). Nunca existe un estado "pagado" automático.
+
+### Métodos de pago configurados
+`lib/payment-methods.ts` — Nequi, DaviPlata, Bancolombia, Bre-B (dato
+corregido: aparecía mal etiquetado como "Nubank" en 6 archivos). Fuera del
+checkout solo se exponen nombres, nunca cuentas/llaves (antes aparecían en
+footer, `/contacto`, `/faq` y `/carrito` — corregido).
+
+### Deep links oficiales
+No se encontró documentación oficial de esquemas `nequi://`/equivalentes
+para Bancolombia/DaviPlata/Bre-B con monto prellenado — campo
+`officialDeepLink` queda en `null` con `TODO_OWNER` en vez de inventar uno.
+QR: slot `qrImageUrl` vacío hasta que el dueño suba la imagen real.
+
+### Comprobante / Web Share / fallback
+Paso 5: archivo local en memoria (nunca en localStorage ni subido a ningún
+storage), botón "Compartir por WhatsApp" usa `navigator.share`+`canShare`
+con el archivo cuando el navegador lo soporta; fallback sin soporte copia
+el resumen y abre `wa.me` con el texto precargado. Verificado en un
+navegador real hasta crear un pedido de prueba (ver `docs/DECISIONS_V2.md`).
+
+### Resultado de import 26/27
+38 productos creados (0 updates/deletes), página 1 de Yupoo (46 álbumes,
+de 13 páginas totales — 2-13 pendientes para otra sesión). Detalle
+completo, incidencias y limitación de imágenes (hotlinking a Yupoo,
+confirmado inestable en esta sesión) en `docs/IMPORT_2627_REPORT.md`.
+
+### Dependencias agregadas
+**Ninguna.** Todo el trabajo de v2 usó las dependencias ya presentes en
+`package.json` (framer-motion, zustand, zod, lucide-react, next/font) —
+cero gasto, cumpliendo la regla de negocio de "cero gasto adicional".
+
+### Resultados de build/typecheck/lint
+`npm run build` limpio en cada cierre de fase (incluida la Fase 6 final).
+Lint: 13 problemas — 10 pre-existentes documentados desde la Fase 0/4, y 3
+del mismo patrón `mounted`-guard (`react-hooks/set-state-in-effect`) ya
+aceptado 4 veces en el proyecto antes de esta fase, aplicado a 2 lugares
+más que lo necesitaban para corregir un bug real de hidratación (ver
+abajo). Cero errores de TypeScript.
+
+### Decisiones tomadas
+Registro completo con justificación en `docs/DECISIONS_V2.md` — incluye
+la decisión de imágenes 26/27 vía CDN de Yupoo (sin `SUPABASE_SERVICE_ROLE_KEY`
+en este entorno), el alcance parcial del import (página 1 de 13), la
+migración de paleta en dos pasos, el fallback de View Transitions, la
+corrección de datos de pago (Bre-B, cuentas fuera del checkout), y el bug
+de hidratación encontrado y corregido en QA de Fase 5.
+
+### Hallazgo importante para antes del merge a producción
+Durante la prueba real del checkout se confirmó que las imágenes de los 38
+productos de la Temporada 26/27 (alojadas directo en `photo.yupoo.com`)
+son inestables: la misma URL sirvió la foto real en una carga y una
+versión reducida (posible marcador de acceso restringido) en otra, sin
+cambios de código. **Se recomienda migrar estas imágenes al bucket propio
+de Supabase Storage antes de aprobar el merge** — requiere que el dueño
+provea `SUPABASE_SERVICE_ROLE_KEY`. Ver `docs/IMPORT_2627_REPORT.md`.
+
+### Push y preview
+Rama `redesign-v2` pusheada a `origin`. `master` no fue tocado en ningún
+momento de esta sesión. URL de preview: ver mensaje de cierre de la
+conversación (se obtiene después de pushear, vía Vercel).
 
 ## Notas de sesión
