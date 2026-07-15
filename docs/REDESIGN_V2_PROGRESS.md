@@ -22,13 +22,17 @@
 - [x] Dimensiones de imágenes — patrón correcto en general, 1 excepción encontrada (`NosotrosSection.tsx` usa `unoptimized`)
 - [x] Documento `docs/redesign-v2-audit.md`
 
-## Fase 1: Estabilidad
-- [ ] Imágenes con dimensiones/aspect-ratio siempre
-- [ ] Fuentes sin bloquear render
-- [ ] Eliminar animaciones problemáticas (springs de sección, scale 0.9-0.95, translate 40-100px, height:auto, parallax móvil, animación por card, reveals repetidos, animar layout props)
-- [ ] Reveals editoriales: opacidad + translate ≤16px, una vez
-- [ ] Skeletons exactos al tamaño final
-- [ ] Motion tokens centralizados
+## Fase 1: Estabilidad — COMPLETA
+- [x] `lib/motion.ts` — tokens centralizados de duración/curva (micro/drawer/checkoutStep/editorial/shared)
+- [x] `components/ui/ScrollAnimations.tsx` reescrito: una sola implementación (`Reveal` parametrizado por dirección) en vez de 2 archivos duplicados; sin `scale` (eliminado `ScaleIn`); translate reducido de 40px a ≤16px; respeta `prefers-reduced-motion` explícitamente vía `useReducedMotion()` en JS, no solo CSS
+- [x] `components/home/AnimateOnView.tsx` eliminado — código muerto, nunca se importaba en ningún lado real
+- [x] `components/ui/LogoIntro.tsx` eliminado por completo — causa raíz más probable del "tambaleo" (ver `docs/DECISIONS_V2.md`)
+- [x] Animación por tarjeta de producto eliminada en los 3 lugares donde existía: `app/catalogo/page.tsx`, `app/catalogo/[slug]/page.tsx` (relacionados), `app/page.tsx` (tendencias) — ahora renderizan directo, sin wrapper de motion
+- [x] Grillas decorativas (categorías, Instagram) migradas a `GroupReveal` — una sola revelación del grupo, no por ítem
+- [x] `components/home/NosotrosSection.tsx`: parallax real (`useScroll`/`useTransform`) eliminado (prohibido para móvil); bug real corregido (`var(--font-dm-sans)` nunca estaba definida, la sesión anterior no lo detectó); `unoptimized` quitado (inconsistente con el resto del proyecto)
+- [x] `app/page.tsx`: mismo fix de `unoptimized` en la grilla de Instagram
+- [x] `components/promo/BarcaCountdown.tsx` / `ConfettiBlaugrana.tsx`: 3 animaciones `repeat: Infinity` puramente decorativas (pulso de título, pulso de box-shadow, confeti) removidas o acotadas a un número finito de repeticiones — se conserva el efecto festivo sin motion perpetua
+- [x] Build + lint verificados — 13 problemas de lint, 2 menos que antes (se fueron con `LogoIntro.tsx`), ninguno nuevo
 
 ## Fase 2: Portada con ritmo editorial
 - [ ] Barra informativa compacta

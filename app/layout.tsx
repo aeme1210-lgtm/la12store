@@ -5,7 +5,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
-import { LogoIntro } from "@/components/ui/LogoIntro";
 import { BRAND_URLS } from "@/lib/brand-urls";
 
 // Sistema tipográfico consolidado a 2 familias (REDESIGN_SYSTEM.md §3):
@@ -98,7 +97,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <LogoIntro />
         <UrgencyBar />
         <Navbar />
         <main className="flex-1" style={{ paddingTop: "calc(var(--urgency-h, 0px) + var(--nav-h, 64px))" }}>{children}</main>

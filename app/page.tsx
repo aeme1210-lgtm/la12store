@@ -13,7 +13,7 @@ import { LifestyleGallery } from "@/components/home/LifestyleGallery";
 import { CounterBanner } from "@/components/home/CounterBanner";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
 import { ShirtFinder } from "@/components/home/ShirtFinder";
-import { FadeInUp, FadeInLeft, FadeInRight, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
+import { FadeInUp, FadeInLeft, FadeInRight, GroupReveal } from "@/components/ui/ScrollAnimations";
 import { LazyVideo } from "@/components/ui/LazyVideo";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 import { getBarcaPromoStatus } from "@/lib/promo-barca";
@@ -138,13 +138,12 @@ export default async function HomePage() {
           </Link>
         </FadeInUp>
 
-        <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        {/* Sin animación por tarjeta (REDESIGN_V2 Fase 1) */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {trending.map((product: (typeof trending)[number]) => (
-            <StaggerItem key={product.id}>
-              <ProductCard product={product} />
-            </StaggerItem>
+            <ProductCard key={product.id} product={product} />
           ))}
-        </StaggerContainer>
+        </div>
 
         <div className="text-center mt-8 md:hidden">
           <Link
@@ -181,32 +180,31 @@ export default async function HomePage() {
             </h2>
           </FadeInUp>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+          <GroupReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {categories.map((cat) => (
-              <StaggerItem key={cat.slug}>
-                <Link
-                  href={`/catalogo?liga=${cat.slug}`}
-                  className="group relative overflow-hidden rounded-xl block"
-                  style={{ height: "clamp(160px, 40vw, 220px)" }}
-                >
-                  <LazyVideo
-                    src={cat.video}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-300 group-hover:from-black/60" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-                    <h3
-                      className="text-2xl font-bold text-white group-hover:text-[#D4AF37] transition-colors duration-200"
-                      style={{ fontFamily: "var(--font-playfair)" }}
-                    >
-                      {cat.name}
-                    </h3>
-                    <p className="text-sm text-[#D4AF37]">{cat.subtitle}</p>
-                  </div>
-                </Link>
-              </StaggerItem>
+              <Link
+                key={cat.slug}
+                href={`/catalogo?liga=${cat.slug}`}
+                className="group relative overflow-hidden rounded-xl block"
+                style={{ height: "clamp(160px, 40vw, 220px)" }}
+              >
+                <LazyVideo
+                  src={cat.video}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-300 group-hover:from-black/60" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+                  <h3
+                    className="text-2xl font-bold text-white group-hover:text-[#D4AF37] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    {cat.name}
+                  </h3>
+                  <p className="text-sm text-[#D4AF37]">{cat.subtitle}</p>
+                </div>
+              </Link>
             ))}
-          </StaggerContainer>
+          </GroupReveal>
         </div>
       </section>
 
@@ -350,39 +348,37 @@ export default async function HomePage() {
             </h2>
           </FadeInUp>
 
-          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-8">
+          <GroupReveal className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-8">
             {[
               "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/SILVANA%20COLOMBIA.jpeg",
               "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/SILVANA%20REAL%20MADRID.jpeg",
               "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/Silvana%20CAMISA%20BOCA.jpeg",
               "https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/ANDRES%20CAMISA%20VENECIA.jpeg",
             ].map((photo, i) => (
-              <StaggerItem key={i}>
-                <a
-                  href="https://instagram.com/la12s_tore"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative aspect-square overflow-hidden rounded-xl block group"
-                >
-                  <Image
-                    src={photo}
-                    alt="La 12 Store Instagram"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                      <circle cx="12" cy="12" r="4"/>
-                      <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
-                    </svg>
-                  </div>
-                </a>
-              </StaggerItem>
+              <a
+                key={i}
+                href="https://instagram.com/la12s_tore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative aspect-square overflow-hidden rounded-xl block group"
+              >
+                <Image
+                  src={photo}
+                  alt="La 12 Store Instagram"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
+                  </svg>
+                </div>
+              </a>
             ))}
-          </StaggerContainer>
+          </GroupReveal>
 
           <div className="flex items-center justify-center gap-4">
             <a

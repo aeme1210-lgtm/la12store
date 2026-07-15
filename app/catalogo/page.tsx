@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CatalogoFilters } from "@/components/product/CatalogoFilters";
 import { LigaVideoBanner } from "@/components/product/LigaVideoBanner";
-import { FadeInUp, ScaleIn } from "@/components/ui/ScrollAnimations";
+import { FadeInUp } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { resolveSearchTerms } from "@/lib/search";
@@ -285,14 +285,16 @@ export default async function CatalogoPage({
               </div>
             ) : (
               <>
+                {/* Sin animación de entrada por tarjeta (REDESIGN_V2 Fase 1) —
+                    animar decenas de cards individualmente en cada scroll era
+                    parte de la causa del "tambaleo" percibido. */}
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
-                  {products.map((p: (typeof products)[number], index: number) => (
-                    <ScaleIn key={p.id} delay={Math.min(index * 0.05, 0.5)}>
-                      <ProductCard
-                        product={p}
-                        showBarcaBadge={barcaPromoActive && isBarcaProduct(p.name)}
-                      />
-                    </ScaleIn>
+                  {products.map((p: (typeof products)[number]) => (
+                    <ProductCard
+                      key={p.id}
+                      product={p}
+                      showBarcaBadge={barcaPromoActive && isBarcaProduct(p.name)}
+                    />
                   ))}
                 </div>
 

@@ -103,18 +103,18 @@ export function BarcaCountdown({ endAt }: Props) {
             ? "0 0 0 3px #FFD700, 0 0 40px #FFD70060"
             : "0 0 0 2px #FFD70050, 0 8px 40px #00000060",
         }}
-        animate={isUrgent ? { boxShadow: ["0 0 0 3px #FFD700, 0 0 40px #FFD70060", "0 0 0 6px #FFD700, 0 0 60px #FFD700AA", "0 0 0 3px #FFD700, 0 0 40px #FFD70060"] } : {}}
-        transition={isUrgent ? { duration: 1, repeat: Infinity } : {}}
       >
-        {/* Título pulsante */}
-        <motion.p
+        {/* REDESIGN_V2 Fase 1: se quitó el pulso infinito del box-shadow y el
+            scale infinito del título — animaciones puramente decorativas que
+            nunca se asientan, justo el patrón "tambaleo" que esta fase corrige.
+            El anillo dorado de urgencia queda como estilo estático (ya definido
+            arriba en boxShadow). */}
+        <p
           className="text-center font-black uppercase tracking-widest text-white text-base sm:text-lg md:text-xl"
           style={{ fontFamily: "var(--font-inter)", textShadow: "0 2px 8px #00000080" }}
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           🏆 BARÇA CAMPEÓN DE LA LIGA 🏆
-        </motion.p>
+        </p>
 
         {/* Label superior */}
         <p className="text-white/70 text-[10px] uppercase tracking-[0.4em]"
@@ -152,7 +152,7 @@ export function BarcaCountdown({ endAt }: Props) {
               transition={{
                 duration: 2.5,
                 delay: i * 0.7,
-                repeat: Infinity,
+                repeat: 2,
                 repeatDelay: 1.5,
                 ease: "easeOut",
               }}

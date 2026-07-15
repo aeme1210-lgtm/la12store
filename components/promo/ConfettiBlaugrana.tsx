@@ -66,7 +66,11 @@ export function ConfettiBlaugrana() {
           transition={{
             duration: p.duration,
             delay: p.delay,
-            repeat: Infinity,
+            // REDESIGN_V2 Fase 1: antes repeat: Infinity — 40 partículas cayendo
+            // para siempre mientras la promo está activa. Se limita a 3 caídas
+            // (efecto festivo al entrar, luego se asienta) en vez de motion
+            // perpetua de fondo.
+            repeat: 3,
             repeatDelay: 0,
             ease: "linear",
           }}
