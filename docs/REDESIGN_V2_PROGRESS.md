@@ -58,14 +58,15 @@
 - [ ] Checkout con transición entre pasos + indicador de progreso — se implementa junto con la reconstrucción completa del checkout en Fase 5, no por separado
 - [x] Menú móvil: mismo tratamiento de transición (`drawerTransition`) agregado — antes aparecía/desaparecía sin animación
 
-## Fase 4: Temporada 26/27 + Estrenos
-- [ ] Backup previo (conteo + slugs) a /backups
-- [ ] Scraping Yupoo 26/27 (páginas 1-2, verificar si hay más)
-- [ ] Importación solo-INSERT con dedupe
-- [ ] docs/IMPORT_2627_REPORT.md
-- [ ] Colección "Temporada 26/27" navegable
-- [ ] Sección/página ESTRENOS con rotación diaria determinista
-- [ ] Barça y Real Madrid 26/27 siempre presentes
+## Fase 4: Temporada 26/27 + Estrenos — COMPLETA (con limitaciones documentadas)
+- [x] Backup previo (conteo + slugs) a /backups — `backups/pre-import-2627-2026-07-15T17-40-17-450Z.json` (2,550 productos)
+- [x] Scraping Yupoo 26/27 — brief mencionaba 2 páginas, la real tiene 13; se procesó la página 1 completa (46 álbumes). Páginas 2-13 quedan documentadas como pendientes para otra sesión, script reutilizable
+- [x] Importación solo-INSERT con dedupe — `scripts/import-2627.ts`. 38 creados, 0 updates/deletes sobre lo existente (2,550 → 2,588 confirmado por conteo exacto). Incidente y fix documentados: primer intento 77.8% error (bug de regex `.jpg`/`.jpeg`) activó correctamente la barandilla de 30%, se corrigió y el reintento bajó a 13.3% (6 `error_fetch` de red, aceptable)
+- [x] docs/IMPORT_2627_REPORT.md — creado, con desglose completo
+- [x] Colección "Temporada 26/27" navegable — `league: "Temporada 26/27"`, entrada en nav (`?liga=temporada-26-27`) y mapeo en `app/catalogo/page.tsx`
+- [x] Sección/página ESTRENOS con rotación diaria determinista — `lib/estrenos.ts` + `components/home/EstrenosSection.tsx`, ya poblada con productos reales (antes mostraba el estado vacío por no existir aún el catálogo 26/27)
+- [x] Barça y Real Madrid 26/27 siempre presentes — confirmado en DB (`barcelona-jersey-home-2627`, `real-madrid-jersey-home-2627`)
+- [x] Limitación documentada: imágenes de estos 38 productos enlazan directo a `photo.yupoo.com` (CDN del proveedor), no al bucket propio de Supabase — falta `SUPABASE_SERVICE_ROLE_KEY` en este entorno. Ver decisión en `docs/DECISIONS_V2.md` y plan de migración en `docs/IMPORT_2627_REPORT.md`
 
 ## Fase 5: Checkout interno
 - [ ] Config central de pagos

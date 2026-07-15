@@ -53,6 +53,7 @@ const slugToLeague: Record<string, string> = {
   "ligue-1": "Ligue 1",
   "mundial-fifa-2026": "Mundial FIFA 2026",
   "liga-argentina": "Liga Argentina",
+  "temporada-26-27": "Temporada 26/27",
   // aliases legacy
   "liga-espanola": "La Liga",
   "ligas-sudamericanas": "Retro",
