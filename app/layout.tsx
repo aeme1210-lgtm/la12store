@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Archivo } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -7,20 +7,25 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
 import { BRAND_URLS } from "@/lib/brand-urls";
 
-// Sistema tipográfico consolidado a 2 familias (REDESIGN_SYSTEM.md §3):
-// Playfair Display para titulares editoriales, Inter para todo lo demás
-// (interfaz, precios con tabular-nums, cuerpo). Se eliminaron Oswald y
-// JetBrains Mono — el brief pide máximo 2 familias.
+// Sistema tipográfico v2 (REDESIGN_V2_BRIEF.md "ADN DE DISEÑO"): Archivo
+// (display, titulares editoriales) + Inter (interfaz/cuerpo). Reemplaza
+// Playfair Display de la v1. Archivo es fuente variable con eje de ancho
+// (wdth 62-125) además de peso (wght 100-900) — permite un verdadero
+// "Black Expanded" vía variación real, no solo letter-spacing (confirmado
+// en font-data.json del paquete instalado, ver docs/DECISIONS_V2.md).
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["400", "700", "800", "900"],
+  // "variable" (no pesos fijos) carga el archivo variable completo, con
+  // acceso real a los ejes wght (100-900) y wdth (62-125) vía CSS
+  // font-variation-settings/font-stretch — necesario para el "Expanded".
+  weight: "variable",
 });
 
 export const metadata: Metadata = {
@@ -86,7 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es"
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`${inter.variable} ${archivo.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
         <script

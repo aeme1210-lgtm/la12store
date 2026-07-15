@@ -117,21 +117,21 @@ export default async function HomePage() {
         <FadeInUp className="flex items-end justify-between mb-10">
           <div>
             <p
-              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
+              className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Lo más pedido
             </p>
             <h2
               className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               Tendencias
             </h2>
           </div>
           <Link
             href="/catalogo"
-            className="hidden md:inline text-[#D4AF37] hover:text-[#F0D060] text-xs font-semibold uppercase tracking-widest transition-colors"
+            className="hidden md:inline text-[#A47C42] hover:text-[#C4A06A] text-xs font-semibold uppercase tracking-widest transition-colors"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver todo →
@@ -148,7 +148,7 @@ export default async function HomePage() {
         <div className="text-center mt-8 md:hidden">
           <Link
             href="/catalogo"
-            className="text-[#D4AF37] font-semibold uppercase tracking-widest text-xs"
+            className="text-[#A47C42] font-semibold uppercase tracking-widest text-xs"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver catálogo completo →
@@ -167,14 +167,14 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-12">
             <p
-              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
+              className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Explora
             </p>
             <h2
               className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               Por Categoría
             </h2>
@@ -195,12 +195,12 @@ export default async function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-300 group-hover:from-black/60" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
                   <h3
-                    className="text-2xl font-bold text-white group-hover:text-[#D4AF37] transition-colors duration-200"
-                    style={{ fontFamily: "var(--font-playfair)" }}
+                    className="text-2xl font-bold text-white group-hover:text-[#A47C42] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-archivo)" }}
                   >
                     {cat.name}
                   </h3>
-                  <p className="text-sm text-[#D4AF37]">{cat.subtitle}</p>
+                  <p className="text-sm text-[#A47C42]">{cat.subtitle}</p>
                 </div>
               </Link>
             ))}
@@ -216,14 +216,14 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-12">
             <p
-              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
+              className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               La diferencia
             </p>
             <h2
               className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               ¿Por qué elegirnos?
             </h2>
@@ -232,9 +232,9 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {features.map((f, i) => {
               const Inner = (
-                <div className="bg-[#111111] rounded-xl p-6 border border-white/5 hover:border-[#D4AF37]/20 transition-colors duration-300 group h-full">
-                  <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:bg-[#D4AF37]/20 transition-colors">
-                    <f.Icon size={20} className="text-[#D4AF37]" />
+                <div className="bg-[#111111] rounded-xl p-6 border border-white/5 hover:border-[#A47C42]/20 transition-colors duration-300 group h-full">
+                  <div className="w-10 h-10 rounded-lg bg-[#A47C42]/10 flex items-center justify-center mb-4 group-hover:bg-[#A47C42]/20 transition-colors">
+                    <f.Icon size={20} className="text-[#A47C42]" />
                   </div>
                   <h3
                     className="text-[#FAFAFA] font-semibold uppercase tracking-wide mb-2 text-sm"
@@ -266,7 +266,7 @@ export default async function HomePage() {
         <FadeInUp className="text-center mb-10">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-3"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Cultura futbolera, hecha comunidad
           </h2>
@@ -311,7 +311,7 @@ export default async function HomePage() {
                     href="https://instagram.com/la12s_tore"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#D4AF37] hover:text-[#F0D060] text-sm font-semibold transition-colors"
+                    className="text-[#A47C42] hover:text-[#C4A06A] text-sm font-semibold transition-colors"
                   >
                     @la12s_tore en Instagram →
                   </a>
@@ -335,14 +335,14 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-8">
             <p
-              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
+              className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Síguenos
             </p>
             <h2
               className="text-2xl md:text-3xl font-bold text-[#FAFAFA]"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               @la12s_tore
             </h2>
@@ -385,7 +385,7 @@ export default async function HomePage() {
               href="https://instagram.com/la12s_tore"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#D4AF37]/10 border border-white/10 hover:border-[#D4AF37]/40 text-[#9CA3AF] hover:text-[#D4AF37] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
+              className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#A47C42]/10 border border-white/10 hover:border-[#A47C42]/40 text-[#9CA3AF] hover:text-[#A47C42] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -399,7 +399,7 @@ export default async function HomePage() {
               href="https://tiktok.com/@la12s_tore"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#D4AF37]/10 border border-white/10 hover:border-[#D4AF37]/40 text-[#9CA3AF] hover:text-[#D4AF37] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
+              className="flex items-center gap-2 bg-[#1A1A1A] hover:bg-[#A47C42]/10 border border-white/10 hover:border-[#A47C42]/40 text-[#9CA3AF] hover:text-[#A47C42] px-5 py-2.5 rounded-lg text-sm font-semibold transition-all"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -416,10 +416,10 @@ export default async function HomePage() {
         <FadeInUp className="max-w-2xl mx-auto text-center px-4">
           <h2
             className="text-3xl md:text-4xl font-bold text-[#FAFAFA] mb-4"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Dorsal y parches{" "}
-            <span className="text-[#D4AF37] italic">gratis</span>
+            <span className="text-[#A47C42] italic">gratis</span>
           </h2>
           <p className="text-[#9CA3AF] mb-8 text-sm" style={{ fontFamily: "var(--font-inter)" }}>
             En cada camiseta incluimos tu dorsal personalizado y parches sin costo adicional.
@@ -427,7 +427,7 @@ export default async function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/catalogo"
-              className="inline-flex items-center justify-center bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
+              className="inline-flex items-center justify-center bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-colors duration-200 text-sm"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver Catálogo

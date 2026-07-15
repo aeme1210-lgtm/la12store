@@ -18,14 +18,14 @@ export function LifestyleGallery() {
         className="text-center mb-10 px-4"
       >
         <p
-          className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-3"
+          className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-3"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Nuestra comunidad
         </p>
         <h2
           className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           El estilo que nos define
         </h2>

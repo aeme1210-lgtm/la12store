@@ -105,10 +105,10 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-2xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
+          <h1 className="text-2xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-archivo)" }}>
             Tu carrito está vacío
           </h1>
-          <Link href="/catalogo" className="text-[#D4A017] hover:underline">
+          <Link href="/catalogo" className="text-[#A47C42] hover:underline">
             Ver catálogo
           </Link>
         </div>
@@ -123,20 +123,20 @@ export default function CheckoutPage() {
           <CheckCircle size={64} className="text-[#22C55E] mx-auto mb-4" />
           <h1
             className="text-3xl font-black text-white uppercase mb-2"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             ¡Pedido Confirmado!
           </h1>
           <p className="text-[#A0A0A0] mb-4">
             Tu número de pedido es{" "}
-            <span className="text-[#D4A017] font-bold">{orderNumber}</span>
+            <span className="text-[#A47C42] font-bold">{orderNumber}</span>
           </p>
           <p className="text-[#666666] text-sm mb-8">
             Pronto te contactaremos para confirmar el envío. ¡Gracias por confiar en La 12 Store!
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 bg-[#D4A017] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest text-sm"
+            className="inline-flex items-center gap-2 bg-[#A47C42] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest text-sm"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Volver al inicio
@@ -151,15 +151,15 @@ export default function CheckoutPage() {
       <div className="min-h-screen">
         <div className="max-w-lg mx-auto px-4 py-8">
           <div className="text-center mb-8">
-            <p className="text-[#D4A017] text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "var(--font-inter)" }}>
+            <p className="text-[#A47C42] text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "var(--font-inter)" }}>
               Pedido {orderNumber}
             </p>
-            <h1 className="text-3xl font-black text-white uppercase" style={{ fontFamily: "var(--font-playfair)" }}>
+            <h1 className="text-3xl font-black text-white uppercase" style={{ fontFamily: "var(--font-archivo)" }}>
               Realiza el Pago
             </h1>
           </div>
 
-          <div className="bg-[#141414] rounded-xl border border-[#B8860B]/20 p-6 mb-6">
+          <div className="bg-[#141414] rounded-xl border border-[#8A6435]/20 p-6 mb-6">
             <p className="text-[#A0A0A0] text-sm mb-4">
               Transfiere el siguiente monto a:
             </p>
@@ -171,12 +171,12 @@ export default function CheckoutPage() {
                   onClick={() => setPaymentMethod(m.id)}
                   className={`w-full flex items-center justify-between p-3 rounded-lg border transition-all ${
                     paymentMethod === m.id
-                      ? "border-[#D4A017] bg-[#D4A017]/10"
-                      : "border-[#B8860B]/20 bg-[#1A1A1A]"
+                      ? "border-[#A47C42] bg-[#A47C42]/10"
+                      : "border-[#8A6435]/20 bg-[#1A1A1A]"
                   }`}
                 >
                   <span
-                    className={`font-bold uppercase text-sm ${paymentMethod === m.id ? "text-[#D4A017]" : "text-[#A0A0A0]"}`}
+                    className={`font-bold uppercase text-sm ${paymentMethod === m.id ? "text-[#A47C42]" : "text-[#A0A0A0]"}`}
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {m.label}
@@ -190,7 +190,7 @@ export default function CheckoutPage() {
                         e.stopPropagation();
                         copyToClipboard(m.detail, m.id);
                       }}
-                      className="text-[#666666] hover:text-[#D4A017] transition-colors"
+                      className="text-[#666666] hover:text-[#A47C42] transition-colors"
                     >
                       <Copy size={14} />
                     </button>
@@ -202,10 +202,10 @@ export default function CheckoutPage() {
               ))}
             </div>
 
-            <div className="bg-[#1A1A1A] rounded-lg p-4 border border-[#B8860B]/10 text-center">
+            <div className="bg-[#1A1A1A] rounded-lg p-4 border border-[#8A6435]/10 text-center">
               <p className="text-[#A0A0A0] text-sm mb-1">Monto a transferir</p>
               <p
-                className="text-[#D4A017] text-3xl font-bold"
+                className="text-[#A47C42] text-3xl font-bold"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {formatCOP(total)}
@@ -230,7 +230,7 @@ export default function CheckoutPage() {
             </a>
             <button
               onClick={handleConfirm}
-              className="w-full flex items-center justify-center gap-2 bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] font-bold py-3 rounded-xl uppercase tracking-wider text-sm hover:border-[#D4A017]/30 hover:text-white transition-all"
+              className="w-full flex items-center justify-center gap-2 bg-[#1A1A1A] border border-[#8A6435]/20 text-[#A0A0A0] font-bold py-3 rounded-xl uppercase tracking-wider text-sm hover:border-[#A47C42]/30 hover:text-white transition-all"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ya pagué, confirmar pedido
@@ -246,7 +246,7 @@ export default function CheckoutPage() {
       <div className="max-w-5xl mx-auto px-4 py-8">
         <h1
           className="text-3xl font-black text-white uppercase mb-8"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Finalizar Compra
         </h1>
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
                   required={field.required}
                   value={form[field.name as keyof typeof form]}
                   onChange={(e) => setForm({ ...form, [field.name]: e.target.value })}
-                  className="w-full bg-[#141414] border border-[#B8860B]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
+                  className="w-full bg-[#141414] border border-[#8A6435]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50"
                 />
               </div>
             ))}
@@ -297,7 +297,7 @@ export default function CheckoutPage() {
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
                 rows={3}
-                className="w-full bg-[#141414] border border-[#B8860B]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50 resize-none"
+                className="w-full bg-[#141414] border border-[#8A6435]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50 resize-none"
                 placeholder="Instrucciones especiales, referencias, etc."
               />
             </div>
@@ -315,8 +315,8 @@ export default function CheckoutPage() {
                     key={m.id}
                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                       paymentMethod === m.id
-                        ? "border-[#D4A017] bg-[#D4A017]/10"
-                        : "border-[#B8860B]/20 bg-[#141414]"
+                        ? "border-[#A47C42] bg-[#A47C42]/10"
+                        : "border-[#8A6435]/20 bg-[#141414]"
                     }`}
                   >
                     <input
@@ -325,7 +325,7 @@ export default function CheckoutPage() {
                       value={m.id}
                       checked={paymentMethod === m.id}
                       onChange={() => setPaymentMethod(m.id)}
-                      className="accent-[#D4A017]"
+                      className="accent-[#A47C42]"
                     />
                     <span className="text-white font-semibold text-sm">{m.label}</span>
                   </label>
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all"
+              className="w-full bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-all"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Confirmar Pedido
@@ -350,7 +350,7 @@ export default function CheckoutPage() {
             >
               Tu Pedido
             </h2>
-            <div className="bg-[#141414] rounded-xl border border-[#B8860B]/20 p-4 space-y-3">
+            <div className="bg-[#141414] rounded-xl border border-[#8A6435]/20 p-4 space-y-3">
               {items.map((item) => (
                 <div key={item.id} className="flex gap-3">
                   <div className="relative w-14 h-14 bg-[#1A1A1A] rounded-lg overflow-hidden flex-shrink-0">
@@ -368,7 +368,7 @@ export default function CheckoutPage() {
                     </p>
                   </div>
                   <span
-                    className="text-[#D4A017] text-sm font-bold flex-shrink-0"
+                    className="text-[#A47C42] text-sm font-bold flex-shrink-0"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(item.price * item.quantity)}
@@ -376,12 +376,12 @@ export default function CheckoutPage() {
                 </div>
               ))}
 
-              <div className="border-t border-[#B8860B]/10 pt-3 flex justify-between">
+              <div className="border-t border-[#8A6435]/10 pt-3 flex justify-between">
                 <span className="text-white font-bold uppercase text-sm" style={{ fontFamily: "var(--font-inter)" }}>
                   Total
                 </span>
                 <span
-                  className="text-[#D4A017] text-xl font-bold"
+                  className="text-[#A47C42] text-xl font-bold"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {formatCOP(total)}

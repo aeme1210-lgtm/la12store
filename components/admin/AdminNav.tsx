@@ -24,10 +24,10 @@ export function AdminNav() {
 
   const NavContent = () => (
     <>
-      <div className="px-4 py-6 border-b border-[#B8860B]/10">
+      <div className="px-4 py-6 border-b border-[#8A6435]/10">
         <h1
-          className="text-lg font-black text-[#D4A017] uppercase tracking-widest"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          className="text-lg font-black text-[#A47C42] uppercase tracking-widest"
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           LA 12 STORE
         </h1>
@@ -43,7 +43,7 @@ export function AdminNav() {
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                 active
-                  ? "bg-[#D4A017]/15 text-[#D4A017] border border-[#D4A017]/20"
+                  ? "bg-[#A47C42]/15 text-[#A47C42] border border-[#A47C42]/20"
                   : "text-[#A0A0A0] hover:text-white hover:bg-[#1A1A1A]"
               }`}
               style={{ fontFamily: "var(--font-inter)" }}
@@ -54,7 +54,7 @@ export function AdminNav() {
           );
         })}
       </nav>
-      <div className="p-4 border-t border-[#B8860B]/10">
+      <div className="p-4 border-t border-[#8A6435]/10">
         <button
           onClick={handleLogout}
           className="flex items-center gap-2 text-[#A0A0A0] hover:text-[#C70101] text-sm transition-colors"
@@ -69,15 +69,15 @@ export function AdminNav() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-[#141414] border-r border-[#B8860B]/10">
+      <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-[#141414] border-r border-[#8A6435]/10">
         <NavContent />
       </aside>
 
       {/* Mobile top bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#141414] border-b border-[#B8860B]/10 flex items-center justify-between px-4 h-16">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#141414] border-b border-[#8A6435]/10 flex items-center justify-between px-4 h-16">
         <h1
-          className="text-lg font-black text-[#D4A017] uppercase tracking-widest"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          className="text-lg font-black text-[#A47C42] uppercase tracking-widest"
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           LA 12 ADMIN
         </h1>

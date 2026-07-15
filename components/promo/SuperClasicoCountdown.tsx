@@ -73,7 +73,7 @@ export function SuperClasicoCountdown({ targetTime, mode }: Props) {
       <div className="bg-[#D32F2F] flex-1 flex flex-col items-center justify-center py-5 md:py-7 px-2 md:px-4">
         <span
           className="text-white font-black text-4xl md:text-6xl tabular-nums leading-none"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           {pad(timeLeft.hours)}
         </span>
@@ -86,7 +86,7 @@ export function SuperClasicoCountdown({ targetTime, mode }: Props) {
       <div className="bg-gradient-to-b from-[#D32F2F] to-[#6A0080] flex items-center justify-center px-2 md:px-3">
         <span
           className="text-white font-black text-3xl md:text-5xl select-none"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           :
         </span>
@@ -96,7 +96,7 @@ export function SuperClasicoCountdown({ targetTime, mode }: Props) {
       <div className="bg-gradient-to-r from-[#6A0080] via-[#1A237E] to-[#003087] flex-1 flex flex-col items-center justify-center py-5 md:py-7 px-2 md:px-4">
         <span
           className="text-white font-black text-4xl md:text-6xl tabular-nums leading-none"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           {pad(timeLeft.minutes)}
         </span>
@@ -109,7 +109,7 @@ export function SuperClasicoCountdown({ targetTime, mode }: Props) {
       <div className="bg-[#003087] flex items-center justify-center px-2 md:px-3">
         <span
           className="text-[#FFD700] font-black text-3xl md:text-5xl select-none"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           :
         </span>
@@ -119,7 +119,7 @@ export function SuperClasicoCountdown({ targetTime, mode }: Props) {
       <div className="bg-[#003087] flex-1 flex flex-col items-center justify-center py-5 md:py-7 px-2 md:px-4">
         <span
           className="text-[#FFD700] font-black text-4xl md:text-6xl tabular-nums leading-none"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           {pad(timeLeft.seconds)}
         </span>

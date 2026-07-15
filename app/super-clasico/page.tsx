@@ -24,8 +24,8 @@ function RiverVsBoca() {
         RIVER
       </span>
       <span
-        className="text-[#D4AF37] text-xl md:text-3xl font-black"
-        style={{ fontFamily: "var(--font-playfair)" }}
+        className="text-[#A47C42] text-xl md:text-3xl font-black"
+        style={{ fontFamily: "var(--font-archivo)" }}
       >
         VS
       </span>
@@ -52,7 +52,7 @@ export default async function SuperClasicoPage() {
         <div>
           <h1
             className="text-3xl md:text-4xl font-black text-white mb-3"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             La promo terminó
           </h1>
@@ -62,7 +62,7 @@ export default async function SuperClasicoPage() {
         </div>
         <Link
           href="/catalogo"
-          className="bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest text-sm transition-colors"
+          className="bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest text-sm transition-colors"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Ver catálogo completo
@@ -80,14 +80,14 @@ export default async function SuperClasicoPage() {
 
           <div>
             <p
-              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
+              className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Próximamente
             </p>
             <h1
               className="text-3xl md:text-5xl font-black text-white leading-tight"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               PROMO SUPER CLÁSICO
             </h1>
@@ -116,7 +116,7 @@ export default async function SuperClasicoPage() {
 
           <Link
             href="/catalogo"
-            className="inline-block text-[#D4AF37] hover:text-[#F0D060] text-xs font-semibold uppercase tracking-widest transition-colors"
+            className="inline-block text-[#A47C42] hover:text-[#C4A06A] text-xs font-semibold uppercase tracking-widest transition-colors"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Explorar catálogo →
@@ -160,14 +160,14 @@ export default async function SuperClasicoPage() {
 
           <div>
             <p
-              className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
+              className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Oferta exclusiva · Solo hoy
             </p>
             <h1
               className="text-3xl md:text-5xl font-black text-white leading-tight"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               PROMO SUPER CLÁSICO
             </h1>
@@ -210,7 +210,7 @@ export default async function SuperClasicoPage() {
             <p className="text-[#666] text-lg">No se encontraron productos disponibles.</p>
             <Link
               href="/catalogo"
-              className="mt-6 inline-block text-[#D4AF37] text-sm font-semibold uppercase tracking-widest"
+              className="mt-6 inline-block text-[#A47C42] text-sm font-semibold uppercase tracking-widest"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver catálogo →

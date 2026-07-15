@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
 /*
- * Sistema de diseño — REDESIGN_SYSTEM.md §3.
- * Paleta sobria: el dorado es un acento puntual, no un fondo/efecto masivo
- * (el "gold-glow" anterior era exactamente el antipatrón que el brief pide
- * evitar — "página saturada de dorado"). Blanco cálido disponible para
- * secciones claras alternadas en la portada (Fase 4).
+ * Sistema de diseño v2 — REDESIGN_V2_BRIEF.md "ADN DE DISEÑO".
+ * El dorado brillante (v1) se reemplaza por bronce envejecido, usado con
+ * disciplina (≤10% de la interfaz: bordes finos, acentos puntuales, nunca
+ * fondos grandes ni glow). Marfil/vino/verde césped son bloques editoriales
+ * puntuales, no un fondo permanente. Naranja marcador solo para CTAs clave.
  */
 @theme inline {
-  --color-ink: #0A0A0A;
-  --color-ink-soft: #141414;
-  --color-ink-elevated: #1A1A1A;
-  --color-cream: #F5F1E8;
-  --color-neutral: #6B6B6B;
-  --color-neutral-light: #A0A0A0;
-  --color-gold: #B8860B;
-  --color-gold-light: #D4A017;
+  --color-ink: #0B0B0A;          /* Negro túnel — base */
+  --color-ink-soft: #181816;     /* Carbón — superficies elevadas */
+  --color-ink-elevated: #221F1C;
+  --color-cream: #F1EBDD;        /* Marfil tribuna — secciones editoriales claras */
+  --color-sand: #D6C8AE;         /* Arena — texto/detalle sobre marfil */
+  --color-neutral: #8A8478;
+  --color-neutral-light: #B8B2A4;
+  --color-bronze: #A47C42;       /* Bronce envejecido — acento, ≤10% de la UI */
+  --color-bronze-light: #C4A06A;
+  --color-wine: #6B202B;         /* Vino — bloques editoriales puntuales */
+  --color-pitch: #20372A;        /* Verde césped — bloques editoriales puntuales */
+  --color-cta: #D95632;          /* Naranja marcador — SOLO CTAs clave */
   --color-success: #22C55E;
   --color-error: #C70101;
   --color-whatsapp: #25D366;
@@ -24,6 +28,18 @@
   --radius-lg: 12px;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --transition-base: 200ms ease;
+}
+
+/*
+ * Titular editorial "Black Expanded" — Archivo es fuente variable con eje
+ * wdth (62-125) además de wght (100-900): esto es una variación real de la
+ * fuente, no letter-spacing simulado. Clase única para todos los titulares
+ * display del sitio (portada, ficha, secciones editoriales).
+ */
+.font-display {
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 900;
+  font-stretch: 125%;
 }
 
 * {
@@ -48,7 +64,7 @@ html {
 }
 
 body {
-  background-color: #0A0A0A;
+  background-color: #0B0B0A;
   color: #FFFFFF;
   font-family: var(--font-inter), sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -60,14 +76,14 @@ body {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #0B0B0A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #B8860B;
+  background: #A47C42;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4A017;
+  background: #C4A06A;
 }
 
 /* Fade in animation */

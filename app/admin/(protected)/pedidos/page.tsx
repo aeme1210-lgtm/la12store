@@ -29,7 +29,7 @@ export default async function AdminPedidos() {
       <div className="mb-6">
         <h1
           className="text-3xl font-black text-white uppercase"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Pedidos
         </h1>
@@ -38,14 +38,14 @@ export default async function AdminPedidos() {
 
       <div className="space-y-4">
         {orders.length === 0 ? (
-          <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-12 text-center">
+          <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-12 text-center">
             <p className="text-[#666666]">No hay pedidos aún</p>
           </div>
         ) : (
           orders.map((order: (typeof orders)[number]) => (
             <div
               key={order.id}
-              className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-5"
+              className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-5"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -73,7 +73,7 @@ export default async function AdminPedidos() {
 
                 <div className="text-right">
                   <p
-                    className="text-[#D4A017] font-bold text-xl"
+                    className="text-[#A47C42] font-bold text-xl"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(order.total)}
@@ -90,7 +90,7 @@ export default async function AdminPedidos() {
               </div>
 
               {/* Items */}
-              <div className="mt-3 pt-3 border-t border-[#B8860B]/10 space-y-1">
+              <div className="mt-3 pt-3 border-t border-[#8A6435]/10 space-y-1">
                 {order.items.map((item: (typeof order.items)[number]) => (
                   <p key={item.id} className="text-[#A0A0A0] text-xs">
                     • {item.product.name} — Talla: {item.size} · {item.version}

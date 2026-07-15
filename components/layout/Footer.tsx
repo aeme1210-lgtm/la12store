@@ -6,13 +6,13 @@ import { formatCOP } from "@/lib/utils";
 
 export function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] border-t border-[#B8860B]/20 mt-auto">
+    <footer className="bg-[#0A0A0A] border-t border-[#8A6435]/20 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-2">
             <h2
-              className="text-2xl font-black tracking-widest text-[#D4A017] uppercase mb-2"
+              className="text-2xl font-black tracking-widest text-[#A47C42] uppercase mb-2"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               LA 12 STORE
@@ -29,7 +29,7 @@ export function Footer() {
                 href="https://instagram.com/la12s_tore"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#A0A0A0] hover:text-[#D4A017] transition-colors"
+                className="text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
                 aria-label="Instagram"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -42,7 +42,7 @@ export function Footer() {
                 href="https://tiktok.com/@la12s_tore"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#A0A0A0] hover:text-[#D4A017] transition-colors"
+                className="text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
                 aria-label="TikTok"
               >
                 <svg
@@ -87,7 +87,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-[#A0A0A0] hover:text-[#D4A017] transition-colors text-sm"
+                    className="text-[#A0A0A0] hover:text-[#A47C42] transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -106,19 +106,19 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-sm text-[#A0A0A0]">
               <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#D4A017]" />
+                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
                 Nequi — 300 844 3885
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#D4A017]" />
+                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
                 Daviplata — 300 844 3885
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#D4A017]" />
+                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
                 Bancolombia — Cta. Ahorros
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#D4A017]" />
+                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
                 Nubank — @AME429
               </li>
             </ul>
@@ -130,7 +130,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-[#B8860B]/10 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="mt-10 pt-6 border-t border-[#8A6435]/10 flex flex-col md:flex-row items-center justify-between gap-2">
           <p className="text-[#666666] text-xs">
             © 2026 La 12 Store — Santa Marta, Colombia
           </p>

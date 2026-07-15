@@ -27,18 +27,18 @@ export function NosotrosSection() {
       <div className="relative z-10 flex items-center justify-center min-h-[500px] md:min-h-[600px] px-4">
         <FadeInUp className="max-w-2xl text-center">
           <p
-            className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-4"
+            className="text-[#A47C42] text-xs tracking-[0.4em] uppercase mb-4"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Nuestra historia
           </p>
           <h2
             className="text-3xl md:text-5xl font-black text-white uppercase mb-6 leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Pasión por el fútbol
             <br />
-            <span className="text-[#D4AF37]">desde Santa Marta</span>
+            <span className="text-[#A47C42]">desde Santa Marta</span>
           </h2>
           <p
             className="text-white/80 text-base md:text-lg mb-8 leading-relaxed"
@@ -50,7 +50,7 @@ export function NosotrosSection() {
           </p>
           <Link
             href="/nosotros"
-            className="inline-flex items-center gap-2 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
+            className="inline-flex items-center gap-2 border border-[#A47C42] text-[#A47C42] hover:bg-[#A47C42] hover:text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Conócenos

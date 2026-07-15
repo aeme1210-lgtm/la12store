@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
       label: "Productos activos",
       value: totalProducts,
       icon: Package,
-      color: "text-[#D4A017]",
+      color: "text-[#A47C42]",
     },
     {
       label: "Total pedidos",
@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
       label: "Ingresos confirmados",
       value: formatCOP(totalRevenue._sum.total ?? 0),
       icon: DollarSign,
-      color: "text-[#D4A017]",
+      color: "text-[#A47C42]",
     },
   ];
 
@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
       <div className="mb-8">
         <h1
           className="text-3xl font-black text-white uppercase"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Dashboard
         </h1>
@@ -80,7 +80,7 @@ export default async function AdminDashboard() {
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-4"
+            className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-4"
           >
             <div className="flex items-center justify-between mb-3">
               <p className="text-[#666666] text-xs uppercase tracking-wider">
@@ -99,7 +99,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Recent orders */}
-      <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-5">
+      <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-5">
         <div className="flex items-center justify-between mb-4">
           <h2
             className="text-white font-bold uppercase tracking-wider text-sm"
@@ -109,7 +109,7 @@ export default async function AdminDashboard() {
           </h2>
           <a
             href="/admin/pedidos"
-            className="text-[#D4A017] text-xs hover:text-[#F0D060] transition-colors"
+            className="text-[#A47C42] text-xs hover:text-[#C4A06A] transition-colors"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver todos →
@@ -125,7 +125,7 @@ export default async function AdminDashboard() {
             recentOrders.map((order: (typeof recentOrders)[number]) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between py-3 border-b border-[#B8860B]/10 last:border-0"
+                className="flex items-center justify-between py-3 border-b border-[#8A6435]/10 last:border-0"
               >
                 <div>
                   <p
@@ -143,7 +143,7 @@ export default async function AdminDashboard() {
                     {statusLabel[order.status] ?? order.status}
                   </span>
                   <span
-                    className="text-[#D4A017] text-sm font-bold"
+                    className="text-[#A47C42] text-sm font-bold"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(order.total)}

@@ -55,7 +55,7 @@ export function ShirtFinder() {
   }
 
   const selectClass =
-    "w-full bg-[#1A1A1A] border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#D4AF37]/50 transition-colors";
+    "w-full bg-[#1A1A1A] border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#A47C42]/50 transition-colors";
   const labelClass =
     "text-[#9CA3AF] text-[10px] uppercase tracking-wider mb-1.5 block";
 
@@ -63,14 +63,14 @@ export function ShirtFinder() {
     <section className="py-12 md:py-20 px-3 md:px-4 max-w-4xl mx-auto">
       <div className="text-center mb-8">
         <p
-          className="text-[#D4AF37] text-[10px] tracking-[0.4em] uppercase mb-2"
+          className="text-[#A47C42] text-[10px] tracking-[0.4em] uppercase mb-2"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Guiado, gratis, sin vueltas
         </p>
         <h2
           className="text-3xl md:text-4xl font-bold text-[#FAFAFA]"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Encuentra tu camiseta
         </h2>
@@ -167,7 +167,7 @@ export function ShirtFinder() {
 
         <button
           type="submit"
-          className="sm:col-span-2 lg:col-span-5 mt-2 flex items-center justify-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold py-3.5 rounded-xl uppercase tracking-widest text-sm transition-colors"
+          className="sm:col-span-2 lg:col-span-5 mt-2 flex items-center justify-center gap-2 bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold py-3.5 rounded-xl uppercase tracking-widest text-sm transition-colors"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           <Search size={16} aria-hidden="true" />

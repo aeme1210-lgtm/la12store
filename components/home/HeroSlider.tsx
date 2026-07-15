@@ -51,7 +51,7 @@ export function HeroSlider() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-[#D4AF37] text-[10px] md:text-xs tracking-[0.5em] uppercase mb-6"
+          className="text-[#A47C42] text-[10px] md:text-xs tracking-[0.5em] uppercase mb-6"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Santa Marta · Colombia
@@ -67,9 +67,9 @@ export function HeroSlider() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.06, duration: 0.35, ease: "easeOut" }}
               className={`text-3xl sm:text-4xl md:text-6xl font-black tracking-wider uppercase ${
-                i >= 6 ? "text-[#D4AF37]" : "text-white"
+                i >= 6 ? "text-[#A47C42]" : "text-white"
               }`}
-              style={{ fontFamily: "var(--font-playfair)", letterSpacing: "0.08em" }}
+              style={{ fontFamily: "var(--font-archivo)", letterSpacing: "0.08em" }}
             >
               {char === " " ? "\u00A0" : char}
             </motion.span>
@@ -82,7 +82,7 @@ export function HeroSlider() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55 }}
           className="text-white/90 text-base sm:text-xl md:text-3xl mb-3 font-bold italic px-4 text-center"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Las camisetas más exclusivas de fútbol en Colombia
         </motion.p>
@@ -92,7 +92,7 @@ export function HeroSlider() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65 }}
-          className="text-[#D4AF37] text-xs md:text-sm tracking-widest uppercase mb-10"
+          className="text-[#A47C42] text-xs md:text-sm tracking-widest uppercase mb-10"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Ediciones limitadas · Dorsal gratis · Envío a todo el mundo
@@ -107,7 +107,7 @@ export function HeroSlider() {
         >
           <Link
             href="/catalogo"
-            className="px-8 py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-[#F0D060] transition-colors duration-200 rounded-lg text-sm"
+            className="px-8 py-3 bg-[#A47C42] text-black font-bold uppercase tracking-widest hover:bg-[#C4A06A] transition-colors duration-200 rounded-lg text-sm"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Explorar Colección
@@ -136,7 +136,7 @@ export function HeroSlider() {
               key={i}
               onClick={() => setCurrent(i)}
               className={`h-px rounded-full transition-all duration-500 ${
-                i === current ? "w-10 bg-[#D4AF37]" : "w-4 bg-white/30"
+                i === current ? "w-10 bg-[#A47C42]" : "w-4 bg-white/30"
               }`}
               aria-label={`Slide ${i + 1}`}
             />
@@ -150,8 +150,8 @@ export function HeroSlider() {
         transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 opacity-50"
       >
-        <div className="w-px h-5 bg-gradient-to-b from-transparent to-[#D4AF37]" />
-        <ChevronDown size={12} className="text-[#D4AF37]" />
+        <div className="w-px h-5 bg-gradient-to-b from-transparent to-[#A47C42]" />
+        <ChevronDown size={12} className="text-[#A47C42]" />
       </motion.div>
     </section>
   );

@@ -170,7 +170,7 @@ function Colon() {
   return (
     <span
       className="text-[#FFD700] font-black text-3xl sm:text-4xl md:text-5xl leading-none mt-1"
-      style={{ fontFamily: "var(--font-playfair)" }}
+      style={{ fontFamily: "var(--font-archivo)" }}
     >
       :
     </span>
@@ -188,7 +188,7 @@ function DigitBlock({
     <div className="flex flex-col items-center gap-1">
       <motion.span
         className="text-[#FFD700] font-black text-4xl sm:text-5xl md:text-6xl tabular-nums leading-none"
-        style={{ fontFamily: "var(--font-playfair)", textShadow: "0 2px 12px #00000080" }}
+        style={{ fontFamily: "var(--font-archivo)", textShadow: "0 2px 12px #00000080" }}
         initial={doAnimate ? { opacity: 0, y: -4 } : false}
         animate={doAnimate ? { opacity: 1, y: 0 } : false}
         exit={doAnimate ? { opacity: 0, y: 4 } : undefined}

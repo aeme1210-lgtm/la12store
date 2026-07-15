@@ -61,7 +61,7 @@ export default async function CampeonesBarcaPage() {
             </span>
             <span
               className="text-[#FFD700] text-2xl sm:text-4xl font-black"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               🏆
             </span>
@@ -82,7 +82,7 @@ export default async function CampeonesBarcaPage() {
             </p>
             <h1
               className="text-3xl sm:text-5xl font-black text-white leading-tight"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               BARÇA CAMPEÓN
               <br />
@@ -137,7 +137,7 @@ export default async function CampeonesBarcaPage() {
             <p className="text-[#9CA3AF] text-lg">No encontramos camisetas del Barça en este momento.</p>
             <Link
               href="/catalogo"
-              className="mt-6 inline-block bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest text-sm transition-colors"
+              className="mt-6 inline-block bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-8 py-3 rounded-lg uppercase tracking-widest text-sm transition-colors"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver catálogo completo

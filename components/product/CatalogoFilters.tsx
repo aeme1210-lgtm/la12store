@@ -85,7 +85,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
           onChange={(e) => handleSearchChange(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") handleSearchEnter(); }}
           placeholder="Equipo, selección..."
-          className="w-full bg-[#1A1A1A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#D4AF37]/50 transition-colors"
+          className="w-full bg-[#1A1A1A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#A47C42]/50 transition-colors"
           style={{ fontFamily: "var(--font-inter)" }}
         />
       </div>
@@ -111,7 +111,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
                 }}
                 className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors duration-150 ${
                   active
-                    ? "bg-[#D4AF37]/15 text-[#D4AF37] font-semibold"
+                    ? "bg-[#A47C42]/15 text-[#A47C42] font-semibold"
                     : "text-[#9CA3AF] hover:text-white hover:bg-white/5"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
@@ -143,7 +143,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
                 }}
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors duration-150 ${
                   active
-                    ? "bg-[#D4AF37] text-black"
+                    ? "bg-[#A47C42] text-black"
                     : "bg-[#1A1A1A] text-[#9CA3AF] hover:text-white border border-white/10"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
@@ -176,7 +176,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
                   }}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors duration-150 ${
                     active
-                      ? "bg-[#D4AF37] text-black"
+                      ? "bg-[#A47C42] text-black"
                       : "bg-[#1A1A1A] text-[#9CA3AF] hover:text-white border border-white/10"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
@@ -216,7 +216,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
             <SlidersHorizontal size={15} />
             Filtros
             {filterCount > 0 && (
-              <span className="bg-[#D4AF37] text-black text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+              <span className="bg-[#A47C42] text-black text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
                 {filterCount}
               </span>
             )}
@@ -231,7 +231,7 @@ export function CatalogoFilters({ leagues, types, colors, currentParams }: Props
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setDrawerOpen(false)}
             />
-            <div className="relative bg-[#141414] rounded-t-2xl border-t border-[#D4AF37]/20 p-6 pb-10 max-h-[80vh] overflow-y-auto">
+            <div className="relative bg-[#141414] rounded-t-2xl border-t border-[#A47C42]/20 p-6 pb-10 max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <h3
                   className="text-white font-bold uppercase tracking-wider text-sm"

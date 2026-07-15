@@ -11,14 +11,14 @@ export default function CambiosPage() {
     <div className="min-h-screen">
       <div className="max-w-2xl mx-auto px-4 py-16">
         <p
-          className="text-[#D4A017] text-xs tracking-widest uppercase mb-2"
+          className="text-[#A47C42] text-xs tracking-widest uppercase mb-2"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Compra segura
         </p>
         <h1
           className="text-3xl md:text-4xl font-black text-white uppercase mb-8"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Política de Cambios
         </h1>

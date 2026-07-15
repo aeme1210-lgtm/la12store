@@ -48,38 +48,38 @@ export function CounterBanner({ total }: { total: number }) {
     >
       {/* Decorative gold lines */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#D4AF37]/10 to-transparent" />
-        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#D4AF37]/10 to-transparent" />
-        <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent" />
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#A47C42]/10 to-transparent" />
+        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#A47C42]/10 to-transparent" />
+        <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#A47C42]/10 to-transparent" />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-4 text-center">
         {/* Counter */}
         <p
-          className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-4"
+          className="text-[#A47C42] text-xs tracking-[0.4em] uppercase mb-4"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Nuestro catálogo
         </p>
         <h2
           className="text-6xl md:text-8xl font-black text-white mb-2 tabular-nums"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           +{count.toLocaleString("es-CO")}
         </h2>
         <p
-          className="text-xl md:text-3xl font-bold text-[#D4AF37] uppercase tracking-wider mb-8"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          className="text-xl md:text-3xl font-bold text-[#A47C42] uppercase tracking-wider mb-8"
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           camisetas disponibles
         </p>
         <p className="text-[#A0A0A0] text-base mb-10 max-w-lg mx-auto" style={{ fontFamily: "var(--font-inter)" }}>
           Dorsal personalizado y parches incluidos{" "}
-          <span className="text-[#D4AF37] font-bold">sin costo adicional</span> en cada pedido.
+          <span className="text-[#A47C42] font-bold">sin costo adicional</span> en cada pedido.
         </p>
         <Link
           href="/catalogo"
-          className="inline-flex items-center gap-3 bg-[#D4AF37] hover:bg-[#F0D060] text-black font-black px-10 py-4 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
+          className="inline-flex items-center gap-3 bg-[#A47C42] hover:bg-[#C4A06A] text-black font-black px-10 py-4 rounded-lg uppercase tracking-widest transition-all duration-300 text-sm"
           style={{
             fontFamily: "var(--font-inter)",
             boxShadow: "0 0 30px rgba(212,175,55,0.3)",

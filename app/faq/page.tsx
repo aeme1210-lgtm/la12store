@@ -115,25 +115,25 @@ export default function FAQPage() {
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <p
-            className="text-[#D4A017] text-xs tracking-widest uppercase mb-2"
+            className="text-[#A47C42] text-xs tracking-widest uppercase mb-2"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Resolvemos tus dudas
           </p>
           <h1
             className="text-4xl md:text-5xl font-black text-white uppercase mb-4"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Preguntas Frecuentes
           </h1>
-          <div className="w-16 h-0.5 bg-[#D4A017] mx-auto" />
+          <div className="w-16 h-0.5 bg-[#A47C42] mx-auto" />
         </div>
 
         <div className="space-y-8">
           {faqs.map((section) => (
             <div key={section.category}>
               <h2
-                className="text-[#D4A017] text-xs uppercase tracking-widest font-bold mb-3"
+                className="text-[#A47C42] text-xs uppercase tracking-widest font-bold mb-3"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {section.category}
@@ -147,7 +147,7 @@ export default function FAQPage() {
                   return (
                     <div
                       key={key}
-                      className="bg-[#141414] rounded-xl border border-[#B8860B]/10 overflow-hidden"
+                      className="bg-[#141414] rounded-xl border border-[#8A6435]/10 overflow-hidden"
                     >
                       <button
                         id={buttonId}
@@ -157,7 +157,7 @@ export default function FAQPage() {
                         className="w-full flex items-center justify-between p-4 text-left hover:bg-[#1A1A1A] transition-colors"
                       >
                         <span
-                          className={`font-semibold text-sm pr-4 ${isOpen ? "text-[#D4A017]" : "text-white"}`}
+                          className={`font-semibold text-sm pr-4 ${isOpen ? "text-[#A47C42]" : "text-white"}`}
                           style={{ fontFamily: "var(--font-inter)" }}
                         >
                           {item.q}
@@ -165,7 +165,7 @@ export default function FAQPage() {
                         <ChevronDown
                           size={16}
                           aria-hidden="true"
-                          className={`flex-shrink-0 text-[#666666] transition-transform duration-200 ${isOpen ? "rotate-180 text-[#D4A017]" : ""}`}
+                          className={`flex-shrink-0 text-[#666666] transition-transform duration-200 ${isOpen ? "rotate-180 text-[#A47C42]" : ""}`}
                         />
                       </button>
                       {/* Siempre en el HTML (indexable/legible) — solo se oculta visual y
@@ -175,7 +175,7 @@ export default function FAQPage() {
                         role="region"
                         aria-labelledby={buttonId}
                         hidden={!isOpen}
-                        className="px-4 pb-4 border-t border-[#B8860B]/10 pt-3"
+                        className="px-4 pb-4 border-t border-[#8A6435]/10 pt-3"
                       >
                         <p className="text-[#A0A0A0] text-sm leading-relaxed">{item.a}</p>
                       </div>
@@ -187,7 +187,7 @@ export default function FAQPage() {
           ))}
         </div>
 
-        <div className="mt-12 bg-[#141414] rounded-2xl border border-[#D4A017]/20 p-6 text-center">
+        <div className="mt-12 bg-[#141414] rounded-2xl border border-[#A47C42]/20 p-6 text-center">
           <p
             className="text-white font-bold uppercase tracking-wider mb-2"
             style={{ fontFamily: "var(--font-inter)" }}

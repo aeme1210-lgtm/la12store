@@ -16,7 +16,7 @@ export default async function AdminProductos() {
         <div>
           <h1
             className="text-3xl font-black text-white uppercase"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Productos
           </h1>
@@ -25,11 +25,11 @@ export default async function AdminProductos() {
         <AdminProductActions mode="create" />
       </div>
 
-      <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 overflow-hidden">
+      <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#B8860B]/10">
+              <tr className="border-b border-[#8A6435]/10">
                 {["Producto", "Liga", "Tipo", "Precio Fan", "Estado", "Acciones"].map((h) => (
                   <th
                     key={h}
@@ -45,7 +45,7 @@ export default async function AdminProductos() {
               {products.map((product: (typeof products)[number]) => (
                 <tr
                   key={product.id}
-                  className="border-b border-[#B8860B]/5 hover:bg-[#1A1A1A] transition-colors"
+                  className="border-b border-[#8A6435]/5 hover:bg-[#1A1A1A] transition-colors"
                 >
                   <td className="px-4 py-3">
                     <div>
@@ -62,7 +62,7 @@ export default async function AdminProductos() {
                   <td className="px-4 py-3 text-[#A0A0A0]">{product.type}</td>
                   <td className="px-4 py-3">
                     <span
-                      className="text-[#D4A017] font-bold"
+                      className="text-[#A47C42] font-bold"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(product.isRetro ? (product.priceRetro ?? 170000) : (product.priceFan ?? 150000))}
@@ -80,7 +80,7 @@ export default async function AdminProductos() {
                         </span>
                       )}
                       {product.isFeatured && (
-                        <span className="bg-[#D4A017]/10 text-[#D4A017] text-xs px-2 py-0.5 rounded-full">
+                        <span className="bg-[#A47C42]/10 text-[#A47C42] text-xs px-2 py-0.5 rounded-full">
                           Destacado
                         </span>
                       )}

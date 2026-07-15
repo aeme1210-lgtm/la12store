@@ -22,7 +22,7 @@ export function AccordionItem({ title, children, defaultOpen = false }: Accordio
   const buttonId = `accordion-button-${id}`;
 
   return (
-    <div className="border-b border-[#B8860B]/10 last:border-b-0">
+    <div className="border-b border-[#8A6435]/10 last:border-b-0">
       <button
         id={buttonId}
         onClick={() => setIsOpen((v) => !v)}
@@ -39,7 +39,7 @@ export function AccordionItem({ title, children, defaultOpen = false }: Accordio
         <ChevronDown
           size={16}
           aria-hidden="true"
-          className={`flex-shrink-0 text-[#666666] transition-transform duration-200 ${isOpen ? "rotate-180 text-[#D4A017]" : ""}`}
+          className={`flex-shrink-0 text-[#666666] transition-transform duration-200 ${isOpen ? "rotate-180 text-[#A47C42]" : ""}`}
         />
       </button>
       <div
@@ -56,5 +56,5 @@ export function AccordionItem({ title, children, defaultOpen = false }: Accordio
 }
 
 export function Accordion({ children }: { children: React.ReactNode }) {
-  return <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 px-4">{children}</div>;
+  return <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 px-4">{children}</div>;
 }

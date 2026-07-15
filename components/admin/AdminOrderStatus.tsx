@@ -41,7 +41,7 @@ export function AdminOrderStatus({
       value={status}
       onChange={(e) => handleChange(e.target.value)}
       disabled={loading}
-      className="text-xs bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-2 py-1.5 text-white focus:outline-none focus:border-[#D4A017]/50 disabled:opacity-50"
+      className="text-xs bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-2 py-1.5 text-white focus:outline-none focus:border-[#A47C42]/50 disabled:opacity-50"
     >
       {statusOptions.map((opt) => (
         <option key={opt.value} value={opt.value}>

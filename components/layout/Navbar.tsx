@@ -131,7 +131,7 @@ export function Navbar() {
       <header
         className={`fixed left-0 right-0 z-[9999] transition-all duration-300 ${
           scrolled || !isHome
-            ? "bg-black/90 backdrop-blur-md border-b border-[#D4AF37]/30 shadow-lg shadow-black/30"
+            ? "bg-black/90 backdrop-blur-md border-b border-[#A47C42]/30 shadow-lg shadow-black/30"
             : "bg-transparent"
         }`}
         style={{ top: "var(--urgency-h, 0px)" }}
@@ -142,9 +142,9 @@ export function Navbar() {
             <Link href="/" className="flex items-center flex-shrink-0">
               <span
                 className="text-base sm:text-xl md:text-2xl font-black tracking-wider text-white"
-                style={{ fontFamily: "var(--font-playfair)" }}
+                style={{ fontFamily: "var(--font-archivo)" }}
               >
-                LA 12 <span className="text-[#D4AF37]">STORE</span>
+                LA 12 <span className="text-[#A47C42]">STORE</span>
               </span>
             </Link>
 
@@ -156,7 +156,7 @@ export function Navbar() {
                   className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
                   style={{
                     fontFamily: "var(--font-inter)",
-                    background: "linear-gradient(90deg, #D32F2F, #D4AF37)",
+                    background: "linear-gradient(90deg, #D32F2F, #A47C42)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
@@ -184,7 +184,7 @@ export function Navbar() {
                   href={link.href}
                   className={`text-sm font-semibold tracking-wider uppercase transition-colors duration-200 ${
                     pathname === link.href
-                      ? "text-[#D4AF37]"
+                      ? "text-[#A47C42]"
                       : "text-[#A0A0A0] hover:text-white"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
@@ -225,7 +225,7 @@ export function Navbar() {
                   type="text"
                   onChange={handleInputChange}
                   placeholder="Buscar equipo, selección..."
-                  className="w-full bg-white/5 border border-white/10 rounded-full pl-9 pr-3 py-2 text-white text-sm placeholder-[#666] focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/10 transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-full pl-9 pr-3 py-2 text-white text-sm placeholder-[#666] focus:outline-none focus:border-[#A47C42]/50 focus:bg-white/10 transition-colors"
                   style={{ fontFamily: "var(--font-inter)" }}
                 />
               </div>
@@ -235,7 +235,7 @@ export function Navbar() {
             <div className="flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => { setSearchOpen(!searchOpen); setMobileOpen(false); }}
-                className="lg:hidden p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
+                className="lg:hidden p-2 text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
                 aria-label="Buscar"
                 aria-expanded={searchOpen}
               >
@@ -243,11 +243,11 @@ export function Navbar() {
               </button>
               <Link
                 href="/carrito"
-                className="relative p-2 text-[#A0A0A0] hover:text-[#D4AF37] transition-colors"
+                className="relative p-2 text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
               >
                 <ShoppingCart size={22} />
                 {totalItems() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#A47C42] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {totalItems()}
                   </span>
                 )}
@@ -269,7 +269,7 @@ export function Navbar() {
       {/* Search dropdown */}
       {searchOpen && (
         <div
-          className="fixed left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#D4AF37]/20 px-4 py-3"
+          className="fixed left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#A47C42]/20 px-4 py-3"
           style={{ top: "calc(var(--urgency-h, 0px) + 56px)" }}
         >
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2">
@@ -280,12 +280,12 @@ export function Navbar() {
               defaultValue=""
               onChange={handleInputChange}
               placeholder="Buscar camiseta, equipo, selección..."
-              className="flex-1 bg-[#1A1A1A] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#D4AF37]/50 transition-colors"
+              className="flex-1 bg-[#1A1A1A] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#A47C42]/50 transition-colors"
               style={{ fontFamily: "var(--font-inter)" }}
             />
             <button
               type="submit"
-              className="bg-[#D4AF37] hover:bg-[#F0D060] text-black px-4 rounded-lg font-bold transition-colors"
+              className="bg-[#A47C42] hover:bg-[#C4A06A] text-black px-4 rounded-lg font-bold transition-colors"
             >
               <Search size={16} />
             </button>
@@ -307,9 +307,9 @@ export function Navbar() {
           <div className="flex items-center justify-between px-4 h-14" style={{ paddingTop: "var(--urgency-h, 0px)" }}>
             <span
               className="text-base font-black tracking-wider text-white"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
-              LA 12 <span className="text-[#D4AF37]">STORE</span>
+              LA 12 <span className="text-[#A47C42]">STORE</span>
             </span>
             <button
               onClick={() => setMobileOpen(false)}
@@ -329,7 +329,7 @@ export function Navbar() {
                 className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
                 style={{
                   fontFamily: "var(--font-inter)",
-                  background: "linear-gradient(90deg, #D32F2F, #D4AF37)",
+                  background: "linear-gradient(90deg, #D32F2F, #A47C42)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -357,7 +357,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`text-2xl font-bold uppercase tracking-wider py-4 px-8 w-full text-center transition-colors ${
-                  pathname === link.href ? "text-[#D4AF37]" : "text-white hover:text-[#D4AF37]"
+                  pathname === link.href ? "text-[#A47C42]" : "text-white hover:text-[#A47C42]"
                 }`}
                 style={{ fontFamily: "var(--font-inter)" }}
               >

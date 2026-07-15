@@ -38,17 +38,17 @@ export default function CarritoPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <ShoppingBag size={64} className="text-[#B8860B]/30 mx-auto mb-4" />
+          <ShoppingBag size={64} className="text-[#8A6435]/30 mx-auto mb-4" />
           <h1
             className="text-2xl font-black text-white uppercase mb-2"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Tu carrito está vacío
           </h1>
           <p className="text-[#666666] mb-8">Agrega algunas camisetas para continuar</p>
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all duration-300"
+            className="inline-flex items-center gap-2 bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all duration-300"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver Catálogo
@@ -67,10 +67,10 @@ export default function CarritoPage() {
         <div className="flex items-center justify-between mb-10">
           <h1
             className="text-3xl md:text-4xl font-black text-white uppercase"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             Tu Carrito{" "}
-            <span className="text-[#D4AF37] text-xl">({totalItems()})</span>
+            <span className="text-[#A47C42] text-xl">({totalItems()})</span>
           </h1>
           <button
             onClick={clearCart}
@@ -135,7 +135,7 @@ export default function CarritoPage() {
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         aria-label={`Disminuir cantidad de ${item.name}`}
-                        className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#B8860B]/20 flex items-center justify-center text-white hover:border-[#D4A017]/40 transition-colors"
+                        className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#8A6435]/20 flex items-center justify-center text-white hover:border-[#A47C42]/40 transition-colors"
                       >
                         <Minus size={13} />
                       </button>
@@ -149,7 +149,7 @@ export default function CarritoPage() {
                       <button
                         onClick={() => updateQuantity(item.id, Math.min(10, item.quantity + 1))}
                         aria-label={`Aumentar cantidad de ${item.name}`}
-                        className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#B8860B]/20 flex items-center justify-center text-white hover:border-[#D4A017]/40 transition-colors"
+                        className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#8A6435]/20 flex items-center justify-center text-white hover:border-[#A47C42]/40 transition-colors"
                       >
                         <Plus size={13} />
                       </button>
@@ -157,7 +157,7 @@ export default function CarritoPage() {
 
                     {/* Price */}
                     <span
-                      className="text-[#D4AF37] font-bold text-xl"
+                      className="text-[#A47C42] font-bold text-xl"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(item.price * item.quantity)}
@@ -208,7 +208,7 @@ export default function CarritoPage() {
                       Total
                     </span>
                     <span
-                      className="text-[#D4AF37] font-bold text-2xl"
+                      className="text-[#A47C42] font-bold text-2xl"
                       style={{ fontFamily: "var(--font-inter)" }}
                       aria-live="polite"
                     >
@@ -217,7 +217,7 @@ export default function CarritoPage() {
                   </div>
                   <button
                     onClick={() => setStep("payment")}
-                    className="w-full flex items-center justify-center gap-2 bg-[#D4AF37] hover:bg-[#F0D060] text-black font-bold py-4 rounded-xl uppercase tracking-wider text-lg transition-all duration-300 mb-3"
+                    className="w-full flex items-center justify-center gap-2 bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold py-4 rounded-xl uppercase tracking-wider text-lg transition-all duration-300 mb-3"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     <CreditCard size={18} />
@@ -245,7 +245,7 @@ export default function CarritoPage() {
                   <p className="text-[#9CA3AF] text-sm mb-6">
                     Total:{" "}
                     <span
-                      className="text-[#D4A017] font-bold"
+                      className="text-[#A47C42] font-bold"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {formatCOP(total)}
@@ -254,7 +254,7 @@ export default function CarritoPage() {
 
                   <div className="bg-[#0F0F0F] rounded-lg p-4 mb-5 space-y-3 border border-white/5">
                     <p
-                      className="text-[#D4AF37] text-[10px] uppercase tracking-widest"
+                      className="text-[#A47C42] text-[10px] uppercase tracking-widest"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       Métodos de pago
@@ -286,9 +286,9 @@ export default function CarritoPage() {
                     Enviar Comprobante por WhatsApp
                   </button>
 
-                  <div className="bg-[#1A1A0A] border border-[#D4AF37]/20 rounded-lg p-4">
+                  <div className="bg-[#1A1A0A] border border-[#A47C42]/20 rounded-lg p-4">
                     <p
-                      className="text-[#D4AF37] text-xs font-semibold mb-2"
+                      className="text-[#A47C42] text-xs font-semibold mb-2"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       ¿Cómo confirmar tu pedido?
