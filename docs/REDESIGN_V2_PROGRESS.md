@@ -3,24 +3,24 @@
 > Checklist vivo. Rama `redesign-v2`. Modo autónomo — ver `docs/DECISIONS_V2.md` para cada
 > decisión tomada sin preguntar. Prohibido push/merge a `master`.
 
-## Fase 0: Auditoría real (producción)
-- [ ] package.json y versiones
-- [ ] Librería de animación en uso
-- [ ] Componentes de portada
-- [ ] Layouts/loading
-- [ ] Carrito
-- [ ] Ficha de producto
-- [ ] Nav móvil
-- [ ] Checkout existente
-- [ ] Config de WhatsApp
-- [ ] Dónde viven las cuentas de pago
-- [ ] Cálculo de total y envío
-- [ ] Comportamiento en la URL publicada (curl real)
-- [ ] Consola e hidratación
-- [ ] CLS — causas
-- [ ] Animaciones de viewport (¿se repiten?)
-- [ ] Dimensiones de imágenes
-- [ ] Documento `docs/redesign-v2-audit.md`
+## Fase 0: Auditoría real (producción) — COMPLETA (ver `docs/redesign-v2-audit.md`)
+- [x] package.json y versiones (Next 16.2.4, React 19.2.4, framer-motion 12.38.0)
+- [x] Librería de animación en uso — framer-motion en 9 componentes, inventario completo de patrones prohibidos encontrados
+- [x] Componentes de portada — ~9-10 bloques, ritmo repetitivo confirmado
+- [x] Layouts/loading — ya existen de la sesión anterior (catalogo, [slug])
+- [x] Carrito — hoy es página completa, no drawer (cambio de arquitectura para Fase 3)
+- [x] Ficha de producto — ya ampliada en sesión anterior, línea base OK
+- [x] Nav móvil — ya accesible (focus trap/Escape) de la sesión anterior
+- [x] Checkout existente — 3 pantallas simples, reconstrucción completa necesaria para Fase 5
+- [x] Config de WhatsApp — ya centralizada, número correcto confirmado (no aparece el número incorrecto en ningún lado)
+- [x] Dónde viven las cuentas de pago — hardcodeadas en `checkout/page.tsx`, a centralizar
+- [x] Cálculo de total y envío — `lib/shipping.ts` ya existe, se actualiza con la decisión ya tomada del brief v2
+- [x] Comportamiento en la URL publicada (curl real) — 200 OK, verificado
+- [x] Consola e hidratación — sin errores conocidos (verificado en sesión anterior + confirmado de nuevo)
+- [x] CLS — causas: ninguna animación causa CLS técnico (todas son opacity/transform), pero sí "tambaleo" percibido
+- [x] Animaciones de viewport — inventario completo: springs, scale 0.9, translate 40px, parallax real, 3 animaciones `repeat: Infinity`, intro bloqueante post-hidratación
+- [x] Dimensiones de imágenes — patrón correcto en general, 1 excepción encontrada (`NosotrosSection.tsx` usa `unoptimized`)
+- [x] Documento `docs/redesign-v2-audit.md`
 
 ## Fase 1: Estabilidad
 - [ ] Imágenes con dimensiones/aspect-ratio siempre
