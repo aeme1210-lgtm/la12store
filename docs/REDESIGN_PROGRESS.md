@@ -90,10 +90,11 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Revisión de precios — fuente única verificada, 3 bugs adicionales del mismo patrón encontrados y corregidos
 
 ## Cierre
-- [ ] Push de la rama `redesign` (nunca `master`)
-- [ ] URL de preview de Vercel
-- [ ] Entrega final (14 puntos del brief)
-- [ ] Lista de qué debe verificar el dueño manualmente (Lighthouse, multi-viewport, TODO_OWNER de envíos)
+- [x] Push de la rama `redesign` (19 commits, varios checkpoints durante la sesión)
+- [x] URL de preview de Vercel — `https://la12store-git-redesign-aeme1210-lgtms-projects.vercel.app/`
+- [x] Entrega final (14 puntos del brief) — entregada al dueño en el chat
+- [x] Lista de qué debe verificar el dueño manualmente — `docs/REDESIGN_QA_CHECKLIST.md`
+- [x] **Merge a `master` aprobado explícitamente por el dueño tras revisar la preview** — fast-forward limpio (`caa7231..6f86ba3`), build verificado en `master`, pusheado a `origin/master`. Producción actualizada.
 
 ---
 
