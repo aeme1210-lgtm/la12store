@@ -61,6 +61,7 @@ export function ProductCard({
 }) {
   const images = JSON.parse(product.images || "[]") as string[];
   const mainImage = images[0] || PLACEHOLDER;
+  const secondImage = images[1];
   const [imgSrc, setImgSrc] = useState(mainImage);
 
   const basePrice = getStartingPrice(product);
@@ -75,14 +76,28 @@ export function ProductCard({
       <div className="relative bg-[#141414] rounded-xl border border-transparent hover:border-[#D4A017]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#D4A017]/10">
         {/* Image container — aspect 3/4, object-contain so jersey shows full */}
         <div className="relative aspect-[3/4] bg-[#1A1A1A] rounded-t-xl overflow-hidden">
-          <Image
-            src={imgSrc}
-            alt={product.name}
-            fill
-            className="object-contain group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            onError={() => setImgSrc(PLACEHOLDER)}
-          />
+          <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
+            <Image
+              src={imgSrc}
+              alt={product.name}
+              fill
+              className="object-contain"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              onError={() => setImgSrc(PLACEHOLDER)}
+            />
+            {/* Segunda fotografía al pasar el mouse — solo en dispositivos con
+                hover real (desktop), no en touch. */}
+            {secondImage && (
+              <Image
+                src={secondImage}
+                alt=""
+                aria-hidden="true"
+                fill
+                className="hidden md:block object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                sizes="(max-width: 1024px) 33vw, 25vw"
+              />
+            )}
+          </div>
 
           {/* Badges */}
           <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">

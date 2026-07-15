@@ -122,6 +122,11 @@ export default function CarritoPage() {
                         Dorsal: <span className="text-white">{item.dorsalName} #{item.dorsalNumber}</span>
                       </p>
                     )}
+                    {item.patches && (
+                      <p className="text-[#A0A0A0] text-sm">
+                        Parches: <span className="text-white">{item.patches}</span>
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
@@ -129,15 +134,21 @@ export default function CarritoPage() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        aria-label={`Disminuir cantidad de ${item.name}`}
                         className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#B8860B]/20 flex items-center justify-center text-white hover:border-[#D4A017]/40 transition-colors"
                       >
                         <Minus size={13} />
                       </button>
-                      <span className="text-white font-semibold text-base w-6 text-center">
+                      <span
+                        className="text-white font-semibold text-base w-6 text-center"
+                        aria-live="polite"
+                        aria-label={`Cantidad: ${item.quantity}`}
+                      >
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => updateQuantity(item.id, Math.min(10, item.quantity + 1))}
+                        aria-label={`Aumentar cantidad de ${item.name}`}
                         className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#B8860B]/20 flex items-center justify-center text-white hover:border-[#D4A017]/40 transition-colors"
                       >
                         <Plus size={13} />
@@ -157,6 +168,7 @@ export default function CarritoPage() {
                 {/* Delete */}
                 <button
                   onClick={() => removeItem(item.id)}
+                  aria-label={`Quitar ${item.name} del carrito`}
                   className="text-[#666666] hover:text-[#C70101] transition-colors self-start flex-shrink-0"
                 >
                   <Trash2 size={18} />
@@ -198,6 +210,7 @@ export default function CarritoPage() {
                     <span
                       className="text-[#D4AF37] font-bold text-2xl"
                       style={{ fontFamily: "var(--font-inter)" }}
+                      aria-live="polite"
                     >
                       {formatCOP(total)}
                     </span>
