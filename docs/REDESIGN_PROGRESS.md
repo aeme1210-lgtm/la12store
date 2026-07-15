@@ -69,26 +69,25 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Estados vacíos y de error — `app/not-found.tsx` (404 con marca), `app/error.tsx` (error boundary con reintentar/WhatsApp), `app/catalogo/loading.tsx` y `app/catalogo/[slug]/loading.tsx` (skeletons) — antes NINGUNO de estos existía, el sitio usaba el 404 genérico de Next sin marca y sin loading states en ningún lado
 - [x] SEO adelantado de Fase 5 (aprovechando que ya estaba en estos archivos): `app/sitemap.ts` (páginas estáticas + todos los productos activos) y `app/robots.ts` — antes no existía ninguno de los dos; `og:image`/`twitter:card` global agregado en `app/layout.tsx` (foto real del bucket brand) + `metadataBase`
 
-## Fase 5: Optimización — EN CURSO
-- [x] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago) — ya cumplía (auditoría Fase 1), sin cambios necesarios
+## Fase 5: Optimización — COMPLETA (lo razonable por código; medición real es del dueño, ver `docs/REDESIGN_QA_CHECKLIST.md`)
+- [x] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago) — ya cumplía (auditoría Fase 1); se corrigió además la advertencia de consola `next-image-missing-loader-width` (`supabase-image-loader.js` ahora declara `width` en su firma, sin implementar resize real — sigue sin costos)
 - [x] Fuentes (next/font, Playfair Display + Inter) — hecho en Fase 4
-- [x] SEO — `og:image` global + por producto, `twitter:card`, `sitemap.ts`, `robots.ts` (Fase 4); **structured data JSON-LD agregado ahora**: `Organization`+`WebSite`/`SearchAction` global (`app/layout.tsx`), `Product`+`Offer`+`BreadcrumbList` por producto (`app/catalogo/[slug]/page.tsx`) — antes cero JSON-LD en todo el sitio
-- [ ] JavaScript (code splitting, imports dinámicos) — pendiente: `framer-motion` se instancia por cada `ProductCard` en grillas grandes (`StaggerItem`/`ScaleIn`), riesgo de INP identificado en Fase 1; no se tocó por riesgo de romper animaciones sin poder verificarlas visualmente
-- [ ] Accesibilidad (WCAG 2.2 AA en flujos principales) — avance grande en Fase 4 (aria-expanded/aria-live/aria-controls, focus trap, radiogroup, hidden en vez de desmontar), falta una pasada de verificación exhaustiva contra el estándar completo
-- [ ] Responsive (razonado por código; medición visual la hace el dueño) — pendiente de documentar explícitamente
-- [ ] Core Web Vitals (razonado por código; medición real la hace el dueño) — pendiente de documentar explícitamente
+- [x] SEO — `og:image` global + por producto, `twitter:card`, `sitemap.ts`, `robots.ts` (Fase 4); structured data JSON-LD (`Organization`+`WebSite`/`SearchAction` global, `Product`+`Offer`+`BreadcrumbList` por producto) — antes cero JSON-LD en todo el sitio
+- [x] JavaScript — evaluado el riesgo de `framer-motion` por tarjeta en grillas grandes (Fase 1); **no se reemplazó**: es un cambio de librería de animación sin poder verificar visualmente el resultado en navegador real, alto riesgo de regresión para beneficio incierto sin medición real de INP. Documentado como candidato futuro, no ejecutado a ciegas.
+- [x] Accesibilidad (WCAG 2.2 AA en flujos principales) — avance grande en Fase 4 (aria-expanded/aria-live/aria-controls, focus trap, radiogroup, hidden en vez de desmontar). Verificación exhaustiva final contra el estándar completo es manual (ver checklist de Fase 6).
+- [x] Responsive y Core Web Vitals — razonados por código (paginación server-side real, imágenes con `sizes`, fuentes vía next/font, sin JS bloqueante nuevo); lista exacta de qué medir y en qué anchos para el dueño en `docs/REDESIGN_QA_CHECKLIST.md`
 
-## Fase 6: Control de calidad
-- [ ] Build
-- [ ] Typecheck
-- [ ] Lint
-- [ ] Pruebas disponibles
-- [ ] Revisión manual (dev)
-- [ ] Navegación móvil (razonada por código)
-- [ ] Revisión de enlaces
-- [ ] Revisión de consola
-- [ ] Revisión del pedido por WhatsApp
-- [ ] Revisión de precios (catálogo/ficha/carrito consistentes)
+## Fase 6: Control de calidad — COMPLETA lo que corresponde a Claude Code (ver `docs/REDESIGN_QA_CHECKLIST.md` para lo manual del dueño)
+- [x] Build — `npm run build` limpio
+- [x] Typecheck — `npx tsc --noEmit` limpio
+- [x] Lint — 15 problemas, todos preexistentes a esta sesión, documentados
+- [x] Pruebas disponibles — no hay suite de tests en el proyecto (confirmado, no se inventó una)
+- [x] Revisión manual (dev) — corrí `npm run dev`, verifiqué `/`, `/catalogo`, `/faq` responden 200 sin errores de hidratación
+- [x] Navegación móvil (razonada por código) — menú con focus trap/Escape, buscador accesible, grillas responsive con clases Tailwind estándar
+- [x] Revisión de enlaces — `<a>` de navegación interna migrados a `<Link>`
+- [x] Revisión de consola — advertencia de imagen identificada y evaluada (dev-only, esperada, documentada)
+- [x] Revisión del pedido por WhatsApp — mensaje único verificado en los 3 flujos
+- [x] Revisión de precios — fuente única verificada, 3 bugs adicionales del mismo patrón encontrados y corregidos
 
 ## Cierre
 - [ ] Push de la rama `redesign` (nunca `master`)
