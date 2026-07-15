@@ -4,9 +4,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/cart-store";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 import { whatsAppLink } from "@/lib/whatsapp";
+import { drawerTransition } from "@/lib/motion";
 
 // Nav principal = curaduría por colección (REDESIGN_V2_BRIEF.md Fase 2
 // bloque 2: "máximo 6 ítems; el resto al footer"). Nosotros/Contacto/FAQ ya
@@ -33,6 +35,7 @@ export function Navbar() {
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalItems = useCart((s) => s.totalItems);
+  const openDrawer = useCart((s) => s.openDrawer);
 
   // Set promo state client-side only to avoid hydration mismatch
   useEffect(() => {
@@ -245,17 +248,18 @@ export function Navbar() {
               >
                 {searchOpen ? <X size={20} /> : <Search size={20} />}
               </button>
-              <Link
-                href="/carrito"
+              <button
+                onClick={openDrawer}
+                aria-label={`Carrito${totalItems() > 0 ? ` (${totalItems()} productos)` : ""}`}
                 className="relative p-2 text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
               >
                 <ShoppingCart size={22} />
                 {totalItems() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#A47C42] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  <span aria-hidden="true" className="absolute -top-1 -right-1 bg-[#A47C42] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {totalItems()}
                   </span>
                 )}
-              </Link>
+              </button>
               <button
                 ref={mobileToggleRef}
                 onClick={() => { setMobileOpen(!mobileOpen); setSearchOpen(false); }}
@@ -270,41 +274,54 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Search dropdown */}
-      {searchOpen && (
-        <div
-          className="fixed left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#A47C42]/20 px-4 py-3"
-          style={{ top: "calc(var(--urgency-h, 0px) + 56px)" }}
-        >
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2">
-            <input
-              autoFocus
-              ref={searchInputRef}
-              type="text"
-              defaultValue=""
-              onChange={handleInputChange}
-              placeholder="Buscar camiseta, equipo, selección..."
-              className="flex-1 bg-[#1A1A1A] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#A47C42]/50 transition-colors"
-              style={{ fontFamily: "var(--font-inter)" }}
-            />
-            <button
-              type="submit"
-              className="bg-[#A47C42] hover:bg-[#C4A06A] text-black px-4 rounded-lg font-bold transition-colors"
-            >
-              <Search size={16} />
-            </button>
-          </form>
-        </div>
-      )}
+      {/* Buscador overlay editorial — REDESIGN_V2 Fase 3: transición estable
+          (no mueve el header, position:fixed independiente), foco automático
+          al campo, cierre por botón/Escape (ya manejado abajo). */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={drawerTransition}
+            className="fixed left-0 right-0 z-[9998] bg-black/95 backdrop-blur-md border-b border-[#A47C42]/20 px-4 py-3"
+            style={{ top: "calc(var(--urgency-h, 0px) + 56px)" }}
+          >
+            <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2">
+              <input
+                autoFocus
+                ref={searchInputRef}
+                type="text"
+                defaultValue=""
+                onChange={handleInputChange}
+                placeholder="Buscar camiseta, equipo, selección..."
+                className="flex-1 bg-[#1A1A1A] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-[#555] focus:outline-none focus:border-[#A47C42]/50 transition-colors"
+                style={{ fontFamily: "var(--font-inter)" }}
+              />
+              <button
+                type="submit"
+                className="bg-[#A47C42] hover:bg-[#C4A06A] text-black px-4 rounded-lg font-bold transition-colors"
+              >
+                <Search size={16} />
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Mobile menu — full screen overlay */}
-      {mobileOpen && (
-        <div
+      {/* Mobile menu — drawer fluido (REDESIGN_V2 Fase 3) */}
+      <AnimatePresence>
+        {mobileOpen && (
+        <motion.div
           ref={mobileMenuRef}
           role="dialog"
           aria-modal="true"
           aria-label="Menú de navegación"
           tabIndex={-1}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={drawerTransition}
           className="fixed inset-0 z-[9998] md:hidden bg-black/95 backdrop-blur-md flex flex-col outline-none"
         >
           {/* Close button */}
@@ -379,8 +396,9 @@ export function Navbar() {
               WhatsApp
             </a>
           </nav>
-        </div>
-      )}
+        </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

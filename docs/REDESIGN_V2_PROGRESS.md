@@ -51,12 +51,12 @@
 - [x] Página recortada a los 8 bloques que le corresponden a `page.tsx` (Hero→Estrenos→Mundos→Destacada→Tendencias→ShirtFinder→Nosotros→ComoComprar); se eliminaron `CounterBanner.tsx`/`LifestyleGallery.tsx` (no forman parte de la estructura de 11 bloques del brief, generaban la repetición "misma grilla diez veces" señalada)
 - [x] Build + lint + smoke test en dev verificados (home y catálogo responden 200 sin errores nuevos)
 
-## Fase 3: Transiciones funcionales
-- [ ] Producto → ficha con continuidad de imagen
-- [ ] Buscador overlay estable
-- [ ] Carrito drawer
-- [ ] Checkout con transición entre pasos + progreso
-- [ ] Menú móvil drawer fluido
+## Fase 3: Transiciones funcionales — COMPLETA (checkout se hace en Fase 5)
+- [x] Producto → ficha: fallback sin animación (View Transitions de React no disponible en esta versión, ver Decisión en Fase 0/DECISIONS_V2.md) — navegación normal de Next.js, sin efectos frágiles
+- [x] Buscador overlay: transición fade+slide (`drawerTransition`, 220-300ms) en vez de aparecer/desaparecer de golpe; ya tenía foco automático y cierre por botón/Escape desde la sesión anterior, sin mover el header (position:fixed independiente)
+- [x] Carrito drawer (`components/cart/CartDrawer.tsx`) — antes /carrito era una página completa; ahora un panel deslizante (`lib/cart-store.ts` con estado `isDrawerOpen`, no persistido), con focus trap, cierre por Escape/backdrop/botón, scroll bloqueado. La página `/carrito` se conserva para enlaces directos. Cambiar cantidad anima solo el ítem (no todo el drawer); agregar al carrito NO fuerza la apertura del drawer (confirmación inline existente, contador estable)
+- [ ] Checkout con transición entre pasos + indicador de progreso — se implementa junto con la reconstrucción completa del checkout en Fase 5, no por separado
+- [x] Menú móvil: mismo tratamiento de transición (`drawerTransition`) agregado — antes aparecía/desaparecía sin animación
 
 ## Fase 4: Temporada 26/27 + Estrenos
 - [ ] Backup previo (conteo + slugs) a /backups

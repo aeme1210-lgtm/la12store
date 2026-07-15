@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 import { BRAND_URLS } from "@/lib/brand-urls";
 
 // Sistema tipográfico v2 (REDESIGN_V2_BRIEF.md "ADN DE DISEÑO"): Archivo
@@ -93,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="es"
       className={`${inter.variable} ${archivo.variable}`}
     >
-      <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
+      <body className="min-h-screen flex flex-col bg-[#0B0B0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -107,6 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1" style={{ paddingTop: "calc(var(--urgency-h, 0px) + var(--nav-h, 64px))" }}>{children}</main>
         <Footer />
         <WhatsAppButton />
+        <CartDrawer />
       </body>
     </html>
   );
