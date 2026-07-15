@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
 import { LogoIntro } from "@/components/ui/LogoIntro";
+import { BRAND_URLS } from "@/lib/brand-urls";
 
 // Sistema tipográfico consolidado a 2 familias (REDESIGN_SYSTEM.md §3):
 // Playfair Display para titulares editoriales, Inter para todo lo demás
@@ -24,6 +25,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://la12store.vercel.app"),
   title: {
     default: "La 12 Store | Camisetas de Fútbol Premium en Colombia",
     template: "%s | La 12 Store",
@@ -48,6 +50,13 @@ export const metadata: Metadata = {
     siteName: "La 12 Store",
     title: "La 12 Store | Camisetas de Fútbol Premium en Colombia",
     description: "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Más de 2,500 camisetas disponibles. Dorsal y parches gratis.",
+    images: [{ url: BRAND_URLS.hero[0] }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "La 12 Store | Camisetas de Fútbol Premium en Colombia",
+    description: "Tienda de camisetas de fútbol premium en Santa Marta, Colombia. Dorsal y parches gratis.",
+    images: [BRAND_URLS.hero[0]],
   },
 };
 

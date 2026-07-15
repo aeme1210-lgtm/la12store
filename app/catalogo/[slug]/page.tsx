@@ -7,6 +7,8 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 import type { Metadata } from "next";
 import { formatCOP } from "@/lib/utils";
+import { getStartingPrice } from "@/lib/pricing";
+import supabaseImageUrl from "@/supabase-image-loader";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -17,13 +19,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await prisma.product.findUnique({ where: { slug } });
   if (!product) return { title: "Producto no encontrado" };
 
-  const price = product.isRetro
-    ? product.priceRetro ?? 170000
-    : product.priceFan ?? 150000;
+  const price = getStartingPrice(product);
+  const description = `${product.name} - ${product.type} ${product.season ?? ""}. ${formatCOP(price)} COP. Calidad premium con acabados profesionales.`;
+  const rawImage = (JSON.parse(product.images || "[]") as string[])[0];
+  // Misma transformación que supabase-image-loader.js (sin /render/image/,
+  // solo objeto público directo) — necesaria porque og:image debe ser una URL
+  // absoluta, los crawlers de WhatsApp/Instagram no ejecutan next/image.
+  const mainImage = rawImage ? supabaseImageUrl({ src: rawImage }) : undefined;
 
   return {
     title: product.name,
-    description: `${product.name} - ${product.type} ${product.season ?? ""}. ${formatCOP(price)} COP. Calidad premium con acabados profesionales.`,
+    description,
+    openGraph: {
+      title: product.name,
+      description,
+      type: "website",
+      images: mainImage ? [{ url: mainImage }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description,
+      images: mainImage ? [mainImage] : undefined,
+    },
   };
 }
 

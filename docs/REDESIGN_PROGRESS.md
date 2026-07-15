@@ -61,12 +61,13 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Portada — sección "Comunidad y confianza" corregida (se quitaron cifras inventadas: 500+ clientes/+10 países/100%, se mantiene el video real y se agregan enlaces reales a Instagram); mismo fix en los "trust stats" de la ficha de producto (ahora son compromisos reales: dorsal/parches gratis, cambios por talla, WhatsApp). Meta description corregida (2,500 en vez de 2800, post-dedupe)
 - [ ] Portada — pendiente: auditar los ~9 bloques actuales contra el máximo "~8 bloques de alto valor" del brief (hay bloques no listados explícitamente como "Por qué elegirnos" que podrían fusionarse); los filtros nuevos de versión/precio/talla aún no tienen UI en el sidebar de `/catalogo` (`CatalogoFilters.tsx`), solo se llega a ellos vía el buscador guiado
 - [ ] Catálogo (tarjetas, filtros visuales, orden, paginación) — filtros Tipo/Color ya separados (Fase 3), falta rediseño visual
-- [ ] Ficha de producto — pendiente: materiales, cuidados, selector real de parches, política de cambios, FAQ embebido, "vistos recientemente", cantidad
+- [ ] Ficha de producto — pendiente: materiales, cuidados, selector real de parches, política de cambios, FAQ embebido, "vistos recientemente", cantidad. Sí se corrigió: `generateMetadata` tenía el mismo bug de precio inline que el resto (ignoraba versión/manga larga) — ahora usa `getStartingPrice`; se agregó `og:image`/`twitter:card` por producto (imagen real, vía el mismo transform que `supabase-image-loader.js`)
+- [x] Buscador — protagonista en el header (Fase 4 antes), no pendiente
 - [ ] Carrito — funcional (Fase 3), pendiente rediseño visual
-- [ ] Buscador — pendiente dar protagonismo real (hoy sigue oculto tras ícono)
 - [ ] Nosotros — pendiente presentación editorial
 - [ ] Footer — pendiente rediseño visual (datos ya centralizados en Fase 3)
-- [ ] Estados vacíos y de error — pendiente diseño sistemático
+- [x] Estados vacíos y de error — `app/not-found.tsx` (404 con marca), `app/error.tsx` (error boundary con reintentar/WhatsApp), `app/catalogo/loading.tsx` y `app/catalogo/[slug]/loading.tsx` (skeletons) — antes NINGUNO de estos existía, el sitio usaba el 404 genérico de Next sin marca y sin loading states en ningún lado
+- [x] SEO adelantado de Fase 5 (aprovechando que ya estaba en estos archivos): `app/sitemap.ts` (páginas estáticas + todos los productos activos) y `app/robots.ts` — antes no existía ninguno de los dos; `og:image`/`twitter:card` global agregado en `app/layout.tsx` (foto real del bucket brand) + `metadataBase`
 
 ## Fase 5: Optimización
 - [ ] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago)
