@@ -136,3 +136,18 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
   bloquean el cierre de Fase 3. Pendientes de aprobación explícita del dueño antes de ejecutar:
   (1) borrar las 794 filas duplicadas (dry-run OK, backup listo), (2) habilitar `pg_trgm`/`unaccent`
   en Supabase.
+- Fase 4 avanzada (mismo día/sesión continuada): header accesible con buscador persistente,
+  bloque "Encuentra tu camiseta" nuevo, limpieza de cifras inventadas en portada/ficha/nosotros
+  (se encontraron duplicadas en 3 lugares distintos, no solo uno), ficha de producto ampliada por
+  completo (cantidad, parches, acordeón accesible, vistos recientemente, validación sin `alert()`),
+  SEO crítico adelantado de Fase 5 (`og:image`/`twitter:card` global y por producto, `sitemap.ts`,
+  `robots.ts` — antes NINGUNO existía), estados vacíos/error (`not-found`/`error`/`loading` — antes
+  NINGUNO existía), páginas de políticas faltantes (`/cambios`, `/privacidad`, `/terminos`), y
+  limpieza de errores de lint preexistentes que fui encontrando de paso (bug de `<img>` nativo en
+  carrito que podía romper imágenes con path no absoluto, navegación con `<a>` en vez de `<Link>`).
+  17 commits en `redesign`, todos con build pasando, pusheados a origin en varios checkpoints.
+  Pendiente de Fase 4: rediseño visual de tarjetas de catálogo y carrito (ambos ya funcionan
+  correctamente, falta el pulido visual completo); reducción sistemática del uso de dorado en el
+  resto de componentes (`.gold-glow` ya se quitó, pero los hex `#D4A017`/`#D4AF37` siguen usándose
+  ampliamente — un rediseño de paleta completo tocaría cientos de líneas en decenas de archivos,
+  fuera del alcance razonable de esta sesión).
