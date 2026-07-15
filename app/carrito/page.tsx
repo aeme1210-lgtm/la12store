@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Trash2, Plus, Minus, ShoppingBag, MessageCircle, ArrowRight, CreditCard, ChevronLeft } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 import { formatCOP } from "@/lib/utils";
@@ -91,11 +92,15 @@ export default function CarritoPage() {
                 className="flex gap-3 md:gap-5 bg-[#111111] rounded-xl p-3 md:p-5 border border-gray-800"
               >
                 {/* Image */}
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-24 md:w-32 md:h-40 lg:w-40 lg:h-48 object-cover rounded-lg md:rounded-xl flex-shrink-0"
-                />
+                <div className="relative w-20 h-24 md:w-32 md:h-40 lg:w-40 lg:h-48 flex-shrink-0 rounded-lg md:rounded-xl overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                    sizes="160px"
+                  />
+                </div>
 
                 {/* Info */}
                 <div className="flex-1 flex flex-col justify-between min-w-0">

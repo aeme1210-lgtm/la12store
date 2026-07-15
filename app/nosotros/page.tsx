@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { whatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Sobre Nosotros",
   description: "Conoce la historia de La 12 Store, fundada por Andrés Méndez y Silvana Ossa desde Santa Marta, Colombia.",
 };
-
-const stats = [
-  { value: "+10", label: "Países" },
-  { value: "500+", label: "Clientes felices" },
-  { value: "100%", label: "Calidad premium" },
-  { value: "∞", label: "Pasión por el fútbol" },
-];
 
 export default function NosotrosPage() {
   return (
@@ -44,23 +39,28 @@ export default function NosotrosPage() {
                 Andrés lidera las operaciones, los pedidos y la logística — asegurándose de que cada envío llegue en perfectas condiciones. Silvana es la cara visual de la marca: modelo principal de las sesiones fotográficas y embajadora de La 12 Store, dándole vida a cada prenda con su estilo único.
               </p>
               <p>
-                Lo que empezó como un pequeño proyecto entre los dos se convirtió en una de las tiendas de camisetas de fútbol más reconocidas de la región Caribe colombiana. Hoy llegamos a más de{" "}
-                <span className="text-white font-semibold">10 países</span> y contamos con cientos de clientes satisfechos que confían en nuestra calidad y servicio.
+                Lo que empezó como un pequeño proyecto entre los dos se fue convirtiendo en una
+                tienda reconocida en la región Caribe colombiana, con clientes que vuelven pedido
+                tras pedido.
               </p>
               <p>
-                En La 12 Store no vendemos simplemente camisetas — vendemos la experiencia de sentirte parte de tu equipo favorito. Cada prenda ha pasado por un riguroso control de calidad para garantizar{" "}
-                <span className="text-[#D4A017] font-semibold">telas técnicas de alto rendimiento</span> y acabados que rivalizan con los mejores del mercado.
+                En La 12 Store no vendemos simplemente camisetas — vendemos la experiencia de
+                sentirte parte de tu equipo favorito. Cada prenda pasa por control de calidad antes
+                de salir, con{" "}
+                <span className="text-[#D4A017] font-semibold">telas técnicas de alto rendimiento</span>{" "}
+                y acabados profesionales.
               </p>
             </div>
           </div>
 
           {/* Right: photo */}
-          <div className="min-h-[400px] rounded-2xl overflow-hidden">
-            <img
+          <div className="relative min-h-[400px] rounded-2xl overflow-hidden">
+            <Image
               src="https://chljxifjjzaffvwixtfm.supabase.co/storage/v1/object/public/brand/PAREJA%20QUIENES%20SOMOS.jpeg"
               alt="Andrés y Silvana — La 12 Store"
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ minHeight: "400px" }}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
         </div>
@@ -108,24 +108,6 @@ export default function NosotrosPage() {
           ))}
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          {stats.map((stat) => (
-            <div
-              key={stat.value}
-              className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-6 text-center hover:border-[#D4A017]/30 transition-all"
-            >
-              <p
-                className="text-4xl font-black text-[#D4A017] mb-1"
-                style={{ fontFamily: "var(--font-playfair)" }}
-              >
-                {stat.value}
-              </p>
-              <p className="text-[#A0A0A0] text-sm">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
         {/* Values */}
         <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 mb-10">
           <h2
@@ -168,13 +150,13 @@ export default function NosotrosPage() {
             ¿Listo para encontrar tu camiseta ideal?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="/catalogo"
               className="inline-flex items-center justify-center bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all text-sm"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver Catálogo
-            </a>
+            </Link>
             <a
               href={whatsAppLink("Hola Andrés, quiero más información sobre La 12 Store")}
               target="_blank"

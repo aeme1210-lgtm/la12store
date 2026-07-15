@@ -6,6 +6,7 @@ import { formatCOP } from "@/lib/utils";
 import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 import { CheckCircle, MessageCircle, Copy } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const paymentMethods = [
   { id: "nequi", label: "Nequi", detail: "300 844 3885" },
@@ -107,9 +108,9 @@ export default function CheckoutPage() {
           <h1 className="text-2xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
             Tu carrito está vacío
           </h1>
-          <a href="/catalogo" className="text-[#D4A017] hover:underline">
+          <Link href="/catalogo" className="text-[#D4A017] hover:underline">
             Ver catálogo
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -133,13 +134,13 @@ export default function CheckoutPage() {
           <p className="text-[#666666] text-sm mb-8">
             Pronto te contactaremos para confirmar el envío. ¡Gracias por confiar en La 12 Store!
           </p>
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 bg-[#D4A017] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest text-sm"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Volver al inicio
-          </a>
+          </Link>
         </div>
       </div>
     );
