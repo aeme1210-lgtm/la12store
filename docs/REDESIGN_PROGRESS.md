@@ -69,14 +69,14 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Estados vacíos y de error — `app/not-found.tsx` (404 con marca), `app/error.tsx` (error boundary con reintentar/WhatsApp), `app/catalogo/loading.tsx` y `app/catalogo/[slug]/loading.tsx` (skeletons) — antes NINGUNO de estos existía, el sitio usaba el 404 genérico de Next sin marca y sin loading states en ningún lado
 - [x] SEO adelantado de Fase 5 (aprovechando que ya estaba en estos archivos): `app/sitemap.ts` (páginas estáticas + todos los productos activos) y `app/robots.ts` — antes no existía ninguno de los dos; `og:image`/`twitter:card` global agregado en `app/layout.tsx` (foto real del bucket brand) + `metadataBase`
 
-## Fase 5: Optimización
-- [ ] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago)
-- [ ] JavaScript (code splitting, imports dinámicos)
-- [ ] Fuentes (next/font, Playfair Display + Inter)
-- [ ] SEO (og:image global + por producto, twitter:card, sitemap, structured data)
-- [ ] Accesibilidad (WCAG 2.2 AA en flujos principales)
-- [ ] Responsive (razonado por código; medición visual la hace el dueño)
-- [ ] Core Web Vitals (razonado por código; medición real la hace el dueño)
+## Fase 5: Optimización — EN CURSO
+- [x] Imágenes (custom loader, sin /render/image/, sin transformaciones de pago) — ya cumplía (auditoría Fase 1), sin cambios necesarios
+- [x] Fuentes (next/font, Playfair Display + Inter) — hecho en Fase 4
+- [x] SEO — `og:image` global + por producto, `twitter:card`, `sitemap.ts`, `robots.ts` (Fase 4); **structured data JSON-LD agregado ahora**: `Organization`+`WebSite`/`SearchAction` global (`app/layout.tsx`), `Product`+`Offer`+`BreadcrumbList` por producto (`app/catalogo/[slug]/page.tsx`) — antes cero JSON-LD en todo el sitio
+- [ ] JavaScript (code splitting, imports dinámicos) — pendiente: `framer-motion` se instancia por cada `ProductCard` en grillas grandes (`StaggerItem`/`ScaleIn`), riesgo de INP identificado en Fase 1; no se tocó por riesgo de romper animaciones sin poder verificarlas visualmente
+- [ ] Accesibilidad (WCAG 2.2 AA en flujos principales) — avance grande en Fase 4 (aria-expanded/aria-live/aria-controls, focus trap, radiogroup, hidden en vez de desmontar), falta una pasada de verificación exhaustiva contra el estándar completo
+- [ ] Responsive (razonado por código; medición visual la hace el dueño) — pendiente de documentar explícitamente
+- [ ] Core Web Vitals (razonado por código; medición real la hace el dueño) — pendiente de documentar explícitamente
 
 ## Fase 6: Control de calidad
 - [ ] Build

@@ -60,6 +60,29 @@ export const metadata: Metadata = {
   },
 };
 
+// Datos estructurados globales — cero JSON-LD existía en el proyecto antes
+// del rediseño (docs/REDESIGN_AUDIT.md §8).
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "La 12 Store",
+  url: "https://la12store.vercel.app",
+  logo: BRAND_URLS.logo,
+  sameAs: ["https://instagram.com/la12s_tore", "https://tiktok.com/@la12s_tore"],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "La 12 Store",
+  url: "https://la12store.vercel.app",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://la12store.vercel.app/catalogo?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -67,6 +90,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${playfair.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#FAFAFA]" style={{ fontFamily: "var(--font-inter)" }}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         <LogoIntro />
         <UrgencyBar />
         <Navbar />
