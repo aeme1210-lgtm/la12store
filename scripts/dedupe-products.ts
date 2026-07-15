@@ -34,6 +34,15 @@ interface Row {
   fullRow: unknown;
 }
 
+interface ProductRow {
+  id: string;
+  slug: string;
+  name: string;
+  createdAt: Date;
+  hasOrderItems: boolean;
+  [key: string]: unknown;
+}
+
 async function main() {
   const dupNames: { name: string }[] = await prisma.$queryRawUnsafe(
     `SELECT name FROM "Product" GROUP BY name HAVING COUNT(*) > 1 ORDER BY name`
@@ -43,7 +52,7 @@ async function main() {
   const kept: Row[] = [];
 
   for (const g of dupNames) {
-    const rows: any[] = await prisma.$queryRawUnsafe(
+    const rows: ProductRow[] = await prisma.$queryRawUnsafe(
       `SELECT p.*, EXISTS(SELECT 1 FROM "OrderItem" oi WHERE oi."productId" = p.id) as "hasOrderItems"
        FROM "Product" p WHERE p.name = $1 ORDER BY p."createdAt" ASC, p.id ASC`,
       g.name
