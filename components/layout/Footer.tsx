@@ -80,6 +80,9 @@ export function Footer() {
                 { href: "/nosotros", label: "Sobre Nosotros" },
                 { href: "/contacto", label: "Contacto" },
                 { href: "/faq", label: "Preguntas Frecuentes" },
+                { href: "/cambios", label: "Política de Cambios" },
+                { href: "/privacidad", label: "Privacidad" },
+                { href: "/terminos", label: "Términos de Uso" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link

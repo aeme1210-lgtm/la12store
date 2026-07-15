@@ -65,7 +65,7 @@ Rama de trabajo: `redesign`. Prohibido push a `master` durante esta tarea (ver a
 - [x] Buscador — protagonista en el header (Fase 4 antes), no pendiente
 - [ ] Carrito — funcional (Fase 3), pendiente rediseño visual
 - [ ] Nosotros — pendiente presentación editorial
-- [ ] Footer — pendiente rediseño visual (datos ya centralizados en Fase 3)
+- [x] Footer — agregados los links que faltaban por completo: `/cambios`, `/privacidad`, `/terminos` (páginas nuevas, contenido mínimo honesto marcado con nota de revisión legal pendiente del dueño, en vez de inventar términos vinculantes). Pendiente: pulido visual más allá de esto
 - [x] Estados vacíos y de error — `app/not-found.tsx` (404 con marca), `app/error.tsx` (error boundary con reintentar/WhatsApp), `app/catalogo/loading.tsx` y `app/catalogo/[slug]/loading.tsx` (skeletons) — antes NINGUNO de estos existía, el sitio usaba el 404 genérico de Next sin marca y sin loading states en ningún lado
 - [x] SEO adelantado de Fase 5 (aprovechando que ya estaba en estos archivos): `app/sitemap.ts` (páginas estáticas + todos los productos activos) y `app/robots.ts` — antes no existía ninguno de los dos; `og:image`/`twitter:card` global agregado en `app/layout.tsx` (foto real del bucket brand) + `metadataBase`
 
