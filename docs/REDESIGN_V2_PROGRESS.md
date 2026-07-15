@@ -34,18 +34,22 @@
 - [x] `components/promo/BarcaCountdown.tsx` / `ConfettiBlaugrana.tsx`: 3 animaciones `repeat: Infinity` puramente decorativas (pulso de título, pulso de box-shadow, confeti) removidas o acotadas a un número finito de repeticiones — se conserva el efecto festivo sin motion perpetua
 - [x] Build + lint verificados — 13 problemas de lint, 2 menos que antes (se fueron con `LogoIntro.tsx`), ninguno nuevo
 
-## Fase 2: Portada con ritmo editorial
-- [ ] Barra informativa compacta
-- [ ] Header sticky estable, nav ≤6
-- [ ] Hero editorial (1 foto, sin carrusel automático)
-- [ ] ESTRENOS 26/27 (depende de Fase 4)
-- [ ] Mundos en composición asimétrica
-- [ ] Colección destacada con fondo distinto
-- [ ] Destacados en grilla limpia
-- [ ] Encuentra tu camiseta (guiado)
-- [ ] Historia Andrés y Silvana full-bleed
-- [ ] Cómo comprar en 5 pasos
-- [ ] Footer completo sin cuentas bancarias
+## Fase 2: Portada con ritmo editorial — COMPLETA
+- [x] Tipografía: Archivo (variable, ejes wght+wdth) reemplaza Playfair en 28 archivos (52 usos)
+- [x] Paleta: tokens v2 en globals.css + 302 usos de dorado brillante migrados a bronce en 34 archivos
+- [x] Barra informativa compacta — ya existía (UrgencyBar), contenido verdadero (verificado en Fase 0)
+- [x] Header sticky estable, nav reducido a 5 ítems curados por colección (Catálogo/Selecciones/Retro/Jugador/26-27) — antes tenía Nosotros/Contacto/FAQ duplicando el footer
+- [x] Hero editorial nuevo (`components/home/Hero.tsx`) — 1 foto, altura estable (`h-[90vh] min-h-[600px] max-h-[820px]`), titular breve, 2 CTA, sin carrusel, sin logo animado letra por letra, sin scroll-bounce infinito. `HeroSlider.tsx` eliminado.
+- [x] ESTRENOS 26/27 (`components/home/EstrenosSection.tsx` + `lib/estrenos.ts`) — rotación determinista sembrada por fecha (sin cron), Barça/Real Madrid siempre presentes si existen, estado elegante si el catálogo 26/27 todavía está vacío (normal hasta que corra la Fase 4)
+- [x] Mundos en composición asimétrica (`components/home/WorldsGrid.tsx`) — un mundo dominante (2x2) + secundarios, reemplaza la grilla uniforme de "Categorías"
+- [x] Colección destacada con fondo marfil (`components/home/FeaturedCollection.tsx`) — productos reales `isFeatured`, rompe el negro permanente
+- [x] Destacados (Tendencias) en grilla limpia sin animar cada producto — ya corregido en Fase 1
+- [x] Encuentra tu camiseta — ya existía (`ShirtFinder`), sin cambios
+- [x] Historia Andrés y Silvana full-bleed — `NosotrosSection.tsx` actualizado (altura aumentada, `.font-display`, parallax ya quitado en Fase 1)
+- [x] Cómo comprar en 5 pasos (`components/home/ComoComprar.tsx`) — nuevo
+- [x] Footer completo sin cuentas bancarias — ya cumplía desde la sesión anterior
+- [x] Página recortada a los 8 bloques que le corresponden a `page.tsx` (Hero→Estrenos→Mundos→Destacada→Tendencias→ShirtFinder→Nosotros→ComoComprar); se eliminaron `CounterBanner.tsx`/`LifestyleGallery.tsx` (no forman parte de la estructura de 11 bloques del brief, generaban la repetición "misma grilla diez veces" señalada)
+- [x] Build + lint + smoke test en dev verificados (home y catálogo responden 200 sin errores nuevos)
 
 ## Fase 3: Transiciones funcionales
 - [ ] Producto → ficha con continuidad de imagen

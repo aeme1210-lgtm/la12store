@@ -6,7 +6,7 @@ import { FadeInUp } from "@/components/ui/ScrollAnimations";
 
 export function NosotrosSection() {
   return (
-    <section className="relative py-0 overflow-hidden min-h-[500px] md:min-h-[600px]">
+    <section className="relative py-0 overflow-hidden min-h-[560px] md:min-h-[680px]">
       {/* Fondo estático — REDESIGN_V2 Fase 1: se quitó el parallax real
           (useScroll/useTransform) explícitamente prohibido para móvil, causa
           común de jank en Safari/iOS con scroll-linked transforms. */}
@@ -24,7 +24,7 @@ export function NosotrosSection() {
       <div className="absolute inset-0 bg-black/70" />
 
       {/* Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-[500px] md:min-h-[600px] px-4">
+      <div className="relative z-10 flex items-center justify-center min-h-[560px] md:min-h-[680px] px-4">
         <FadeInUp className="max-w-2xl text-center">
           <p
             className="text-[#A47C42] text-xs tracking-[0.4em] uppercase mb-4"
@@ -32,13 +32,10 @@ export function NosotrosSection() {
           >
             Nuestra historia
           </p>
-          <h2
-            className="text-3xl md:text-5xl font-black text-white uppercase mb-6 leading-tight"
-            style={{ fontFamily: "var(--font-archivo)" }}
-          >
+          <h2 className="font-display text-white text-3xl md:text-5xl uppercase mb-6 leading-tight">
             Pasión por el fútbol
             <br />
-            <span className="text-[#A47C42]">desde Santa Marta</span>
+            <span className="text-[#C4A06A]">desde Santa Marta</span>
           </h2>
           <p
             className="text-white/80 text-base md:text-lg mb-8 leading-relaxed"

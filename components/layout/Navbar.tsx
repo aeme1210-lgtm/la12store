@@ -8,11 +8,15 @@ import { useCart } from "@/lib/cart-store";
 import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 import { whatsAppLink } from "@/lib/whatsapp";
 
+// Nav principal = curaduría por colección (REDESIGN_V2_BRIEF.md Fase 2
+// bloque 2: "máximo 6 ítems; el resto al footer"). Nosotros/Contacto/FAQ ya
+// viven en el footer (components/layout/Footer.tsx) — no se duplican aquí.
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
-  { href: "/nosotros", label: "Nosotros" },
-  { href: "/contacto", label: "Contacto" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/catalogo?liga=selecciones-nacionales", label: "Selecciones" },
+  { href: "/catalogo?liga=retro", label: "Retro" },
+  { href: "/catalogo?version=Player", label: "Jugador" },
+  { href: "/catalogo?liga=temporada-26-27", label: "26/27" },
 ];
 
 export function Navbar() {
