@@ -34,8 +34,18 @@ export function Navbar() {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const totalItems = useCart((s) => s.totalItems);
+  // Selector reactivo (no un método snapshot) para que el badge se actualice
+  // cuando cambia el carrito. `mounted` evita el mismatch de hidratación: el
+  // servidor nunca ve localStorage, así que el conteo real solo se pinta
+  // después del montaje en cliente (mismo patrón que las promos de abajo).
+  const itemCount = useCart((s) => s.items.reduce((sum, i) => sum + i.quantity, 0));
   const openDrawer = useCart((s) => s.openDrawer);
+  const [mounted, setMounted] = useState(false);
+  const displayCount = mounted ? itemCount : 0;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Set promo state client-side only to avoid hydration mismatch
   useEffect(() => {
@@ -250,13 +260,13 @@ export function Navbar() {
               </button>
               <button
                 onClick={openDrawer}
-                aria-label={`Carrito${totalItems() > 0 ? ` (${totalItems()} productos)` : ""}`}
+                aria-label={`Carrito${displayCount > 0 ? ` (${displayCount} productos)` : ""}`}
                 className="relative p-2 text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
               >
                 <ShoppingCart size={22} />
-                {totalItems() > 0 && (
+                {displayCount > 0 && (
                   <span aria-hidden="true" className="absolute -top-1 -right-1 bg-[#A47C42] text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                    {totalItems()}
+                    {displayCount}
                   </span>
                 )}
               </button>

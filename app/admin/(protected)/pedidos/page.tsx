@@ -3,26 +3,13 @@ export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { formatCOP } from "@/lib/utils";
 import { AdminOrderStatus } from "@/components/admin/AdminOrderStatus";
+import { orderStatusLabel, orderStatusColor } from "@/lib/order-status";
 
 export default async function AdminPedidos() {
   const orders = await prisma.order.findMany({
     include: { items: { include: { product: { select: { name: true } } } } },
     orderBy: { createdAt: "desc" },
   });
-
-  const statusLabel: Record<string, string> = {
-    pending: "Pendiente",
-    confirmed: "Confirmado",
-    shipped: "Enviado",
-    delivered: "Entregado",
-  };
-
-  const statusColor: Record<string, string> = {
-    pending: "bg-yellow-500/10 text-yellow-500",
-    confirmed: "bg-blue-500/10 text-blue-400",
-    shipped: "bg-purple-500/10 text-purple-400",
-    delivered: "bg-green-500/10 text-green-400",
-  };
 
   return (
     <div>
@@ -57,16 +44,24 @@ export default async function AdminPedidos() {
                       {order.orderNumber}
                     </h3>
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full font-semibold ${statusColor[order.status] ?? "bg-gray-500/10 text-gray-400"}`}
+                      className={`text-xs px-2 py-0.5 rounded-full font-semibold ${orderStatusColor(order.status)}`}
                     >
-                      {statusLabel[order.status] ?? order.status}
+                      {orderStatusLabel(order.status)}
                     </span>
                   </div>
                   <p className="text-[#A0A0A0] text-sm">{order.customerName}</p>
                   <p className="text-[#666666] text-xs">{order.customerPhone}</p>
                   {order.city && (
                     <p className="text-[#666666] text-xs">
+                      {order.address ? `${order.address}, ` : ""}
+                      {order.neighborhood ? `${order.neighborhood} — ` : ""}
                       {order.city}, {order.department}
+                    </p>
+                  )}
+                  {order.receiptFileName && (
+                    <p className="text-[#666666] text-xs mt-1">
+                      Comprobante: {order.receiptFileName}
+                      {order.receiptShareMethod === "whatsapp_fallback" && " (enviado manual por WhatsApp)"}
                     </p>
                   )}
                 </div>

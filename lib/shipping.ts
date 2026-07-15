@@ -1,14 +1,10 @@
 /**
- * Fuente de verdad única de las cifras de envío.
+ * Fuente de verdad única de la política de envío.
  *
- * FASE 1 encontró cifras contradictorias en el código real (no solo en docs de
- * negocio): Footer.tsx / ProductDetail.tsx / faq/page.tsx decían envío nacional
- * $25.000-$30.000 + internacional y Santa Marta gratis, mientras que las páginas
- * promo (campeones-barca, super-clasico) decían "envío gratis a toda Colombia".
- *
- * TODO_OWNER: confirmar cuál de las dos versiones es la real antes de publicar.
- * Mientras tanto se usa la versión más citada en el código (nacional con costo,
- * Santa Marta e internacional gratis) y las páginas promo dejan de contradecirla.
+ * REDESIGN_V2 (decisión de negocio, ya no TODO_OWNER): Santa Marta es
+ * gratis; el envío nacional NO tiene una tarifa fija publicable — se
+ * confirma por WhatsApp según el destino, antes de que el cliente pague.
+ * El checkout nunca debe inventar ni bloquear con una cifra de envío.
  */
 
 export const SHIPPING = {
@@ -17,20 +13,20 @@ export const SHIPPING = {
     cost: 0,
   },
   nacional: {
-    label: "Envío nacional",
-    // TODO_OWNER: confirmar cifra exacta (se vio $25.000 y $30.000 en distintos
-    // lugares del código, y "gratis" en las páginas promo — son incompatibles).
-    costMin: 25000,
-    costMax: 30000,
-  },
-  internacional: {
-    label: "Envío internacional",
-    cost: 0,
-    // TODO_OWNER: confirmar que envío internacional es realmente gratis siempre,
-    // o si depende del país/peso.
+    label: "Envío nacional: se confirma por WhatsApp según tu destino, antes de pagar",
   },
 } as const;
 
+function isSantaMarta(city?: string): boolean {
+  if (!city) return false;
+  return /santa\s*marta/i.test(city.trim());
+}
+
+/** Línea de envío honesta para mostrar en el checkout/carrito — nunca un monto inventado. */
+export function shippingLineFor(city?: string): string {
+  return isSantaMarta(city) ? SHIPPING.santaMarta.label : SHIPPING.nacional.label;
+}
+
 export function shippingSummaryText(): string {
-  return `${SHIPPING.santaMarta.label} · ${SHIPPING.nacional.label} desde $${SHIPPING.nacional.costMin.toLocaleString("es-CO")} · ${SHIPPING.internacional.label}`;
+  return `${SHIPPING.santaMarta.label} · ${SHIPPING.nacional.label}`;
 }

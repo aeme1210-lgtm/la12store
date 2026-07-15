@@ -18,10 +18,18 @@ export function slugify(text: string): string {
     .replace(/-+/g, "-");
 }
 
-export function generateOrderNumber(): string {
-  const year = new Date().getFullYear();
+/**
+ * Código de pedido L12-YYYYMMDD-XXXX. La parte aleatoria es de 4 dígitos;
+ * la comprobación de colisión real (contra pedidos ya existentes) se hace
+ * en el endpoint que crea el pedido (`app/api/pedidos/route.ts`), porque
+ * requiere acceso a la base de datos — esta función solo genera el formato.
+ */
+export function generateOrderCode(date: Date = new Date()): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
   const rand = Math.floor(Math.random() * 9000) + 1000;
-  return `L12-${year}-${rand}`;
+  return `L12-${y}${m}${d}-${rand}`;
 }
 
 // Cálculo de precio: usar getProductPrice/getStartingPrice de "@/lib/pricing".

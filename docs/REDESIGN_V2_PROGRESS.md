@@ -55,7 +55,7 @@
 - [x] Producto → ficha: fallback sin animación (View Transitions de React no disponible en esta versión, ver Decisión en Fase 0/DECISIONS_V2.md) — navegación normal de Next.js, sin efectos frágiles
 - [x] Buscador overlay: transición fade+slide (`drawerTransition`, 220-300ms) en vez de aparecer/desaparecer de golpe; ya tenía foco automático y cierre por botón/Escape desde la sesión anterior, sin mover el header (position:fixed independiente)
 - [x] Carrito drawer (`components/cart/CartDrawer.tsx`) — antes /carrito era una página completa; ahora un panel deslizante (`lib/cart-store.ts` con estado `isDrawerOpen`, no persistido), con focus trap, cierre por Escape/backdrop/botón, scroll bloqueado. La página `/carrito` se conserva para enlaces directos. Cambiar cantidad anima solo el ítem (no todo el drawer); agregar al carrito NO fuerza la apertura del drawer (confirmación inline existente, contador estable)
-- [ ] Checkout con transición entre pasos + indicador de progreso — se implementa junto con la reconstrucción completa del checkout en Fase 5, no por separado
+- [x] Checkout con transición entre pasos + indicador de progreso — implementado en Fase 5 (`CheckoutProgress.tsx` + `StepTransition.tsx`, crossfade+slide ≤16px, `DURATION.checkoutStep`)
 - [x] Menú móvil: mismo tratamiento de transición (`drawerTransition`) agregado — antes aparecía/desaparecía sin animación
 
 ## Fase 4: Temporada 26/27 + Estrenos — COMPLETA (con limitaciones documentadas)
@@ -68,16 +68,19 @@
 - [x] Barça y Real Madrid 26/27 siempre presentes — confirmado en DB (`barcelona-jersey-home-2627`, `real-madrid-jersey-home-2627`)
 - [x] Limitación documentada: imágenes de estos 38 productos enlazan directo a `photo.yupoo.com` (CDN del proveedor), no al bucket propio de Supabase — falta `SUPABASE_SERVICE_ROLE_KEY` en este entorno. Ver decisión en `docs/DECISIONS_V2.md` y plan de migración en `docs/IMPORT_2627_REPORT.md`
 
-## Fase 5: Checkout interno
-- [ ] Config central de pagos
-- [ ] Paso 1: Datos
-- [ ] Paso 2: Entrega
-- [ ] Paso 3: Revisión (código L12-YYYYMMDD-XXXX)
-- [ ] Paso 4: Pago (4 métodos, copiar, sin QR/deep link inventado)
-- [ ] Paso 5: Comprobante (archivo local, Web Share API + fallback)
-- [ ] Estados honestos (nunca "pagado" automático)
-- [ ] Persistencia local (sin comprobante)
-- [ ] ADMIN_GUIDE.md: protocolo anti-comprobantes-falsos
+## Fase 5: Checkout interno — COMPLETA
+- [x] Config central de pagos — `lib/payment-methods.ts` (id, nombre, titular, número/llave, color, instrucciones, deepLink oficial opcional, qr opcional, a11y). Corrección de datos: "Nubank — @AME429" era un error de etiqueta en todo el sitio, la llave real es **Bre-B** — corregido en footer/contacto/faq/carrito/producto/checkout
+- [x] Paso 1: Datos — nombre, WhatsApp, ciudad, departamento, dirección, barrio/referencia, notas; email opcional; validación real (teléfono/email) con mensajes inline; `components/checkout/Step1Datos.tsx`
+- [x] Paso 2: Entrega — productos/tallas/personalizaciones/cantidades, subtotal, línea de envío honesta (`shippingLineFor()`), total; `components/checkout/Step2Entrega.tsx`
+- [x] Paso 3: Revisión — todo editable (botones vuelven a paso 1/2), código `L12-YYYYMMDD-XXXX` generado sin colisión (`generateOrderCode()` + verificación contra la BD en `app/api/pedidos/route.ts`); `components/checkout/Step3Revision.tsx`
+- [x] Paso 4: Pago — 4 métodos reales (Nequi/DaviPlata/Bancolombia/Bre-B) con titular/número/total, botones de copiar con confirmación visual, sin QR ni deep link inventado (slots `qrImageUrl`/`officialDeepLink` en `null` con `TODO_OWNER`); `components/checkout/Step4Pago.tsx`
+- [x] Paso 5: Comprobante — archivo local (JPG/PNG/WEBP/PDF, máx. 8MB, preview/quitar/reemplazar), Web Share API con fallback a copiar+abrir WhatsApp; nunca se sube a ningún storage; `components/checkout/Step5Comprobante.tsx`
+- [x] Estados honestos — `lib/order-status.ts` (DRAFT/READY_FOR_PAYMENT/PAYMENT_INSTRUCTIONS_VIEWED/RECEIPT_SELECTED/RECEIPT_SHARE_STARTED/PENDING_VERIFICATION/CONFIRMED_MANUALLY), endpoint público restringido `app/api/pedidos/[id]/status/route.ts`, nunca "pagado" automático — verificado en un pedido de prueba real (creado y confirmado en la BD, luego borrado)
+- [x] Persistencia local (sin comprobante) — `lib/checkout-store.ts` (zustand persist), el `File` del comprobante vive solo en memoria de React, nunca se persiste; aviso "vuelve a seleccionarlo" si el estado indica que ya había uno
+- [x] `ADMIN_GUIDE.md`: protocolo anti-comprobantes-falsos + cómo cambiar cuentas/QR/WhatsApp/envío — sección añadida al archivo existente (no se creó un duplicado en `docs/`)
+- [x] Bug de hidratación real encontrado y corregido durante la prueba end-to-end (ver `docs/DECISIONS_V2.md`) — afectaba toda página con carrito no vacío, no solo el checkout
+- [x] `/carrito`: quitado un segundo flujo de pago duplicado (leak de cuentas + sin código de pedido ni estados honestos) — ahora dirige a `/checkout`
+- [x] Build + lint verificados tras todos los cambios de Fase 5. Lint pasó de 10 a 13 problemas: los 3 nuevos son la misma regla (`react-hooks/set-state-in-effect`) que ya aparecía 4 veces antes de esta fase en el proyecto (Navbar, BarcaCountdown, SuperClasicoCountdown, UrgencyBar) — es el patrón estándar "mounted guard" para evitar mismatches de hidratación, usado a propósito en `lib/use-hydrated.ts` y sus 2 nuevos consumidores (`app/carrito/page.tsx`, `Navbar.tsx`). No es deuda nueva, es el mismo patrón ya aceptado en el proyecto aplicado a más lugares que lo necesitaban
 
 ## Fase 6: Rendimiento y cierre
 - [ ] Build/typecheck/lint

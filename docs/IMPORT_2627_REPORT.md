@@ -57,8 +57,14 @@ existe `SUPABASE_SERVICE_ROLE_KEY` en ningún `.env` de este entorno (ni `script
 existe, ni el `.env`/`.env.local` principal). Sin esa clave no se puede subir archivos al
 Storage de Supabase. Ver decisión completa y alternativas consideradas en `docs/DECISIONS_V2.md`.
 
-**Riesgo real**: estas imágenes dependen de que Yupoo siga sirviendo esas URLs. Antes de que el
-dueño apruebe el merge a producción, se recomienda:
+**Riesgo confirmado en QA (Fase 5)**: durante una prueba manual del checkout se observó que la
+misma URL de Yupoo (`.../99406f7db3/big.jpeg`) devolvió la foto real completa (640×640) en una
+carga y una imagen mucho más pequeña (180×180, probablemente un marcador de "acceso restringido"
+de Yupoo) en otra carga inmediatamente después, sin cambios en el código. Esto confirma que el
+hotlinking a Yupoo NO es confiable — no es solo un riesgo teórico. **Antes de aprobar el merge a
+producción, migrar estas 38 imágenes al bucket propio es prioritario, no opcional.**
+
+Antes de que el dueño apruebe el merge a producción, se recomienda:
 1. Proveer `SUPABASE_SERVICE_ROLE_KEY` (y `SUPABASE_URL` si falta) en `scripts/.env`.
 2. Correr un script de migración (descargar cada URL de Yupoo → subir a `products` bucket →
    actualizar el campo `images` del producto) — no incluido en esta sesión por la misma

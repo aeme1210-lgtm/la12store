@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 import { SHIPPING } from "@/lib/shipping";
-import { formatCOP } from "@/lib/utils";
+import { paymentMethodNames } from "@/lib/payment-methods";
 
 export function Footer() {
   return (
@@ -105,27 +105,20 @@ export function Footer() {
               Métodos de Pago
             </h3>
             <ul className="space-y-2 text-sm text-[#A0A0A0]">
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
-                Nequi — 300 844 3885
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
-                Daviplata — 300 844 3885
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
-                Bancolombia — Cta. Ahorros
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
-                Nubank — @AME429
-              </li>
+              {paymentMethodNames().map((name) => (
+                <li key={name} className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#A47C42]" />
+                  {name}
+                </li>
+              ))}
             </ul>
+            <p className="text-[#666666] text-xs mt-3">
+              Cuentas y datos completos de pago dentro del checkout.
+            </p>
             <p className="text-[#666666] text-xs mt-4">
               {SHIPPING.santaMarta.label}
               <br />
-              {SHIPPING.nacional.label}: {formatCOP(SHIPPING.nacional.costMin)} - {formatCOP(SHIPPING.nacional.costMax)}
+              {SHIPPING.nacional.label}
             </p>
           </div>
         </div>

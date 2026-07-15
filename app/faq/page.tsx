@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { whatsAppLink } from "@/lib/whatsapp";
 import { SHIPPING } from "@/lib/shipping";
-import { formatCOP } from "@/lib/utils";
+import { paymentMethodNames } from "@/lib/payment-methods";
 
 const faqs = [
   {
@@ -16,7 +16,7 @@ const faqs = [
       },
       {
         q: "¿Cuánto tiempo tarda en llegar mi pedido?",
-        a: "En Santa Marta la entrega es personal y gratis. Los productos bajo encargo tardan 20-25 días hábiles en llegar a nuestras manos. Una vez despachado, el envío nacional llega en 2-4 días hábiles. Los envíos internacionales son gratis y tardan 25-35 días hábiles.",
+        a: "En Santa Marta la entrega es personal. Los productos bajo encargo tardan 20-25 días hábiles en llegar a nuestras manos. Una vez despachado, el envío nacional llega en 2-4 días hábiles. Para envíos internacionales, el tiempo y costo se confirman por WhatsApp según el destino.",
       },
       {
         q: "¿Puedo hacer pedidos al por mayor?",
@@ -29,7 +29,7 @@ const faqs = [
     items: [
       {
         q: "¿Qué métodos de pago aceptan?",
-        a: "Aceptamos Nequi (300 844 3885), Daviplata (300 844 3885) y Nubank (llave @AME429). Realizas la transferencia y nos envías el comprobante por WhatsApp.",
+        a: `Aceptamos ${paymentMethodNames().join(", ")}. Las cuentas completas se muestran dentro del checkout. Realizas la transferencia y compartes el comprobante desde ahí mismo.`,
       },
       {
         q: "¿Es seguro comprar aquí?",
@@ -80,7 +80,7 @@ const faqs = [
     items: [
       {
         q: "¿Cuánto cuesta el envío?",
-        a: `El envío en Santa Marta es GRATIS. Para el resto de Colombia el envío es de ${formatCOP(SHIPPING.nacional.costMin)} - ${formatCOP(SHIPPING.nacional.costMax)} según la ciudad. Los envíos internacionales son GRATIS.`,
+        a: `${SHIPPING.santaMarta.label}. ${SHIPPING.nacional.label}.`,
       },
       {
         q: "¿Envían a todo Colombia?",
@@ -88,7 +88,7 @@ const faqs = [
       },
       {
         q: "¿Hacen envíos internacionales?",
-        a: "Sí, llegamos a cualquier parte del mundo. Los envíos internacionales son completamente GRATIS.",
+        a: "Escríbenos por WhatsApp con tu país de destino y te confirmamos disponibilidad, tiempo y costo.",
       },
     ],
   },

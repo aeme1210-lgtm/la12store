@@ -1,7 +1,9 @@
 "use client";
 
 import { MessageCircle, Mail } from "lucide-react";
+import Link from "next/link";
 import { whatsAppLink } from "@/lib/whatsapp";
+import { paymentMethodNames } from "@/lib/payment-methods";
 
 function InstagramIcon({ size = 20, className = "" }) {
   return (
@@ -97,24 +99,15 @@ export default function ContactoPage() {
               </div>
             </a>
 
-            {/* Payments */}
+            {/* Payments — solo nombres. Cuentas y llaves completas viven únicamente en el checkout. */}
             <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-4 mt-2">
               <h3 className="text-white font-bold uppercase tracking-wider text-sm mb-3" style={{ fontFamily: "var(--font-inter)" }}>
                 Métodos de pago
               </h3>
-              <div className="space-y-2 text-sm">
-                {[
-                  { method: "Nequi", number: "300 844 3885" },
-                  { method: "Daviplata", number: "300 844 3885" },
-                  { method: "Bancolombia (Cta. Ahorros)", number: "91622993231 · Silvana Ossa" },
-                  { method: "Nubank (Llave)", number: "@AME429" },
-                ].map((p) => (
-                  <div key={p.method} className="flex justify-between">
-                    <span className="text-[#A47C42] font-semibold">{p.method}</span>
-                    <span className="text-white" style={{ fontFamily: "var(--font-inter)" }}>{p.number}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-[#A0A0A0] text-sm mb-3">{paymentMethodNames().join(" · ")}</p>
+              <Link href="/checkout" className="text-[#A47C42] text-xs hover:underline">
+                Ver cuentas completas en el checkout →
+              </Link>
             </div>
           </div>
 

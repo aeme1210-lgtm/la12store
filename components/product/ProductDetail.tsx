@@ -8,6 +8,7 @@ import { formatCOP } from "@/lib/utils";
 import { getProductPrice } from "@/lib/pricing";
 import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 import { SHIPPING } from "@/lib/shipping";
+import { paymentMethodNames } from "@/lib/payment-methods";
 import { recordView } from "@/lib/recently-viewed";
 import { Accordion, AccordionItem } from "@/components/ui/Accordion";
 import Link from "next/link";
@@ -416,17 +417,12 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>🚚</span>
             <span>
-              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label} desde{" "}
-              {formatCOP(SHIPPING.nacional.costMin)}
+              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label}
             </span>
           </div>
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
-            <span>🌍</span>
-            <span>{SHIPPING.internacional.label} GRATIS</span>
-          </div>
-          <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>💳</span>
-            <span>Nequi · Daviplata · Bancolombia · Nubank</span>
+            <span>{paymentMethodNames().join(" · ")}</span>
           </div>
         </div>
 
@@ -469,8 +465,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </AccordionItem>
           <AccordionItem title="Envíos y cambios">
             <p className="mb-2">
-              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label} desde{" "}
-              {formatCOP(SHIPPING.nacional.costMin)} · {SHIPPING.internacional.label} gratis.
+              {SHIPPING.santaMarta.label}. {SHIPPING.nacional.label}.
             </p>
             <p>
               Cambios por talla incorrecta o defecto de fábrica dentro de los 3 días de recibido —

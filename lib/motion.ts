@@ -48,3 +48,8 @@ export const microTransition = {
   duration: DURATION.micro,
   ease: EASE_IN,
 } as const;
+
+export const checkoutStepTransition = {
+  duration: DURATION.checkoutStep,
+  ease: EASE_IN,
+} as const;

@@ -35,24 +35,29 @@ model Product {
 }
 
 model Order {
-  id            String      @id @default(cuid())
-  orderNumber   String      @unique
-  status        String      @default("pending")
-  customerName  String
-  customerPhone String
-  customerEmail String?
-  address       String?
-  city          String?
-  department    String?
-  notes         String?
-  subtotal      Int
-  shipping      Int         @default(0)
-  total         Int
-  paymentMethod String?
-  paymentProof  String?
-  items         OrderItem[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id                 String      @id @default(cuid())
+  orderNumber        String      @unique
+  status             String      @default("READY_FOR_PAYMENT")
+  customerName       String
+  customerPhone      String
+  customerEmail      String?
+  address            String?
+  city               String?
+  department         String?
+  neighborhood       String?
+  notes              String?
+  subtotal           Int
+  shipping           Int         @default(0)
+  total              Int
+  paymentMethod      String?
+  paymentProof       String?
+  /** Solo el nombre del archivo que el cliente adjuntó al compartir — el
+   * archivo en sí NUNCA se sube a ningún almacenamiento (ver docs/REDESIGN_V2_BRIEF.md). */
+  receiptFileName    String?
+  receiptShareMethod String?
+  items              OrderItem[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
 }
 
 model OrderItem {

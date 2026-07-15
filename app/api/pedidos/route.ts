@@ -1,8 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { generateOrderNumber } from "@/lib/utils";
+import { generateOrderCode } from "@/lib/utils";
 import { requireAdminAuth } from "@/lib/admin-auth";
 import { OrderCreateSchema } from "@/lib/validation";
+import { ORDER_STATUS } from "@/lib/order-status";
+
+async function generateUniqueOrderCode(): Promise<string> {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const code = generateOrderCode();
+    const existing = await prisma.order.findUnique({ where: { orderNumber: code } });
+    if (!existing) return code;
+  }
+  // Extremadamente improbable (requeriría 10 colisiones de 4 dígitos el
+  // mismo día), pero si pasa, se agrega un sufijo extra para garantizar unicidad.
+  return `${generateOrderCode()}-${Date.now().toString().slice(-4)}`;
+}
 
 // POST — público: los clientes crean pedidos
 export async function POST(req: NextRequest) {
@@ -22,21 +34,23 @@ export async function POST(req: NextRequest) {
   }
 
   const {
-    name, phone, email, address, city, department,
+    name, phone, email, address, city, department, neighborhood,
     notes, paymentMethod, items, subtotal, shipping, total,
   } = parsed.data;
 
   try {
-    const orderNumber = generateOrderNumber();
+    const orderNumber = await generateUniqueOrderCode();
     const order = await prisma.order.create({
       data: {
         orderNumber,
+        status: ORDER_STATUS.READY_FOR_PAYMENT,
         customerName: name,
         customerPhone: phone,
         customerEmail: email || null,
         address: address || null,
         city: city || null,
         department: department || null,
+        neighborhood: neighborhood || null,
         notes: notes || null,
         paymentMethod: paymentMethod || null,
         subtotal,
