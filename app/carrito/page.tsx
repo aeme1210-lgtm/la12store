@@ -24,6 +24,7 @@ export default function CarritoPage() {
         version: item.version,
         dorsalName: item.dorsalName,
         dorsalNumber: item.dorsalNumber,
+        patches: item.patches,
         quantity: item.quantity,
         unitPrice: item.price,
       })),

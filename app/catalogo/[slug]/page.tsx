@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductCard } from "@/components/product/ProductCard";
+import { RecentlyViewed } from "@/components/product/RecentlyViewed";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
 import type { Metadata } from "next";
 import { formatCOP } from "@/lib/utils";
@@ -84,6 +85,8 @@ export default async function ProductPage({ params }: Props) {
             </StaggerContainer>
           </section>
         )}
+
+        <RecentlyViewed excludeId={product.id} />
       </div>
     </div>
   );

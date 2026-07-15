@@ -11,6 +11,7 @@ export interface CartItem {
   version: string;
   dorsalName?: string;
   dorsalNumber?: string;
+  patches?: string;
   price: number;
   quantity: number;
   slug: string;
