@@ -49,30 +49,56 @@ delay de 400ms entre requests (para evitar rate-limiting del proveedor), y se re
 segunda corrida bajó la tasa de error a 13.3%. Los 10 productos ya creados en el primer intento
 no se duplicaron (el dedupe por equipo+tipo+liga+manga larga los detectó y saltó).
 
-## Limitación conocida: imágenes NO están en el bucket propio
+## RESUELTO: imágenes migradas al bucket propio (2026-07-16)
 
-**Las fotos de estos 38 productos apuntan directo al CDN de Yupoo** (`photo.yupoo.com`), no al
+**Actualización**: la limitación de abajo (imágenes servidas directo desde `photo.yupoo.com`)
+ya está resuelta. El dueño agregó `SUPABASE_SERVICE_ROLE_KEY` a `.env` y se corrió
+`scripts/migrate-2627-images.ts`:
+
+- **76/76 imágenes migradas** (38 productos × 2 imágenes c/u) al bucket `products` de Supabase
+  Storage, ruta `Temporada 26-27/{slug}/{n}.jpg` (el `/` de "26/27" se sanea a "26-27" porque
+  rompería la ruta del bucket).
+- **38/38 productos totalmente migrados, 0 parciales, 0 fallos** — ningún producto quedó con
+  URLs mixtas ni con la URL de Yupoo original.
+- Descarga con `Referer: https://maiyuyan.x.yupoo.com/` (headers de navegador real) + validación
+  de tamaño mínimo (8 KB) para detectar y reintentar si Yupoo devuelve un marcador de "acceso
+  restringido" en vez de la foto real (el mismo problema confirmado en la sección de abajo) —
+  no ocurrió en esta corrida, las 76 descargas fueron la foto real a la primera.
+- Subida vía API REST de Supabase Storage (`fetch`, sin agregar la dependencia
+  `@supabase/supabase-js` — cero dependencias nuevas, igual que el resto de esta fase).
+- Nunca se usó `/render/image/` — el binario se sube tal cual, se sirve tal cual.
+- Backup previo obligatorio: `backups/pre-image-migration-2627-*.json` (id + slug + URLs de
+  Yupoo de los 38 productos, antes de tocar nada).
+- UPDATE restringido exactamente a esos 38 productos (`where: { league: "Temporada 26/27" }`),
+  solo el campo `images` — ningún otro campo ni producto se tocó.
+- Verificado en la preview real (`redesign-v2`): las 24 imágenes visibles en la sección
+  ESTRENOS cargan con `complete: true` y dimensiones reales (540×540) desde
+  `chljxifjjzaffvwixtfm.supabase.co`, incluyendo Barcelona y Real Madrid.
+- Reporte detallado imagen por imagen: `backups/migrate-2627-images-result.json` (gitignored).
+- **Bug encontrado y corregido de paso**: la clave `SUPABASE_SERVICE_ROLE_KEY` en `.env` tenía
+  un formato inválido (`=""eyJ...` — comilla doble duplicada al inicio, sin comilla de cierre),
+  lo que rompía el JWT y devolvía `401 Unauthorized` de Supabase. Corregido a `="eyJ...evF9C4Y0"`
+  (una sola comilla de apertura y cierre) antes de correr la migración.
+
+`next.config.ts`, `supabase-image-loader.js` y el `img-src` de la CSP **conservan** el soporte
+para `photo.yupoo.com` — no se revirtió, por si una sesión futura de importación (páginas 2-13)
+necesita el mismo flujo antes de tener oportunidad de migrar esas imágenes también.
+
+---
+
+## Limitación original (ya resuelta, se conserva el detalle para contexto histórico)
+
+**Las fotos de estos 38 productos apuntaban directo al CDN de Yupoo** (`photo.yupoo.com`), no al
 bucket `products` de Supabase Storage como hace el pipeline original de `/scripts`. Causa: no
-existe `SUPABASE_SERVICE_ROLE_KEY` en ningún `.env` de este entorno (ni `scripts/.env`, que no
-existe, ni el `.env`/`.env.local` principal). Sin esa clave no se puede subir archivos al
-Storage de Supabase. Ver decisión completa y alternativas consideradas en `docs/DECISIONS_V2.md`.
+existía `SUPABASE_SERVICE_ROLE_KEY` en ningún `.env` de este entorno. Sin esa clave no se podía
+subir archivos al Storage de Supabase. Ver decisión completa y alternativas consideradas en
+`docs/DECISIONS_V2.md`.
 
 **Riesgo confirmado en QA (Fase 5)**: durante una prueba manual del checkout se observó que la
 misma URL de Yupoo (`.../99406f7db3/big.jpeg`) devolvió la foto real completa (640×640) en una
 carga y una imagen mucho más pequeña (180×180, probablemente un marcador de "acceso restringido"
-de Yupoo) en otra carga inmediatamente después, sin cambios en el código. Esto confirma que el
-hotlinking a Yupoo NO es confiable — no es solo un riesgo teórico. **Antes de aprobar el merge a
-producción, migrar estas 38 imágenes al bucket propio es prioritario, no opcional.**
-
-Antes de que el dueño apruebe el merge a producción, se recomienda:
-1. Proveer `SUPABASE_SERVICE_ROLE_KEY` (y `SUPABASE_URL` si falta) en `scripts/.env`.
-2. Correr un script de migración (descargar cada URL de Yupoo → subir a `products` bucket →
-   actualizar el campo `images` del producto) — no incluido en esta sesión por la misma
-   limitación de credenciales.
-
-Se habilitó `photo.yupoo.com` en `next.config.ts` (`remotePatterns` + CSP `img-src`) y en
-`supabase-image-loader.js` (passthrough sin transformar, nunca vía `/render/image/`) para que
-estas imágenes carguen correctamente mientras tanto.
+de Yupoo) en otra carga inmediatamente después, sin cambios en el código. Esto confirmó que el
+hotlinking a Yupoo no era confiable — motivó la migración de arriba.
 
 ## Calidad de datos — limitación menor conocida
 
