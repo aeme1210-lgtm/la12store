@@ -41,7 +41,15 @@ function Reveal({ direction, children, delay = 0, className = "" }: RevealProps 
     <motion.div
       initial={initial}
       whileInView={animate}
-      viewport={{ once: true, amount: 0.3 }}
+      // amount: "some" (no un ratio fijo como 0.3) — bug real encontrado en
+      // pulido final: bloques más altos que el viewport (ej. la columna de
+      // info de ProductDetail, con selector de talla/dorsal/cantidad/botones/
+      // acordeón) nunca llegaban a cubrir el 30% de su propia altura dentro
+      // de un viewport corto, así que `whileInView` jamás se disparaba y el
+      // contenido quedaba en su estado inicial (opacity:0) para siempre —
+      // página en blanco. "some" dispara en cuanto CUALQUIER parte del
+      // bloque entra en pantalla, correcto sin importar qué tan alto sea.
+      viewport={{ once: true, amount: "some" }}
       transition={{ duration: DURATION.editorial, delay, ease: EASE_IN }}
       className={className}
     >

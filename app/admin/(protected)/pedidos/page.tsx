@@ -61,7 +61,8 @@ export default async function AdminPedidos() {
                   {order.receiptFileName && (
                     <p className="text-[#666666] text-xs mt-1">
                       Comprobante: {order.receiptFileName}
-                      {order.receiptShareMethod === "whatsapp_fallback" && " (enviado manual por WhatsApp)"}
+                      {(order.receiptShareMethod === "direct_chat" || order.receiptShareMethod === "whatsapp_fallback") &&
+                        " (enviado manual por WhatsApp — verificar que el cliente haya adjuntado la imagen)"}
                     </p>
                   )}
                 </div>

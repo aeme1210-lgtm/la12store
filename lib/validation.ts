@@ -97,7 +97,7 @@ export const OrderClientStatusUpdateSchema = z.object({
     "PENDING_VERIFICATION",
   ]),
   receiptFileName: z.string().max(300).trim().optional(),
-  receiptShareMethod: z.enum(["web_share", "whatsapp_fallback"]).optional(),
+  receiptShareMethod: z.enum(["web_share", "direct_chat"]).optional(),
 });
 
 // ── Admin login ─────────────────────────────────────────────────────────────

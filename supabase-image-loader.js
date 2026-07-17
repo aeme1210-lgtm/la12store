@@ -8,6 +8,16 @@ export default function supabaseLoader({ src, width = 0 }) {
   // "loader property does not implement width" en cada imagen), pero
   // no se aplica ningún resize para no reintroducir costos de Supabase.
   void width
+  // Imágenes locales de /public (ej. /images/guia-tallas-oficial-la12store.png,
+  // /images/placeholder.jpg): con loader "custom", next/image llama a esta
+  // función para TODAS las imágenes, incluidas las locales — sin esta rama
+  // caían en el fallback de abajo, que les anteponía el host de Supabase y
+  // producía una URL inexistente (bug real encontrado en pulido final,
+  // reproducido en iPhone: icono de imagen rota). Se sirven tal cual, sin
+  // transformar — igual que Yupoo, no hay nada que optimizar en caliente.
+  if (src.startsWith('/')) {
+    return src
+  }
   if (src.includes('supabase.co/storage/v1/object/public/')) {
     return src
   }

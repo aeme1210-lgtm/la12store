@@ -18,10 +18,9 @@ export function Step3Revision({
   onEditItems: () => void;
 }) {
   const { items, totalPrice } = useCart();
-  const { data, paymentMethodId, setOrder } = useCheckout();
+  const { data, paymentMethodId, setOrder, policyAccepted, setPolicyAccepted } = useCheckout();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [acceptedPolicy, setAcceptedPolicy] = useState(false);
 
   const subtotal = totalPrice();
   const method = getPaymentMethod(paymentMethodId);
@@ -147,8 +146,8 @@ export function Step3Revision({
       <label className="flex items-start gap-2.5 text-xs text-[#A0A0A0] cursor-pointer">
         <input
           type="checkbox"
-          checked={acceptedPolicy}
-          onChange={(e) => setAcceptedPolicy(e.target.checked)}
+          checked={policyAccepted}
+          onChange={(e) => setPolicyAccepted(e.target.checked)}
           className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#A47C42]"
         />
         <span>
@@ -166,7 +165,7 @@ export function Step3Revision({
 
       <button
         onClick={handleConfirm}
-        disabled={loading || !acceptedPolicy}
+        disabled={loading || !policyAccepted}
         className="w-full bg-[#A47C42] hover:bg-[#C4A06A] disabled:opacity-50 text-black font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-colors"
       >
         {loading ? "Confirmando..." : "Confirmar e ir a pago"}

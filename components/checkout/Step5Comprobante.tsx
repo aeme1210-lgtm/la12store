@@ -1,13 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle, Upload, X, MessageCircle, Copy, Check, FileText } from "lucide-react";
+import { CheckCircle, Upload, X, MessageCircle, Copy, Check, FileText, Share2 } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
 import { useCheckout } from "@/lib/checkout-store";
-import { formatCOP } from "@/lib/utils";
-import { whatsAppLink } from "@/lib/whatsapp";
+import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 import { getPaymentMethod } from "@/lib/payment-methods";
 import { ORDER_STATUS } from "@/lib/order-status";
 import { reportClientStatus } from "@/lib/checkout-api";
@@ -22,13 +21,14 @@ function formatSize(bytes: number): string {
 
 export function Step5Comprobante() {
   const { items, totalPrice, clearCart } = useCart();
-  const { data, paymentMethodId, orderId, orderCode, status, setStatus, reset } = useCheckout();
+  const { data, paymentMethodId, orderId, orderCode, status, setStatus, reset, policyAccepted } = useCheckout();
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
-  const [usedFallback, setUsedFallback] = useState(false);
+  const [finishMethod, setFinishMethod] = useState<"web_share" | "direct_chat" | null>(null);
   const [copied, setCopied] = useState(false);
+  const [canShareFiles, setCanShareFiles] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const total = totalPrice();
@@ -37,21 +37,40 @@ export function Step5Comprobante() {
     !file &&
     (status === ORDER_STATUS.RECEIPT_SELECTED || status === ORDER_STATUS.RECEIPT_SHARE_STARTED);
 
+  // Detecta soporte real de "compartir archivo" del navegador — el botón
+  // secundario de compartir automático solo se muestra donde existe de
+  // verdad, en vez de mostrarlo siempre y caer en silencio a un fallback.
+  useEffect(() => {
+    const nav = navigator as Navigator & { canShare?: (data: { files: File[] }) => boolean };
+    if (!file || typeof nav.share !== "function" || typeof nav.canShare !== "function") {
+      setCanShareFiles(false);
+      return;
+    }
+    setCanShareFiles(nav.canShare({ files: [file] }));
+  }, [file]);
+
   const summaryText = () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const lines = [
-      `Hola! Este es el comprobante de mi pedido ${orderCode} en La 12 Store.`,
-      "",
-      `Cliente: ${data.name}`,
-      `WhatsApp: ${data.phone}`,
-      `Ciudad: ${data.city}, ${data.department}`,
-      `Método de pago: ${method?.name ?? ""}`,
-      `Total: ${formatCOP(total)}`,
-      "",
-      "Productos:",
-      ...items.map((i) => `- ${i.name} (${i.size}, ${i.version}) x${i.quantity} — ${origin}/catalogo/${i.slug}`),
-    ];
-    return lines.join("\n");
+    return buildOrderMessage({
+      items: items.map((i) => ({
+        name: i.name,
+        url: `${origin}/catalogo/${i.slug}`,
+        size: i.size,
+        version: i.version,
+        dorsalName: i.dorsalName,
+        dorsalNumber: i.dorsalNumber,
+        patches: i.patches,
+        quantity: i.quantity,
+        unitPrice: i.price,
+      })),
+      subtotal: total,
+      city: data.city ? `${data.city}, ${data.department}` : undefined,
+      notes: data.notes || undefined,
+      orderNumber: orderCode ?? undefined,
+      paymentMethod: method?.name,
+      policyAccepted,
+      context: "receipt",
+    });
   };
 
   const handleFileChange = (f: File | null) => {
@@ -84,7 +103,7 @@ export function Step5Comprobante() {
     if (inputRef.current) inputRef.current.value = "";
   };
 
-  const finishAsPending = async (method_: "web_share" | "whatsapp_fallback") => {
+  const finishAsPending = async (method_: "web_share" | "direct_chat") => {
     if (orderId) {
       await reportClientStatus(orderId, ORDER_STATUS.PENDING_VERIFICATION, {
         receiptFileName: file?.name,
@@ -93,41 +112,41 @@ export function Step5Comprobante() {
       setStatus(ORDER_STATUS.PENDING_VERIFICATION);
     }
     clearCart();
+    setFinishMethod(method_);
     setFinished(true);
   };
 
-  const handleShare = async () => {
-    if (!file) return;
-    const text = summaryText();
-    const canWebShareFiles =
-      typeof navigator !== "undefined" &&
-      "share" in navigator &&
-      "canShare" in navigator &&
-      (navigator as Navigator & { canShare?: (data: { files: File[] }) => boolean }).canShare?.({ files: [file] });
-
-    if (canWebShareFiles) {
-      if (orderId) {
-        setStatus(ORDER_STATUS.RECEIPT_SHARE_STARTED);
-        reportClientStatus(orderId, ORDER_STATUS.RECEIPT_SHARE_STARTED);
-      }
-      try {
-        await navigator.share({
-          files: [file],
-          title: `Pedido ${orderCode}`,
-          text,
-        });
-        await finishAsPending("web_share");
-      } catch {
-        // Usuario canceló el share nativo — no se marca como pendiente todavía.
-      }
-      return;
+  // Flujo PRINCIPAL (pulido final) — abre directo el chat de WhatsApp con el
+  // resumen completo del pedido precargado. Honesto sobre la limitación real:
+  // wa.me no permite adjuntar un archivo, así que el comprobante se adjunta a
+  // mano desde la galería dentro de la conversación (instrucción en la UI).
+  const handleDirectChat = async () => {
+    if (orderId) {
+      setStatus(ORDER_STATUS.RECEIPT_SHARE_STARTED);
+      reportClientStatus(orderId, ORDER_STATUS.RECEIPT_SHARE_STARTED);
     }
+    window.open(whatsAppLink(summaryText()), "_blank");
+    await finishAsPending("direct_chat");
+  };
 
-    // Fallback: sin soporte para compartir archivos — copiar resumen y abrir WhatsApp con texto.
-    setUsedFallback(true);
-    await navigator.clipboard.writeText(text).catch(() => {});
-    window.open(whatsAppLink(text), "_blank");
-    await finishAsPending("whatsapp_fallback");
+  // Flujo SECUNDARIO — solo visible donde el navegador soporta adjuntar el
+  // archivo automáticamente al compartir (canShareFiles, detectado arriba).
+  const handleShare = async () => {
+    if (!file || !canShareFiles) return;
+    if (orderId) {
+      setStatus(ORDER_STATUS.RECEIPT_SHARE_STARTED);
+      reportClientStatus(orderId, ORDER_STATUS.RECEIPT_SHARE_STARTED);
+    }
+    try {
+      await navigator.share({
+        files: [file],
+        title: `Pedido ${orderCode}`,
+        text: summaryText(),
+      });
+      await finishAsPending("web_share");
+    } catch {
+      // Usuario canceló el share nativo — no se marca como pendiente todavía.
+    }
   };
 
   const copySummary = () => {
@@ -144,14 +163,13 @@ export function Step5Comprobante() {
           Pendiente de verificación
         </h2>
         <p className="text-[#A0A0A0] text-sm max-w-sm mx-auto mb-1">
-          Tu comprobante fue preparado para compartir. Tu pedido{" "}
-          <span className="text-[#A47C42] font-semibold">{orderCode}</span> queda pendiente de
-          verificación.
+          Tu pedido <span className="text-[#A47C42] font-semibold">{orderCode}</span> queda
+          pendiente de verificación.
         </p>
-        {usedFallback && (
+        {finishMethod === "direct_chat" && (
           <p className="text-[#666666] text-xs max-w-sm mx-auto mt-3 bg-[#1A1A0A] border border-[#A47C42]/20 rounded-lg p-3">
-            Adjunta el comprobante desde tu galería en la conversación de WhatsApp que se abrió, antes
-            de enviarlo — tu navegador no permite adjuntarlo automáticamente.
+            Adjunta el comprobante desde tu galería en la conversación de WhatsApp que se abrió,
+            antes de enviarla — WhatsApp Web/wa.me no permite adjuntarlo automáticamente.
           </p>
         )}
         <p className="text-[#666666] text-xs mt-4">
@@ -238,13 +256,28 @@ export function Step5Comprobante() {
       </button>
 
       <button
-        onClick={handleShare}
+        onClick={handleDirectChat}
         disabled={!file}
         className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] disabled:opacity-40 text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-colors"
       >
         <MessageCircle size={18} />
-        Compartir comprobante por WhatsApp
+        Enviar comprobante por WhatsApp
       </button>
+      <p className="text-[#A47C42] text-xs text-center">
+        Adjunta el comprobante desde tu galería antes de enviar — WhatsApp se abre con tu pedido
+        ya escrito, pero no puede adjuntar la imagen automáticamente.
+      </p>
+
+      {canShareFiles && (
+        <button
+          onClick={handleShare}
+          disabled={!file}
+          className="w-full flex items-center justify-center gap-2 bg-[#1A1A1A] border border-[#8A6435]/20 text-[#A0A0A0] hover:text-white disabled:opacity-40 font-bold py-3 rounded-xl uppercase tracking-widest text-xs transition-colors"
+        >
+          <Share2 size={16} />
+          Compartir automáticamente (con imagen adjunta)
+        </button>
+      )}
 
       <p className="text-[#666666] text-[11px] text-center">
         Nunca guardamos tu comprobante en nuestros servidores — se comparte directo desde tu

@@ -9,7 +9,7 @@ import type { OrderStatus } from "@/lib/order-status";
 export async function reportClientStatus(
   orderId: string,
   status: OrderStatus,
-  extra?: { receiptFileName?: string; receiptShareMethod?: "web_share" | "whatsapp_fallback" }
+  extra?: { receiptFileName?: string; receiptShareMethod?: "web_share" | "direct_chat" }
 ): Promise<boolean> {
   try {
     const res = await fetch(`/api/pedidos/${orderId}/status`, {

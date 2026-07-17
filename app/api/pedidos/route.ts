@@ -4,6 +4,7 @@ import { generateOrderCode } from "@/lib/utils";
 import { requireAdminAuth } from "@/lib/admin-auth";
 import { OrderCreateSchema } from "@/lib/validation";
 import { ORDER_STATUS } from "@/lib/order-status";
+import { isValidSizeForVersion } from "@/lib/sizes";
 
 async function generateUniqueOrderCode(): Promise<string> {
   for (let attempt = 0; attempt < 10; attempt++) {
@@ -37,6 +38,14 @@ export async function POST(req: NextRequest) {
     name, phone, email, address, city, department, neighborhood,
     notes, paymentMethod, items, subtotal, shipping, total,
   } = parsed.data;
+
+  const invalidItem = items.find((item) => !isValidSizeForVersion(item.size, item.version));
+  if (invalidItem) {
+    return NextResponse.json(
+      { error: `La talla ${invalidItem.size} no existe para la versión ${invalidItem.version}` },
+      { status: 422 }
+    );
+  }
 
   try {
     const orderNumber = await generateUniqueOrderCode();

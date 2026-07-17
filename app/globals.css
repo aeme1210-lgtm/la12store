@@ -35,17 +35,43 @@
  * wdth (62-125) además de wght (100-900): esto es una variación real de la
  * fuente, no letter-spacing simulado. Clase única para todos los titulares
  * display del sitio (portada, ficha, secciones editoriales).
+ *
+ * Vive en @layer components (no sin capa) a propósito: así una utilidad
+ * `leading-*` puesta directamente en un heading (@layer utilities, capa
+ * posterior) puede seguir ganando cuando un componente necesita un valor
+ * distinto al default de abajo — mismo tipo de bug de cascade que el de
+ * `* { margin/padding }` más abajo, pero corregido de origen aquí.
  */
-.font-display {
-  font-family: var(--font-archivo), sans-serif;
-  font-weight: 900;
-  font-stretch: 125%;
+@layer components {
+  .font-display {
+    font-family: var(--font-archivo), sans-serif;
+    font-weight: 900;
+    font-stretch: 125%;
+    /* Piso de line-height ≥1.05 (pulido final): a line-height 1.0 (el default
+       de Tailwind en tamaños grandes como text-5xl) el peso "Black" expandido
+       con acentos españoles (Á, É, Í, Ó, Ú, Ñ) puede recortarse visualmente
+       contra el borde de la caja de línea, sobre todo en iOS Safari. */
+    line-height: 1.15;
+  }
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/*
+ * BUG REAL ENCONTRADO (pulido final, reproducido en iPhone físico): este
+ * reset vivía fuera de cualquier @layer. En cascade layers de CSS, una regla
+ * SIN capa le gana a CUALQUIER regla dentro de una capa (@layer), sin
+ * importar especificidad — así que `* { margin: 0; padding: 0; }` anulaba
+ * TODAS las utilidades de espaciado de Tailwind del sitio entero (mb-*, p-*,
+ * py-*, etc. compiladas dentro de @layer utilities), no solo en un lugar.
+ * Causa raíz confirmada con getComputedStyle en la preview real: márgenes y
+ * paddings de Tailwind medían 0px pese a tener las clases aplicadas. Envuelto
+ * en @layer base para que las utilidades (capa posterior) vuelvan a ganar.
+ */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 :root {

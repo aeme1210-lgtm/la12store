@@ -17,7 +17,7 @@ import { FadeInUp } from "@/components/ui/ScrollAnimations";
  */
 export function Hero() {
   return (
-    <section className="relative h-[90vh] min-h-[600px] max-h-[820px] overflow-hidden -mt-14 md:-mt-20">
+    <section className="relative min-h-[90vh] max-h-[820px] overflow-hidden -mt-14 md:-mt-20">
       <Image
         src={BRAND_URLS.hero[0]}
         alt="La 12 Store — camisetas de fútbol con historia"
@@ -40,7 +40,7 @@ export function Hero() {
           </p>
 
           <h1
-            className="font-display text-white text-4xl sm:text-5xl md:text-7xl uppercase leading-[0.95] mb-5"
+            className="font-display text-white text-4xl sm:text-5xl md:text-7xl uppercase leading-[1.05] mb-5"
           >
             Camisetas que
             <br />

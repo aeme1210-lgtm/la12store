@@ -10,7 +10,9 @@ import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 import { SHIPPING } from "@/lib/shipping";
 import { paymentMethodNames } from "@/lib/payment-methods";
 import { recordView } from "@/lib/recently-viewed";
+import { availableSizesFor } from "@/lib/sizes";
 import { Accordion, AccordionItem } from "@/components/ui/Accordion";
+import { SizeGuideSheet } from "@/components/product/SizeGuideSheet";
 import Link from "next/link";
 import { FadeInLeft, FadeInRight } from "@/components/ui/ScrollAnimations";
 
@@ -36,17 +38,19 @@ interface Product {
 
 export function ProductDetail({ product }: { product: Product }) {
   const images = JSON.parse(product.images || "[]") as string[];
-  const sizes = JSON.parse(product.sizes || "[]") as string[];
+  const rawSizes = JSON.parse(product.sizes || "[]") as string[];
   const allImages = images.length > 0 ? images : ["/images/placeholder.jpg"];
 
   const [imgIdx, setImgIdx] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [version, setVersion] = useState<"Fan" | "Player">("Fan");
+  const sizes = product.isRetro ? rawSizes : availableSizesFor(rawSizes, version);
   const [dorsalName, setDorsalName] = useState("");
   const [dorsalNumber, setDorsalNumber] = useState("");
   const [patches, setPatches] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
+  const [pendingSize, setPendingSize] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
 
   const addItem = useCart((s) => s.addItem);
@@ -65,6 +69,15 @@ export function ProductDetail({ product }: { product: Product }) {
   }, [product.id]);
 
   const [sizeError, setSizeError] = useState(false);
+
+  // Cambiar de versión (Fan/Player) puede dejar seleccionada una talla que ya
+  // no existe en la nueva versión (ej. 4XL solo existe en Fan) — se limpia la
+  // selección para forzar a elegir una talla válida, en vez de dejar guardada
+  // una combinación talla+versión inválida.
+  useEffect(() => {
+    setSelectedSize((current) => (current && !sizes.includes(current) ? "" : current));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version]);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -249,18 +262,18 @@ export function ProductDetail({ product }: { product: Product }) {
               Talla
             </p>
             <button
-              onClick={() => setShowSizeGuide(!showSizeGuide)}
+              onClick={() => setGuideOpen(true)}
               className="flex items-center gap-1 text-[#A47C42] text-xs hover:text-[#C4A06A] transition-colors"
             >
               <Info size={12} />
-              Guía de tallas
+              Ver guía de tallas
             </button>
           </div>
           <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Talla" aria-required="true">
             {sizes.map((size) => (
               <button
                 key={size}
-                onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                onClick={() => { setPendingSize(size); setSizeError(false); }}
                 role="radio"
                 aria-checked={selectedSize === size}
                 className={`w-14 py-2 rounded-lg font-bold uppercase text-sm transition-all duration-200 ${
@@ -279,25 +292,14 @@ export function ProductDetail({ product }: { product: Product }) {
               Por favor selecciona una talla antes de continuar.
             </p>
           )}
-
-          {showSizeGuide && (
-            <div className="mt-3 bg-[#141414] rounded-xl p-4 border border-[#8A6435]/20 text-sm">
-              <p className="text-[#A47C42] font-bold uppercase mb-3" style={{ fontFamily: "var(--font-inter)" }}>
-                Guía de Tallas
-              </p>
-              <div className="relative w-full rounded-lg overflow-hidden bg-white">
-                <Image
-                  src="/images/guia-tallas-oficial-la12store.png"
-                  alt="Guía oficial de tallas La 12 Store: Aficionado (Fan), Jugador (Player) y Femenina (Mujer), con medidas de largo, ancho, altura y peso por talla"
-                  width={1122}
-                  height={1402}
-                  className="w-full h-auto"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-              </div>
-            </div>
-          )}
         </div>
+
+        <SizeGuideSheet
+          open={guideOpen || pendingSize !== null}
+          pendingSize={pendingSize}
+          onClose={() => { setGuideOpen(false); setPendingSize(null); }}
+          onConfirm={(size) => { setSelectedSize(size); setPendingSize(null); setSizeError(false); }}
+        />
 
         {/* Dorsal */}
         <div className="bg-[#141414] rounded-xl p-4 border border-[#8A6435]/10">
