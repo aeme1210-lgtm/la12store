@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { whatsAppLink } from "@/lib/whatsapp";
 import { SHIPPING } from "@/lib/shipping";
 import { paymentMethodNames } from "@/lib/payment-methods";
 
-const faqs = [
+interface FaqItem {
+  q: string;
+  a: string;
+  link?: { href: string; label: string };
+}
+
+const faqs: { category: string; items: FaqItem[] }[] = [
   {
     category: "Pedidos",
     items: [
@@ -97,7 +104,8 @@ const faqs = [
     items: [
       {
         q: "¿Aceptan devoluciones?",
-        a: "Aceptamos cambios en caso de talla incorrecta o defecto de fábrica. Debes contactarnos dentro de los 3 días siguientes a recibir el pedido.",
+        a: "Sí. Tienes derecho de retracto y cambio voluntario de talla dentro de los 5 días hábiles siguientes a la entrega, y garantía de 1 año por defectos de fábrica o error en el pedido.",
+        link: { href: "/cambios", label: "Ver la política completa de cambios, devoluciones, garantía y retracto" },
       },
       {
         q: "¿Qué hago si hay un problema con mi pedido?",
@@ -178,6 +186,11 @@ export default function FAQPage() {
                         className="px-4 pb-4 border-t border-[#8A6435]/10 pt-3"
                       >
                         <p className="text-[#A0A0A0] text-sm leading-relaxed">{item.a}</p>
+                        {item.link && (
+                          <Link href={item.link.href} className="text-[#A47C42] text-sm hover:underline inline-block mt-2">
+                            {item.link.label} →
+                          </Link>
+                        )}
                       </div>
                     </div>
                   );

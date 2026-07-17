@@ -281,3 +281,60 @@ navegador mostraba el mismo botón y recién en el click se descubría si
 había soporte). Número de WhatsApp verificado en todo el proyecto — ya era
 `3008443885` (`lib/whatsapp.ts`, fuente única) en los 5 lugares donde
 aparece, sin ninguna aparición del número incorrecto que mencionó el dueño.
+
+### 4) Política oficial de cambios, devoluciones, garantía, retracto y entrega
+
+Texto completo provisto por el dueño, implementado en `app/cambios/page.tsx`
+(misma ruta ya enlazada desde todo el sitio — no hizo falta renombrar ni
+crear redirects). Resumen inicial con los 6 datos clave (envío gratis,
+entrega 25-30 días calendario, verificación de pago ~2h en 2pm-10pm,
+retracto 5 días hábiles, cambio voluntario de talla 5 días hábiles, garantía
+1 año) + bloque de identificación + 18 secciones en acordeones accesibles
+(`components/ui/Accordion.tsx`, ya usado en la ficha de producto — contenido
+siempre en el HTML, se oculta con `hidden`, indexable).
+
+Ajustes obligatorios aplicados al texto pegado, tal como se pidió:
+- **Omitidas por completo** las líneas de NIT/identificación/razón social y
+  correo electrónico, y cualquier `[PLACEHOLDER]` — el bloque de
+  identificación solo muestra nombre comercial, domicilio, WhatsApp y
+  horario, los únicos datos reales confirmados.
+- **WhatsApp corregido en las 2 apariciones del texto pegado**
+  (+57 316 754 8107 → `WHATSAPP_DISPLAY`/`whatsAppLink()` de
+  `lib/whatsapp.ts`, la fuente única ya usada en todo el sitio) — verificado
+  con grep que el número incorrecto no aparece en ningún archivo de código
+  vivo (sí aparece en 2 documentos históricos de auditoría de sesiones
+  anteriores, sin relación con este texto, no se tocaron).
+- **Eliminadas las notas internas al dueño**: el bloque "Advertencia para La
+  12 Store: esta cláusula debe publicarse únicamente si..." (sección 12) y
+  todo el párrafo final de instrucciones/checklist/enlaces de referencia
+  después de la sección 20 — ninguno de los dos es contenido para el
+  cliente. La cláusula comercial de los 60 días que sí pidió mantener el
+  dueño (devolución total + reenvío gratis) se conservó completa, solo se
+  quitó la advertencia.
+- **Sin reducir derechos ni cambiar efectos**: el texto legal (plazos,
+  condiciones, exclusiones, procedimiento) se mantuvo íntegro — solo se
+  quitaron citas de nota al pie en formato markdown (`([Función Pública][1])`)
+  que no renderizan como enlaces reales sin las referencias completas; las 4
+  normas citadas (Ley 1480/2011, Ley 2439/2024, Decreto 1074/2015, Decreto
+  735/2013) se mantienen nombradas en el párrafo introductorio.
+- **Enlazada** desde el checkbox de políticas del checkout (ya apuntaba a
+  `/cambios` desde la corrección anterior), el footer (label actualizado a
+  "Cambios, Devoluciones y Garantía") y una pregunta nueva de FAQ
+  ("¿Aceptan devoluciones?", con link real a la página — se agregó un campo
+  `link` opcional al tipo de pregunta de FAQ para esto).
+
+**Barrido de coherencia "3 días" → nuevos plazos**, en los 3 lugares que
+quedaban con el dato viejo:
+- `app/faq/page.tsx` — respuesta de "¿Aceptan devoluciones?" reescrita con
+  los plazos reales (retracto/cambio de talla 5 días hábiles, garantía 1
+  año) en vez de un genérico "3 días" que mezclaba error de la tienda con
+  defecto de fábrica bajo un solo plazo incorrecto.
+- `components/product/ProductDetail.tsx` — el acordeón "Envíos y cambios" y
+  el badge de confianza tenían el mismo problema: "talla incorrecta o
+  defecto de fábrica dentro de los 3 días" combinaba dos políticas distintas
+  (cambio voluntario de talla: 5 días hábiles: garantía por defecto: 1 año)
+  bajo un solo plazo que además **subestimaba la garantía real** (3 días en
+  vez de 1 año) — corregido a las dos cifras correctas por separado. El
+  badge de confianza pasó de "Cambios por talla incorrecta" (vago) a
+  "Garantía de 1 año" (dato concreto y verificable, más fuerte como señal de
+  confianza).

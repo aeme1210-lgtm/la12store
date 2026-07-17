@@ -426,7 +426,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
           <div>
             <p className="text-xl" aria-hidden="true">🔄</p>
-            <p className="text-xs text-[#9CA3AF] mt-1">Cambios por talla incorrecta</p>
+            <p className="text-xs text-[#9CA3AF] mt-1">Garantía de 1 año</p>
           </div>
           <div>
             <p className="text-xl" aria-hidden="true">💬</p>
@@ -460,10 +460,10 @@ export function ProductDetail({ product }: { product: Product }) {
               {SHIPPING.nacional.label}.
             </p>
             <p>
-              Cambios por talla incorrecta o defecto de fábrica dentro de los 3 días de recibido —
-              ver{" "}
+              Cambio voluntario de talla dentro de los 5 días hábiles de recibido. Garantía de 1
+              año por defectos de fábrica o error en el pedido — ver{" "}
               <Link href="/cambios" className="text-[#A47C42] hover:underline">
-                política de cambios
+                política de cambios, devoluciones y garantía
               </Link>
               .
             </p>

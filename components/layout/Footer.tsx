@@ -80,7 +80,7 @@ export function Footer() {
                 { href: "/nosotros", label: "Sobre Nosotros" },
                 { href: "/contacto", label: "Contacto" },
                 { href: "/faq", label: "Preguntas Frecuentes" },
-                { href: "/cambios", label: "Política de Cambios" },
+                { href: "/cambios", label: "Cambios, Devoluciones y Garantía" },
                 { href: "/privacidad", label: "Privacidad" },
                 { href: "/terminos", label: "Términos de Uso" },
               ].map((link) => (
