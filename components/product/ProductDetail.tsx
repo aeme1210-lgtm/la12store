@@ -408,9 +408,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>🚚</span>
-            <span>
-              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label}
-            </span>
+            <span>{SHIPPING.nacional.label}</span>
           </div>
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>💳</span>
@@ -457,7 +455,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </AccordionItem>
           <AccordionItem title="Envíos y cambios">
             <p className="mb-2">
-              {SHIPPING.santaMarta.label}. {SHIPPING.nacional.label}.
+              {SHIPPING.nacional.label}.
             </p>
             <p>
               Cambios por talla incorrecta o defecto de fábrica dentro de los 3 días de recibido —

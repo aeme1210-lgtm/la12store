@@ -31,7 +31,8 @@ export default function TerminosPage() {
           </p>
           <p>
             Los precios mostrados están en pesos colombianos (COP) e incluyen personalización de
-            dorsal y parches sin costo adicional. El costo de envío se confirma según destino.
+            dorsal y parches sin costo adicional. El envío es gratis en todas las camisetas de la
+            web, a toda Colombia.
           </p>
           <p>
             Al hacer un pedido aceptas nuestra{" "}

@@ -6,7 +6,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { ShoppingCart, Menu, X, MessageCircle, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/cart-store";
-import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
 import { whatsAppLink } from "@/lib/whatsapp";
 import { drawerTransition } from "@/lib/motion";
 
@@ -27,8 +26,6 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [isPromoActive, setIsPromoActive] = useState(false);
-  const [isBarcaPromoActive, setIsBarcaPromoActive] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const desktopSearchRef = useRef<HTMLInputElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -37,7 +34,7 @@ export function Navbar() {
   // Selector reactivo (no un método snapshot) para que el badge se actualice
   // cuando cambia el carrito. `mounted` evita el mismatch de hidratación: el
   // servidor nunca ve localStorage, así que el conteo real solo se pinta
-  // después del montaje en cliente (mismo patrón que las promos de abajo).
+  // después del montaje en cliente.
   const itemCount = useCart((s) => s.items.reduce((sum, i) => sum + i.quantity, 0));
   const openDrawer = useCart((s) => s.openDrawer);
   const [mounted, setMounted] = useState(false);
@@ -45,16 +42,6 @@ export function Navbar() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Set promo state client-side only to avoid hydration mismatch
-  useEffect(() => {
-    setIsPromoActive(isSuperClasicoActive());
-    // Barça promo — consultar endpoint liviano (DB-driven)
-    fetch("/api/promo-barca-status")
-      .then((r) => r.json())
-      .then((d) => setIsBarcaPromoActive(d.active === true))
-      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -167,44 +154,6 @@ export function Navbar() {
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-7">
-              {isPromoActive && (
-                <Link
-                  href="/super-clasico"
-                  className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  🔥{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(90deg, #D32F2F, #A47C42)",
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    SUPER CLÁSICO -15%
-                  </span>
-                </Link>
-              )}
-              {isBarcaPromoActive && (
-                <Link
-                  href="/campeones-barca"
-                  className="text-sm font-black tracking-wider uppercase transition-colors duration-200 animate-pulse"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  🏆{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    BARÇA CAMPEÓN -20%
-                  </span>
-                </Link>
-              )}
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -363,46 +312,6 @@ export function Navbar() {
 
           {/* Nav links centered */}
           <nav className="flex flex-col items-center justify-center flex-1 gap-2 pb-16">
-            {isPromoActive && (
-              <Link
-                href="/super-clasico"
-                onClick={() => setMobileOpen(false)}
-                className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                🔥{" "}
-                <span
-                  style={{
-                    background: "linear-gradient(90deg, #D32F2F, #A47C42)",
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  SUPER CLÁSICO -15%
-                </span>
-              </Link>
-            )}
-            {isBarcaPromoActive && (
-              <Link
-                href="/campeones-barca"
-                onClick={() => setMobileOpen(false)}
-                className="text-2xl font-black uppercase tracking-wider py-4 px-8 w-full text-center transition-colors animate-pulse"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                🏆{" "}
-                <span
-                  style={{
-                    background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  BARÇA CAMPEÓN -20%
-                </span>
-              </Link>
-            )}
             {navLinks.map((link) => (
               <Link
                 key={link.href}

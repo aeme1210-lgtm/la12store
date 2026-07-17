@@ -33,7 +33,7 @@ export function UrgencyBar() {
         className="text-black text-[10px] md:text-xs font-semibold text-center leading-none truncate max-w-[calc(100%-2rem)]"
         style={{ fontFamily: "var(--font-inter)" }}
       >
-        🔥 <span className="hidden sm:inline">MUNDIAL 2026 — </span>Camisetas de selecciones · Dorsal y parches gratis
+        🔥 <span className="hidden sm:inline">MUNDIAL 2026 — </span>Camisetas de selecciones · Dorsal, parches y envío gratis
       </p>
       <button
         onClick={dismiss}

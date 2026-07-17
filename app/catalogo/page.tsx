@@ -8,7 +8,6 @@ import { FadeInUp } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { resolveSearchTerms } from "@/lib/search";
-import { getBarcaPromoStatus, isBarcaProduct } from "@/lib/promo-barca";
 import { buildTaxonomyIndex } from "@/lib/taxonomy";
 
 export const metadata: Metadata = {
@@ -167,7 +166,6 @@ export default async function CatalogoPage({
   let leagues: { league: string }[] = [];
   let taxonomy = buildTaxonomyIndex([]);
 
-  let barcaPromoActive = false;
   try {
     // Los tipos crudos se obtienen primero (sin filtrar) para construir el
     // índice tipo/color español -> valores crudos (lib/taxonomy.ts) antes de
@@ -181,7 +179,7 @@ export default async function CatalogoPage({
 
     const where = buildWhere(params, taxonomy);
 
-    const [fetchedProducts, fetchedTotal, barcaStatus] = await Promise.all([
+    const [fetchedProducts, fetchedTotal] = await Promise.all([
       prisma.product.findMany({
         where,
         orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
@@ -189,11 +187,9 @@ export default async function CatalogoPage({
         take: PAGE_SIZE,
       }),
       prisma.product.count({ where }),
-      getBarcaPromoStatus(),
     ]);
     products = fetchedProducts;
     total = fetchedTotal;
-    barcaPromoActive = barcaStatus.active;
   } catch {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
@@ -291,11 +287,7 @@ export default async function CatalogoPage({
                     parte de la causa del "tambaleo" percibido. */}
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
                   {products.map((p: (typeof products)[number]) => (
-                    <ProductCard
-                      key={p.id}
-                      product={p}
-                      showBarcaBadge={barcaPromoActive && isBarcaProduct(p.name)}
-                    />
+                    <ProductCard key={p.id} product={p} />
                   ))}
                 </div>
 

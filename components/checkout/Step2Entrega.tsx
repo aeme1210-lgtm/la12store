@@ -2,15 +2,13 @@
 
 import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
-import { useCheckout } from "@/lib/checkout-store";
 import { formatCOP } from "@/lib/utils";
 import { shippingLineFor } from "@/lib/shipping";
 
 export function Step2Entrega({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const { items, totalPrice } = useCart();
-  const { data } = useCheckout();
   const subtotal = totalPrice();
-  const shippingLine = shippingLineFor(data.city);
+  const shippingLine = shippingLineFor();
 
   return (
     <div className="space-y-5">
@@ -53,15 +51,13 @@ export function Step2Entrega({ onNext, onBack }: { onNext: () => void; onBack: (
         </div>
         <div className="flex justify-between text-sm gap-4">
           <span className="text-[#A0A0A0] flex-shrink-0">Envío</span>
-          <span className="text-[#22C55E] text-right">{shippingLine}</span>
+          <span className="text-[#22C55E] font-semibold text-right">GRATIS · $0</span>
         </div>
         <div className="border-t border-[#8A6435]/10 pt-2 flex justify-between">
           <span className="text-white font-bold uppercase text-sm">Total</span>
           <span className="text-[#A47C42] text-xl font-bold">{formatCOP(subtotal)}</span>
         </div>
-        <p className="text-[#666666] text-[11px]">
-          El envío no está incluido en el total — se confirma por WhatsApp antes de pagar.
-        </p>
+        <p className="text-[#666666] text-[11px]">{shippingLine}</p>
       </div>
 
       <div className="flex gap-3">

@@ -183,7 +183,7 @@ export default function CarritoPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-[#A0A0A0]">Envío</span>
-                  <span className="text-[#22C55E] font-semibold">Por confirmar</span>
+                  <span className="text-[#22C55E] font-semibold">GRATIS · $0</span>
                 </div>
               </div>
               <div className="border-t border-gray-700 pt-4 flex justify-between items-baseline mb-8">

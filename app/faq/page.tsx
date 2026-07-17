@@ -16,7 +16,7 @@ const faqs = [
       },
       {
         q: "¿Cuánto tiempo tarda en llegar mi pedido?",
-        a: "En Santa Marta la entrega es personal. Los productos bajo encargo tardan 20-25 días hábiles en llegar a nuestras manos. Una vez despachado, el envío nacional llega en 2-4 días hábiles. Para envíos internacionales, el tiempo y costo se confirman por WhatsApp según el destino.",
+        a: "Los productos bajo encargo tardan 25 a 30 días calendario en llegar a nuestras manos. Una vez despachado, el envío es gratis a toda Colombia y llega en 2-4 días hábiles. Para envíos internacionales, el tiempo y costo se confirman por WhatsApp según el destino.",
       },
       {
         q: "¿Puedo hacer pedidos al por mayor?",
@@ -80,7 +80,7 @@ const faqs = [
     items: [
       {
         q: "¿Cuánto cuesta el envío?",
-        a: `${SHIPPING.santaMarta.label}. ${SHIPPING.nacional.label}.`,
+        a: `${SHIPPING.nacional.label}.`,
       },
       {
         q: "¿Envían a todo Colombia?",

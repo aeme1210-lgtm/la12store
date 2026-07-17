@@ -50,24 +50,13 @@ function getSmartBadge(name: string): { text: string; bg: string; color: string 
   return null;
 }
 
-export function ProductCard({
-  product,
-  showBarcaBadge = false,
-  discountPercent,
-}: {
-  product: Product;
-  showBarcaBadge?: boolean;
-  discountPercent?: number;
-}) {
+export function ProductCard({ product }: { product: Product }) {
   const images = JSON.parse(product.images || "[]") as string[];
   const mainImage = images[0] || PLACEHOLDER;
   const secondImage = images[1];
   const [imgSrc, setImgSrc] = useState(mainImage);
 
-  const basePrice = getStartingPrice(product);
-  const displayPrice = discountPercent
-    ? Math.round(basePrice * (1 - discountPercent / 100))
-    : basePrice;
+  const displayPrice = getStartingPrice(product);
 
   const smartBadge = getSmartBadge(product.name);
 
@@ -101,18 +90,6 @@ export function ProductCard({
 
           {/* Badges */}
           <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
-            {showBarcaBadge && (
-              <span
-                className="text-[10px] font-black px-2 py-0.5 rounded tracking-wide"
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  background: "linear-gradient(135deg, #A50044, #004D98)",
-                  color: "#FFD700",
-                }}
-              >
-                -20%
-              </span>
-            )}
             {product.isTrending && (
               <span
                 className="bg-[#A47C42] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
@@ -188,14 +165,6 @@ export function ProductCard({
             >
               {formatCOP(displayPrice)}
             </span>
-            {discountPercent && (
-              <span
-                className="text-[#666] text-xs line-through"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                {formatCOP(basePrice)}
-              </span>
-            )}
           </div>
           <p className="text-[#22C55E] text-[10px] mt-1">✓ Dorsal y parches gratis</p>
         </div>

@@ -14,14 +14,12 @@ import { NosotrosSection } from "@/components/home/NosotrosSection";
 import { ShirtFinder } from "@/components/home/ShirtFinder";
 import { ComoComprar } from "@/components/home/ComoComprar";
 import { FadeInUp } from "@/components/ui/ScrollAnimations";
-import { isSuperClasicoActive } from "@/lib/promo-super-clasico";
-import { getBarcaPromoStatus } from "@/lib/promo-barca";
 import { whatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "La 12 Store | Camisetas de Fútbol Premium",
   description:
-    "Lo mejor en camisetas de fútbol en Colombia. Calidad premium, envío a todo el país. Selecciones, ligas europeas y sudamericanas. Santa Marta, Colombia.",
+    "Lo mejor en camisetas de fútbol en Colombia. Calidad premium, envío gratis a todo el país. Selecciones, ligas europeas y sudamericanas. Santa Marta, Colombia.",
 };
 
 async function getTrendingProducts() {
@@ -62,44 +60,10 @@ const WORLDS: World[] = [
 ];
 
 export default async function HomePage() {
-  const promoActive = isSuperClasicoActive();
-  const [trending, barcaPromo] = await Promise.all([
-    getTrendingProducts(),
-    getBarcaPromoStatus(),
-  ]);
+  const trending = await getTrendingProducts();
 
   return (
     <>
-      {/* ── BANNER BARÇA CAMPEÓN (DB-driven, 24 h) ── */}
-      {barcaPromo.active && (
-        <Link
-          href="/campeones-barca"
-          className="block w-full text-center py-3 px-4 font-black text-sm uppercase tracking-widest transition-opacity hover:opacity-90"
-          style={{
-            fontFamily: "var(--font-inter)",
-            background: "linear-gradient(90deg, #A50044 0%, #1A1A1A 40%, #1A1A1A 60%, #004D98 100%)",
-            color: "#FFD700",
-          }}
-        >
-          🏆 ¡BARÇA CAMPEÓN DE LIGA! — 20% OFF en todas las camisetas del Barça · Solo 24 h →
-        </Link>
-      )}
-
-      {/* ── PROMO BANNER — solo el 19 de abril ── */}
-      {promoActive && (
-        <Link
-          href="/super-clasico"
-          className="block w-full text-center py-3 px-4 font-black text-sm uppercase tracking-widest transition-opacity hover:opacity-90"
-          style={{
-            fontFamily: "var(--font-inter)",
-            background: "linear-gradient(90deg, #D32F2F 0%, #1A1A1A 40%, #1A1A1A 60%, #003087 100%)",
-            color: "#FFD700",
-          }}
-        >
-          🔥 PROMO SUPER CLÁSICO — 15% OFF en camisetas de Boca y River · Solo hoy →
-        </Link>
-      )}
-
       {/* ── 3. HERO ── */}
       <Hero />
 

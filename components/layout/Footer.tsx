@@ -19,7 +19,7 @@ export function Footer() {
             </h2>
             <p className="text-[#A0A0A0] text-sm mb-4 max-w-xs">
               Lo mejor en camisetas de fútbol en Colombia. Calidad premium,
-              acabados profesionales, envío a todo el país.
+              acabados profesionales, envío gratis a todo el país.
             </p>
             <p className="text-[#666666] text-xs">Santa Marta, Colombia</p>
 
@@ -116,8 +116,6 @@ export function Footer() {
               Cuentas y datos completos de pago dentro del checkout.
             </p>
             <p className="text-[#666666] text-xs mt-4">
-              {SHIPPING.santaMarta.label}
-              <br />
               {SHIPPING.nacional.label}
             </p>
           </div>

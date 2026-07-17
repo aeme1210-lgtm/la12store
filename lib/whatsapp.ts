@@ -51,6 +51,7 @@ export function buildOrderMessage(details: WhatsAppOrderDetails): string {
   const parts = ["Hola! Quiero hacer este pedido en La 12 Store:", ""];
   details.items.forEach((item, i) => parts.push(formatItem(item, i), ""));
   parts.push(`Subtotal: ${formatCOP(details.subtotal)}`);
+  parts.push("Envío: GRATIS · $0");
   if (details.orderNumber) parts.push(`N° de pedido: ${details.orderNumber}`);
   if (details.city) parts.push(`Ciudad: ${details.city}`);
   if (details.paymentMethod) parts.push(`Método de pago: ${details.paymentMethod}`);

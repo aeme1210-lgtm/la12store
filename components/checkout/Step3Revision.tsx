@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { useCheckout } from "@/lib/checkout-store";
 import { formatCOP } from "@/lib/utils";
-import { shippingLineFor } from "@/lib/shipping";
 import { ORDER_STATUS } from "@/lib/order-status";
 import { getPaymentMethod } from "@/lib/payment-methods";
 
@@ -25,7 +24,6 @@ export function Step3Revision({
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
 
   const subtotal = totalPrice();
-  const shippingLine = shippingLineFor(data.city);
   const method = getPaymentMethod(paymentMethodId);
 
   const handleConfirm = async () => {
@@ -124,7 +122,7 @@ export function Step3Revision({
           </div>
           <div className="flex justify-between text-xs gap-4">
             <span className="text-[#A0A0A0] flex-shrink-0">Envío</span>
-            <span className="text-[#22C55E] text-right">{shippingLine}</span>
+            <span className="text-[#22C55E] font-semibold text-right">GRATIS · $0</span>
           </div>
           <div className="flex justify-between pt-1">
             <span className="text-white font-bold uppercase text-sm">Total</span>

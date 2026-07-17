@@ -51,8 +51,8 @@ export function Hero() {
             className="text-white/85 text-sm md:text-base mb-8"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            Dorsal y parches personalizados, siempre gratis. Envío gratis en Santa Marta, resto de
-            Colombia se confirma por WhatsApp.
+            Dorsal y parches personalizados, siempre gratis. Envío gratis en todas las camisetas de
+            la web.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
