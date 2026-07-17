@@ -22,6 +22,7 @@ export function Step3Revision({
   const { data, paymentMethodId, setOrder } = useCheckout();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [acceptedPolicy, setAcceptedPolicy] = useState(false);
 
   const subtotal = totalPrice();
   const shippingLine = shippingLineFor(data.city);
@@ -145,9 +146,29 @@ export function Step3Revision({
         </p>
       )}
 
+      <label className="flex items-start gap-2.5 text-xs text-[#A0A0A0] cursor-pointer">
+        <input
+          type="checkbox"
+          checked={acceptedPolicy}
+          onChange={(e) => setAcceptedPolicy(e.target.checked)}
+          className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#A47C42]"
+        />
+        <span>
+          He leído y acepto la{" "}
+          <a href="/cambios" target="_blank" rel="noopener noreferrer" className="text-[#A47C42] hover:underline">
+            política de cambios y devoluciones
+          </a>{" "}
+          y los{" "}
+          <a href="/terminos" target="_blank" rel="noopener noreferrer" className="text-[#A47C42] hover:underline">
+            términos de uso
+          </a>{" "}
+          de La 12 Store.
+        </span>
+      </label>
+
       <button
         onClick={handleConfirm}
-        disabled={loading}
+        disabled={loading || !acceptedPolicy}
         className="w-full bg-[#A47C42] hover:bg-[#C4A06A] disabled:opacity-50 text-black font-bold py-4 rounded-xl uppercase tracking-widest text-sm transition-colors"
       >
         {loading ? "Confirmando..." : "Confirmar e ir a pago"}

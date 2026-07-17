@@ -282,27 +282,19 @@ export function ProductDetail({ product }: { product: Product }) {
 
           {showSizeGuide && (
             <div className="mt-3 bg-[#141414] rounded-xl p-4 border border-[#8A6435]/20 text-sm">
-              <p className="text-[#A47C42] font-bold uppercase mb-2" style={{ fontFamily: "var(--font-inter)" }}>
+              <p className="text-[#A47C42] font-bold uppercase mb-3" style={{ fontFamily: "var(--font-inter)" }}>
                 Guía de Tallas
               </p>
-              <table className="w-full text-xs text-[#A0A0A0]">
-                <thead>
-                  <tr className="text-[#666666]">
-                    <th className="text-left py-1">Talla</th>
-                    <th className="text-left py-1">Pecho (cm)</th>
-                    <th className="text-left py-1">Largo (cm)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[["S", "86-92", "68"], ["M", "92-98", "70"], ["L", "98-104", "72"], ["XL", "104-110", "74"], ["2XL", "110-116", "76"], ["3XL", "116-122", "78"], ["4XL", "122-128", "80"]].map(([t, p, l]) => (
-                    <tr key={t} className="border-t border-[#8A6435]/10">
-                      <td className="py-1 font-bold text-white">{t}</td>
-                      <td className="py-1">{p}</td>
-                      <td className="py-1">{l}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="relative w-full rounded-lg overflow-hidden bg-white">
+                <Image
+                  src="/images/guia-tallas-oficial-la12store.png"
+                  alt="Guía oficial de tallas La 12 Store: Aficionado (Fan), Jugador (Player) y Femenina (Mujer), con medidas de largo, ancho, altura y peso por talla"
+                  width={1122}
+                  height={1402}
+                  className="w-full h-auto"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
+              </div>
             </div>
           )}
         </div>

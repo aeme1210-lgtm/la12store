@@ -16,7 +16,7 @@
 export interface PaymentMethod {
   id: string;
   name: string;
-  type: "nequi" | "daviplata" | "bancolombia" | "breb";
+  type: "nequi" | "daviplata" | "bancolombia" | "bancolombia2" | "breb";
   titular: string;
   /** Número o llave a mostrar/copiar. */
   number: string;
@@ -75,7 +75,20 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
     active: true,
     officialDeepLink: null,
     qrImageUrl: null,
-    ariaLabel: "Pagar por transferencia Bancolombia",
+    ariaLabel: "Pagar por transferencia Bancolombia (Silvana Ossa)",
+  },
+  {
+    id: "bancolombia2",
+    name: "Bancolombia",
+    type: "bancolombia2",
+    titular: "Andrés Méndez",
+    number: "91202310007",
+    color: "#FFDD00",
+    instructions: "Cuenta de ahorros Bancolombia. Transfiere el total exacto e incluye el código de tu pedido en la descripción.",
+    active: true,
+    officialDeepLink: null,
+    qrImageUrl: null,
+    ariaLabel: "Pagar por transferencia Bancolombia (Andrés Méndez)",
   },
   {
     id: "breb",
@@ -100,7 +113,11 @@ export function getPaymentMethod(id: string): PaymentMethod | undefined {
   return PAYMENT_METHODS.find((m) => m.id === id);
 }
 
-/** Nombres únicamente — seguro para usar fuera del checkout (footer, FAQ, contacto). */
+/**
+ * Nombres únicamente — seguro para usar fuera del checkout (footer, FAQ, contacto).
+ * Deduplicado: hay 2 cuentas Bancolombia (titulares distintos) que comparten nombre,
+ * pero fuera del checkout solo interesa que el método "Bancolombia" está disponible.
+ */
 export function paymentMethodNames(): string[] {
-  return getActivePaymentMethods().map((m) => m.name);
+  return Array.from(new Set(getActivePaymentMethods().map((m) => m.name)));
 }

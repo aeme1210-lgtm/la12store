@@ -91,6 +91,7 @@ export default async function CampeonesBarcaPage() {
                 style={{
                   fontFamily: "var(--font-inter)",
                   background: "linear-gradient(90deg, #A50044, #FFD700, #004D98)",
+                  backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   fontSize: "clamp(2.5rem, 8vw, 5rem)",

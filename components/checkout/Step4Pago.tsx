@@ -61,7 +61,10 @@ export function Step4Pago({ onNext, onBack }: { onNext: () => void; onBack: () =
               >
                 <span className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: m.color }} aria-hidden="true" />
-                  <span className="text-white font-bold text-sm uppercase tracking-wider">{m.name}</span>
+                  <span className="flex flex-col items-start">
+                    <span className="text-white font-bold text-sm uppercase tracking-wider">{m.name}</span>
+                    <span className="text-[#666666] text-[11px] normal-case">{m.titular}</span>
+                  </span>
                 </span>
                 <span className="text-[#666666] text-xs">{isSelected ? "Seleccionado" : "Elegir"}</span>
               </button>
