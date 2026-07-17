@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductCard } from "@/components/product/ProductCard";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
-import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/ScrollAnimations";
+import { FadeInUp } from "@/components/ui/ScrollAnimations";
 import type { Metadata } from "next";
 import { formatCOP } from "@/lib/utils";
 import { getStartingPrice } from "@/lib/pricing";
@@ -118,13 +118,12 @@ export default async function ProductPage({ params }: Props) {
                 También te puede gustar
               </h2>
             </FadeInUp>
-            <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5" staggerDelay={0.1}>
+            {/* Sin animación por tarjeta (REDESIGN_V2 Fase 1) */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
               {related.map((p: (typeof related)[number]) => (
-                <StaggerItem key={p.id}>
-                  <ProductCard product={p} />
-                </StaggerItem>
+                <ProductCard key={p.id} product={p} />
               ))}
-            </StaggerContainer>
+            </div>
           </section>
         )}
 

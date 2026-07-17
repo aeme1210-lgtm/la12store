@@ -26,7 +26,7 @@ export default function GlobalError({
         </p>
         <h1
           className="text-3xl md:text-4xl font-black text-white uppercase mb-4"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           No pudimos cargar esta página
         </h1>
@@ -37,7 +37,7 @@ export default function GlobalError({
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest text-sm transition-all"
+            className="inline-flex items-center justify-center gap-2 bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest text-sm transition-all"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Reintentar

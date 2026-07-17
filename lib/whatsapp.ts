@@ -26,6 +26,13 @@ export interface WhatsAppOrderDetails {
   notes?: string;
   orderNumber?: string;
   paymentMethod?: string;
+  /** Solo se incluye la línea si viene definido — no todos los mensajes (ej.
+   * consulta rápida desde la ficha) pasan por el checkbox de políticas. */
+  policyAccepted?: boolean;
+  /** "order" (default): consulta/pedido nuevo. "receipt": el pedido ya existe
+   * (Step5Comprobante) — cambia el saludo para no decir "quiero hacer este
+   * pedido" sobre uno que ya se creó y ya se pagó. */
+  context?: "order" | "receipt";
 }
 
 function formatItem(item: WhatsAppOrderItem, index: number): string {
@@ -48,13 +55,21 @@ function formatItem(item: WhatsAppOrderItem, index: number): string {
 
 /** Único builder de mensaje de pedido — usado por consulta rápida, carrito y checkout. */
 export function buildOrderMessage(details: WhatsAppOrderDetails): string {
-  const parts = ["Hola! Quiero hacer este pedido en La 12 Store:", ""];
+  const greeting =
+    details.context === "receipt"
+      ? `Hola! Este es el comprobante de mi pedido${details.orderNumber ? ` ${details.orderNumber}` : ""} en La 12 Store:`
+      : "Hola! Quiero hacer este pedido en La 12 Store:";
+  const parts = [greeting, ""];
   details.items.forEach((item, i) => parts.push(formatItem(item, i), ""));
   parts.push(`Subtotal: ${formatCOP(details.subtotal)}`);
+  parts.push("Envío: GRATIS · $0");
   if (details.orderNumber) parts.push(`N° de pedido: ${details.orderNumber}`);
   if (details.city) parts.push(`Ciudad: ${details.city}`);
   if (details.paymentMethod) parts.push(`Método de pago: ${details.paymentMethod}`);
   if (details.notes) parts.push(`Notas: ${details.notes}`);
+  if (details.policyAccepted !== undefined) {
+    parts.push(`Condiciones aceptadas: ${details.policyAccepted ? "Sí" : "No"}`);
+  }
   return parts.join("\n");
 }
 

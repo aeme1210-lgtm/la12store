@@ -104,7 +104,7 @@ export function AdminProductActions({ mode, product }: Props) {
         type="checkbox"
         checked={form[name] as boolean}
         onChange={(e) => setForm({ ...form, [name]: e.target.checked })}
-        className="accent-[#D4A017]"
+        className="accent-[#A47C42]"
       />
       <span className="text-[#A0A0A0] text-sm">{label}</span>
     </label>
@@ -116,7 +116,7 @@ export function AdminProductActions({ mode, product }: Props) {
         {mode === "create" ? (
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-2 bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-4 py-2 rounded-lg text-sm transition-all"
+            className="flex items-center gap-2 bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-4 py-2 rounded-lg text-sm transition-all"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             <Plus size={16} />
@@ -126,7 +126,7 @@ export function AdminProductActions({ mode, product }: Props) {
           <>
             <button
               onClick={() => setOpen(true)}
-              className="p-1.5 text-[#A0A0A0] hover:text-[#D4A017] transition-colors"
+              className="p-1.5 text-[#A0A0A0] hover:text-[#A47C42] transition-colors"
             >
               <Pencil size={14} />
             </button>
@@ -142,7 +142,7 @@ export function AdminProductActions({ mode, product }: Props) {
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
-          <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/20 w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
+          <div className="bg-[#141414] rounded-2xl border border-[#8A6435]/20 w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-5">
               <h2
                 className="text-xl font-black text-white uppercase"
@@ -171,7 +171,7 @@ export function AdminProductActions({ mode, product }: Props) {
                       value={form[f.name as keyof typeof form] as string}
                       onChange={(e) => setForm({ ...form, [f.name]: e.target.value })}
                       rows={2}
-                      className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#D4A017]/50 resize-none"
+                      className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#A47C42]/50 resize-none"
                     />
                   ) : (
                     <input
@@ -179,7 +179,7 @@ export function AdminProductActions({ mode, product }: Props) {
                       required={f.required}
                       value={form[f.name as keyof typeof form] as string}
                       onChange={(e) => setForm({ ...form, [f.name]: e.target.value })}
-                      className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#D4A017]/50"
+                      className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#A47C42]/50"
                     />
                   )}
                 </div>
@@ -193,7 +193,7 @@ export function AdminProductActions({ mode, product }: Props) {
                   <select
                     value={form.league}
                     onChange={(e) => setForm({ ...form, league: e.target.value })}
-                    className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#D4A017]/50"
+                    className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#A47C42]/50"
                   >
                     {leagueOptions.map((l) => (
                       <option key={l} value={l}>{l}</option>
@@ -207,7 +207,7 @@ export function AdminProductActions({ mode, product }: Props) {
                   <select
                     value={form.type}
                     onChange={(e) => setForm({ ...form, type: e.target.value })}
-                    className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#D4A017]/50"
+                    className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#A47C42]/50"
                   >
                     {typeOptions.map((t) => (
                       <option key={t} value={t}>{t}</option>
@@ -230,7 +230,7 @@ export function AdminProductActions({ mode, product }: Props) {
                       type="number"
                       value={form[f.name as keyof typeof form] as number}
                       onChange={(e) => setForm({ ...form, [f.name]: parseInt(e.target.value) })}
-                      className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#D4A017]/50"
+                      className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#A47C42]/50"
                     />
                   </div>
                 ))}
@@ -249,7 +249,7 @@ export function AdminProductActions({ mode, product }: Props) {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="flex-1 py-2.5 rounded-lg border border-[#B8860B]/20 text-[#A0A0A0] text-sm font-semibold hover:text-white transition-colors"
+                  className="flex-1 py-2.5 rounded-lg border border-[#8A6435]/20 text-[#A0A0A0] text-sm font-semibold hover:text-white transition-colors"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Cancelar
@@ -257,7 +257,7 @@ export function AdminProductActions({ mode, product }: Props) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-2.5 rounded-lg bg-[#D4A017] hover:bg-[#F0D060] text-black text-sm font-bold uppercase tracking-wide disabled:opacity-50 transition-all"
+                  className="flex-1 py-2.5 rounded-lg bg-[#A47C42] hover:bg-[#C4A06A] text-black text-sm font-bold uppercase tracking-wide disabled:opacity-50 transition-all"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {loading ? "Guardando..." : "Guardar"}

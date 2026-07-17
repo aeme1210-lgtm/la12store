@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 // Supabase project hostname (images y media)
 const SUPABASE_HOST = "https://chljxifjjzaffvwixtfm.supabase.co";
+// REDESIGN_V2 Fase 4: productos 26/27 con foto enlazada directo al CDN del
+// proveedor (Yupoo) — ver docs/DECISIONS_V2.md (sin SUPABASE_SERVICE_ROLE_KEY
+// en este entorno no se pudieron subir al bucket propio).
+const YUPOO_HOST = "https://photo.yupoo.com";
 
 // Content-Security-Policy: evita XSS, clickjacking e inyección de recursos.
 // - script-src 'unsafe-inline' necesario porque Next.js inyecta scripts inline.
@@ -11,7 +15,7 @@ const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: ${SUPABASE_HOST}`,
+  `img-src 'self' data: blob: ${SUPABASE_HOST} ${YUPOO_HOST}`,
   `media-src 'self' ${SUPABASE_HOST}`,
   `connect-src 'self' ${SUPABASE_HOST} wss:`,
   "font-src 'self' data:",
@@ -46,6 +50,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "chljxifjjzaffvwixtfm.supabase.co",
         pathname: "/storage/v1/object/public/**",
+      },
+      {
+        protocol: "https",
+        hostname: "photo.yupoo.com",
+        pathname: "/**",
       },
     ],
   },

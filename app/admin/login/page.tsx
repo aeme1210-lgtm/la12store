@@ -39,8 +39,8 @@ export default function AdminLogin() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1
-            className="text-3xl font-black text-[#D4A017] uppercase tracking-widest"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-3xl font-black text-[#A47C42] uppercase tracking-widest"
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             LA 12 STORE
           </h1>
@@ -49,7 +49,7 @@ export default function AdminLogin() {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-[#141414] rounded-2xl border border-[#B8860B]/20 p-6 space-y-4"
+          className="bg-[#141414] rounded-2xl border border-[#8A6435]/20 p-6 space-y-4"
         >
           <div>
             <label className="text-[#A0A0A0] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "var(--font-inter)" }}>
@@ -60,7 +60,7 @@ export default function AdminLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#D4A017]/50"
+              className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#A47C42]/50"
             />
           </div>
           <div>
@@ -72,7 +72,7 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#D4A017]/50"
+              className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#A47C42]/50"
             />
           </div>
 
@@ -83,7 +83,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#D4A017] hover:bg-[#F0D060] disabled:opacity-50 text-black font-bold py-3 rounded-lg uppercase tracking-widest text-sm transition-all"
+            className="w-full bg-[#A47C42] hover:bg-[#C4A06A] disabled:opacity-50 text-black font-bold py-3 rounded-lg uppercase tracking-widest text-sm transition-all"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {loading ? "Ingresando..." : "Ingresar"}

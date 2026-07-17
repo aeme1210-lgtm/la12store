@@ -8,8 +8,11 @@ import { formatCOP } from "@/lib/utils";
 import { getProductPrice } from "@/lib/pricing";
 import { buildOrderMessage, whatsAppLink } from "@/lib/whatsapp";
 import { SHIPPING } from "@/lib/shipping";
+import { paymentMethodNames } from "@/lib/payment-methods";
 import { recordView } from "@/lib/recently-viewed";
+import { availableSizesFor } from "@/lib/sizes";
 import { Accordion, AccordionItem } from "@/components/ui/Accordion";
+import { SizeGuideSheet } from "@/components/product/SizeGuideSheet";
 import Link from "next/link";
 import { FadeInLeft, FadeInRight } from "@/components/ui/ScrollAnimations";
 
@@ -35,17 +38,19 @@ interface Product {
 
 export function ProductDetail({ product }: { product: Product }) {
   const images = JSON.parse(product.images || "[]") as string[];
-  const sizes = JSON.parse(product.sizes || "[]") as string[];
+  const rawSizes = JSON.parse(product.sizes || "[]") as string[];
   const allImages = images.length > 0 ? images : ["/images/placeholder.jpg"];
 
   const [imgIdx, setImgIdx] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [version, setVersion] = useState<"Fan" | "Player">("Fan");
+  const sizes = product.isRetro ? rawSizes : availableSizesFor(rawSizes, version);
   const [dorsalName, setDorsalName] = useState("");
   const [dorsalNumber, setDorsalNumber] = useState("");
   const [patches, setPatches] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
+  const [pendingSize, setPendingSize] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
 
   const addItem = useCart((s) => s.addItem);
@@ -64,6 +69,15 @@ export function ProductDetail({ product }: { product: Product }) {
   }, [product.id]);
 
   const [sizeError, setSizeError] = useState(false);
+
+  // Cambiar de versión (Fan/Player) puede dejar seleccionada una talla que ya
+  // no existe en la nueva versión (ej. 4XL solo existe en Fan) — se limpia la
+  // selección para forzar a elegir una talla válida, en vez de dejar guardada
+  // una combinación talla+versión inválida.
+  useEffect(() => {
+    setSelectedSize((current) => (current && !sizes.includes(current) ? "" : current));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version]);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -148,7 +162,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 key={i}
                 onClick={() => setImgIdx(i)}
                 className={`relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${
-                  i === imgIdx ? "border-[#D4A017]" : "border-transparent opacity-60 hover:opacity-100"
+                  i === imgIdx ? "border-[#A47C42]" : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >
                 <Image src={img} alt="" fill className="object-cover" />
@@ -162,7 +176,7 @@ export function ProductDetail({ product }: { product: Product }) {
       <FadeInRight delay={0.2} className="space-y-5">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-[#666666]">
-          <Link href="/catalogo" className="hover:text-[#D4A017] transition-colors">
+          <Link href="/catalogo" className="hover:text-[#A47C42] transition-colors">
             Catálogo
           </Link>
           <span>/</span>
@@ -173,26 +187,26 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <div>
           <p
-            className="text-[#D4A017] text-xs uppercase tracking-widest mb-1"
+            className="text-[#A47C42] text-xs uppercase tracking-widest mb-1"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {product.type} {product.season && `· ${product.season}`}
           </p>
           <h1
             className="text-3xl md:text-4xl font-black text-white uppercase leading-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
+            style={{ fontFamily: "var(--font-archivo)" }}
           >
             {product.name}
           </h1>
         </div>
 
         {/* Price */}
-        <div className="bg-[#141414] rounded-xl p-4 border border-[#B8860B]/20">
+        <div className="bg-[#141414] rounded-xl p-4 border border-[#8A6435]/20">
           <p className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-1">
             Precio{product.isLongSleeve && " · Manga Larga"}
           </p>
           <p
-            className="text-[#D4A017] text-4xl font-bold"
+            className="text-[#A47C42] text-4xl font-bold"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {formatCOP(getPrice())}
@@ -220,8 +234,8 @@ export function ProductDetail({ product }: { product: Product }) {
                   onClick={() => setVersion(v)}
                   className={`flex-1 py-2.5 rounded-lg font-bold uppercase tracking-wider text-sm transition-all duration-200 ${
                     version === v
-                      ? "bg-[#D4A017] text-black"
-                      : "bg-[#1A1A1A] text-[#A0A0A0] border border-[#B8860B]/20 hover:border-[#D4A017]/40 hover:text-white"
+                      ? "bg-[#A47C42] text-black"
+                      : "bg-[#1A1A1A] text-[#A0A0A0] border border-[#8A6435]/20 hover:border-[#A47C42]/40 hover:text-white"
                   }`}
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
@@ -248,24 +262,24 @@ export function ProductDetail({ product }: { product: Product }) {
               Talla
             </p>
             <button
-              onClick={() => setShowSizeGuide(!showSizeGuide)}
-              className="flex items-center gap-1 text-[#D4A017] text-xs hover:text-[#F0D060] transition-colors"
+              onClick={() => setGuideOpen(true)}
+              className="flex items-center gap-1 text-[#A47C42] text-xs hover:text-[#C4A06A] transition-colors"
             >
               <Info size={12} />
-              Guía de tallas
+              Ver guía de tallas
             </button>
           </div>
           <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Talla" aria-required="true">
             {sizes.map((size) => (
               <button
                 key={size}
-                onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                onClick={() => { setPendingSize(size); setSizeError(false); }}
                 role="radio"
                 aria-checked={selectedSize === size}
                 className={`w-14 py-2 rounded-lg font-bold uppercase text-sm transition-all duration-200 ${
                   selectedSize === size
-                    ? "bg-[#D4A017] text-black"
-                    : "bg-[#1A1A1A] text-[#A0A0A0] border border-[#B8860B]/20 hover:border-[#D4A017]/40 hover:text-white"
+                    ? "bg-[#A47C42] text-black"
+                    : "bg-[#1A1A1A] text-[#A0A0A0] border border-[#8A6435]/20 hover:border-[#A47C42]/40 hover:text-white"
                 } ${sizeError ? "ring-2 ring-[#C70101]" : ""}`}
                 style={{ fontFamily: "var(--font-inter)" }}
               >
@@ -278,36 +292,17 @@ export function ProductDetail({ product }: { product: Product }) {
               Por favor selecciona una talla antes de continuar.
             </p>
           )}
-
-          {showSizeGuide && (
-            <div className="mt-3 bg-[#141414] rounded-xl p-4 border border-[#B8860B]/20 text-sm">
-              <p className="text-[#D4A017] font-bold uppercase mb-2" style={{ fontFamily: "var(--font-inter)" }}>
-                Guía de Tallas
-              </p>
-              <table className="w-full text-xs text-[#A0A0A0]">
-                <thead>
-                  <tr className="text-[#666666]">
-                    <th className="text-left py-1">Talla</th>
-                    <th className="text-left py-1">Pecho (cm)</th>
-                    <th className="text-left py-1">Largo (cm)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[["S", "86-92", "68"], ["M", "92-98", "70"], ["L", "98-104", "72"], ["XL", "104-110", "74"], ["2XL", "110-116", "76"], ["3XL", "116-122", "78"], ["4XL", "122-128", "80"]].map(([t, p, l]) => (
-                    <tr key={t} className="border-t border-[#B8860B]/10">
-                      <td className="py-1 font-bold text-white">{t}</td>
-                      <td className="py-1">{p}</td>
-                      <td className="py-1">{l}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
 
+        <SizeGuideSheet
+          open={guideOpen || pendingSize !== null}
+          pendingSize={pendingSize}
+          onClose={() => { setGuideOpen(false); setPendingSize(null); }}
+          onConfirm={(size) => { setSelectedSize(size); setPendingSize(null); setSizeError(false); }}
+        />
+
         {/* Dorsal */}
-        <div className="bg-[#141414] rounded-xl p-4 border border-[#B8860B]/10">
+        <div className="bg-[#141414] rounded-xl p-4 border border-[#8A6435]/10">
           <p
             className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-3"
             style={{ fontFamily: "var(--font-inter)" }}
@@ -325,7 +320,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 value={dorsalName}
                 onChange={(e) => setDorsalName(e.target.value)}
                 maxLength={20}
-                className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
+                className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50"
               />
             </div>
             <div>
@@ -337,7 +332,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 value={dorsalNumber}
                 onChange={(e) => setDorsalNumber(e.target.value)}
                 maxLength={3}
-                className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
+                className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50"
               />
             </div>
           </div>
@@ -350,7 +345,7 @@ export function ProductDetail({ product }: { product: Product }) {
               value={patches}
               onChange={(e) => setPatches(e.target.value)}
               maxLength={60}
-              className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
+              className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50"
             />
           </div>
         </div>
@@ -368,7 +363,7 @@ export function ProductDetail({ product }: { product: Product }) {
               type="button"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               aria-label="Disminuir cantidad"
-              className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#B8860B]/20 flex items-center justify-center text-white hover:border-[#D4A017]/40 transition-colors"
+              className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#8A6435]/20 flex items-center justify-center text-white hover:border-[#A47C42]/40 transition-colors"
             >
               <Minus size={13} />
             </button>
@@ -379,7 +374,7 @@ export function ProductDetail({ product }: { product: Product }) {
               type="button"
               onClick={() => setQuantity((q) => Math.min(10, q + 1))}
               aria-label="Aumentar cantidad"
-              className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#B8860B]/20 flex items-center justify-center text-white hover:border-[#D4A017]/40 transition-colors"
+              className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#8A6435]/20 flex items-center justify-center text-white hover:border-[#A47C42]/40 transition-colors"
             >
               <Plus size={13} />
             </button>
@@ -393,7 +388,7 @@ export function ProductDetail({ product }: { product: Product }) {
             className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all duration-300 ${
               addedToCart
                 ? "bg-[#22C55E] text-white"
-                : "bg-[#D4A017] hover:bg-[#F0D060] text-black"
+                : "bg-[#A47C42] hover:bg-[#C4A06A] text-black"
             }`}
             style={{ fontFamily: "var(--font-inter)" }}
           >
@@ -415,30 +410,23 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>🚚</span>
-            <span>
-              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label} desde{" "}
-              {formatCOP(SHIPPING.nacional.costMin)}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
-            <span>🌍</span>
-            <span>{SHIPPING.internacional.label} GRATIS</span>
+            <span>{SHIPPING.nacional.label}</span>
           </div>
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
             <span>💳</span>
-            <span>Nequi · Daviplata · Bancolombia · Nubank</span>
+            <span>{paymentMethodNames().join(" · ")}</span>
           </div>
         </div>
 
         {/* Confianza — solo compromisos reales y verificables, no cifras inventadas */}
-        <div className="grid grid-cols-3 gap-4 text-center border-t border-[#B8860B]/10 pt-6">
+        <div className="grid grid-cols-3 gap-4 text-center border-t border-[#8A6435]/10 pt-6">
           <div>
             <p className="text-xl" aria-hidden="true">👚</p>
             <p className="text-xs text-[#9CA3AF] mt-1">Dorsal y parches gratis</p>
           </div>
           <div>
             <p className="text-xl" aria-hidden="true">🔄</p>
-            <p className="text-xs text-[#9CA3AF] mt-1">Cambios por talla incorrecta</p>
+            <p className="text-xs text-[#9CA3AF] mt-1">Garantía de 1 año</p>
           </div>
           <div>
             <p className="text-xl" aria-hidden="true">💬</p>
@@ -469,14 +457,13 @@ export function ProductDetail({ product }: { product: Product }) {
           </AccordionItem>
           <AccordionItem title="Envíos y cambios">
             <p className="mb-2">
-              {SHIPPING.santaMarta.label} · {SHIPPING.nacional.label} desde{" "}
-              {formatCOP(SHIPPING.nacional.costMin)} · {SHIPPING.internacional.label} gratis.
+              {SHIPPING.nacional.label}.
             </p>
             <p>
-              Cambios por talla incorrecta o defecto de fábrica dentro de los 3 días de recibido —
-              ver{" "}
-              <Link href="/cambios" className="text-[#D4A017] hover:underline">
-                política de cambios
+              Cambio voluntario de talla dentro de los 5 días hábiles de recibido. Garantía de 1
+              año por defectos de fábrica o error en el pedido — ver{" "}
+              <Link href="/cambios" className="text-[#A47C42] hover:underline">
+                política de cambios, devoluciones y garantía
               </Link>
               .
             </p>
@@ -488,7 +475,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </p>
             <p>
               Más preguntas en nuestra{" "}
-              <Link href="/faq" className="text-[#D4A017] hover:underline">
+              <Link href="/faq" className="text-[#A47C42] hover:underline">
                 página de FAQ
               </Link>
               .

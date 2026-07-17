@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { formatCOP } from "@/lib/utils";
 import { Package, ShoppingBag, TrendingUp, DollarSign } from "lucide-react";
+import { ORDER_STATUS, orderStatusLabel, orderStatusColor } from "@/lib/order-status";
 
 export default async function AdminDashboard() {
   const [totalProducts, totalOrders, recentOrders, pendingOrders] =
@@ -14,12 +15,14 @@ export default async function AdminDashboard() {
         orderBy: { createdAt: "desc" },
         include: { items: true },
       }),
-      prisma.order.count({ where: { status: "pending" } }),
+      // "Pendientes" = todo lo que aún no se confirmó manualmente. Incluye el
+      // vocabulario legacy ("pending") de pedidos creados antes de esta fase.
+      prisma.order.count({ where: { status: { not: ORDER_STATUS.CONFIRMED_MANUALLY } } }),
     ]);
 
   const totalRevenue = await prisma.order.aggregate({
     _sum: { total: true },
-    where: { status: { in: ["confirmed", "shipped", "delivered"] } },
+    where: { status: { in: [ORDER_STATUS.CONFIRMED_MANUALLY, "confirmed", "shipped", "delivered"] } },
   });
 
   const stats = [
@@ -27,7 +30,7 @@ export default async function AdminDashboard() {
       label: "Productos activos",
       value: totalProducts,
       icon: Package,
-      color: "text-[#D4A017]",
+      color: "text-[#A47C42]",
     },
     {
       label: "Total pedidos",
@@ -45,30 +48,16 @@ export default async function AdminDashboard() {
       label: "Ingresos confirmados",
       value: formatCOP(totalRevenue._sum.total ?? 0),
       icon: DollarSign,
-      color: "text-[#D4A017]",
+      color: "text-[#A47C42]",
     },
   ];
-
-  const statusLabel: Record<string, string> = {
-    pending: "Pendiente",
-    confirmed: "Confirmado",
-    shipped: "Enviado",
-    delivered: "Entregado",
-  };
-
-  const statusColor: Record<string, string> = {
-    pending: "bg-yellow-500/10 text-yellow-500",
-    confirmed: "bg-blue-500/10 text-blue-400",
-    shipped: "bg-purple-500/10 text-purple-400",
-    delivered: "bg-green-500/10 text-green-400",
-  };
 
   return (
     <div>
       <div className="mb-8">
         <h1
           className="text-3xl font-black text-white uppercase"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Dashboard
         </h1>
@@ -80,7 +69,7 @@ export default async function AdminDashboard() {
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-4"
+            className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-4"
           >
             <div className="flex items-center justify-between mb-3">
               <p className="text-[#666666] text-xs uppercase tracking-wider">
@@ -99,7 +88,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Recent orders */}
-      <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-5">
+      <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-5">
         <div className="flex items-center justify-between mb-4">
           <h2
             className="text-white font-bold uppercase tracking-wider text-sm"
@@ -109,7 +98,7 @@ export default async function AdminDashboard() {
           </h2>
           <a
             href="/admin/pedidos"
-            className="text-[#D4A017] text-xs hover:text-[#F0D060] transition-colors"
+            className="text-[#A47C42] text-xs hover:text-[#C4A06A] transition-colors"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Ver todos →
@@ -125,7 +114,7 @@ export default async function AdminDashboard() {
             recentOrders.map((order: (typeof recentOrders)[number]) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between py-3 border-b border-[#B8860B]/10 last:border-0"
+                className="flex items-center justify-between py-3 border-b border-[#8A6435]/10 last:border-0"
               >
                 <div>
                   <p
@@ -138,12 +127,12 @@ export default async function AdminDashboard() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-xs px-2 py-1 rounded-full font-semibold ${statusColor[order.status] ?? "bg-gray-500/10 text-gray-400"}`}
+                    className={`text-xs px-2 py-1 rounded-full font-semibold ${orderStatusColor(order.status)}`}
                   >
-                    {statusLabel[order.status] ?? order.status}
+                    {orderStatusLabel(order.status)}
                   </span>
                   <span
-                    className="text-[#D4A017] text-sm font-bold"
+                    className="text-[#A47C42] text-sm font-bold"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(order.total)}

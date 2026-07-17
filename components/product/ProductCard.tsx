@@ -46,34 +46,23 @@ function getSmartBadge(name: string): { text: string; bg: string; color: string 
   if (/25\/26|26\/27|2026/i.test(name)) return { text: "🔥 Nueva Temporada", bg: "#DC2626", color: "white" };
   if (/special edition/i.test(name)) return { text: "💎 Edición Limitada", bg: "#7C3AED", color: "white" };
   if (/player version/i.test(name)) return { text: "👑 Versión Jugador", bg: "#1D4ED8", color: "white" };
-  if (/retro/i.test(name)) return { text: "⭐ Clásica", bg: "#D4A017", color: "black" };
+  if (/retro/i.test(name)) return { text: "⭐ Clásica", bg: "#A47C42", color: "black" };
   return null;
 }
 
-export function ProductCard({
-  product,
-  showBarcaBadge = false,
-  discountPercent,
-}: {
-  product: Product;
-  showBarcaBadge?: boolean;
-  discountPercent?: number;
-}) {
+export function ProductCard({ product }: { product: Product }) {
   const images = JSON.parse(product.images || "[]") as string[];
   const mainImage = images[0] || PLACEHOLDER;
   const secondImage = images[1];
   const [imgSrc, setImgSrc] = useState(mainImage);
 
-  const basePrice = getStartingPrice(product);
-  const displayPrice = discountPercent
-    ? Math.round(basePrice * (1 - discountPercent / 100))
-    : basePrice;
+  const displayPrice = getStartingPrice(product);
 
   const smartBadge = getSmartBadge(product.name);
 
   return (
     <Link href={`/catalogo/${product.slug}`} className="group block">
-      <div className="relative bg-[#141414] rounded-xl border border-transparent hover:border-[#D4A017]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#D4A017]/10">
+      <div className="relative bg-[#141414] rounded-xl border border-transparent hover:border-[#A47C42]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#A47C42]/10">
         {/* Image container — aspect 3/4, object-contain so jersey shows full */}
         <div className="relative aspect-[3/4] bg-[#1A1A1A] rounded-t-xl overflow-hidden">
           <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
@@ -101,21 +90,9 @@ export function ProductCard({
 
           {/* Badges */}
           <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
-            {showBarcaBadge && (
-              <span
-                className="text-[10px] font-black px-2 py-0.5 rounded tracking-wide"
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  background: "linear-gradient(135deg, #A50044, #004D98)",
-                  color: "#FFD700",
-                }}
-              >
-                -20%
-              </span>
-            )}
             {product.isTrending && (
               <span
-                className="bg-[#D4A017] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                className="bg-[#A47C42] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Tendencia
@@ -140,7 +117,7 @@ export function ProductCard({
             )}
             {product.isRetro && (
               <span
-                className="bg-[#1A1A1A]/90 border border-[#D4A017]/60 text-[#D4A017] text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                className="bg-[#1A1A1A]/90 border border-[#A47C42]/60 text-[#A47C42] text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Retro
@@ -159,7 +136,7 @@ export function ProductCard({
           {/* Hover overlay */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-center pb-3 opacity-0 group-hover:opacity-100">
             <span
-              className="bg-[#D4A017] text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider"
+              className="bg-[#A47C42] text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver detalles
@@ -176,26 +153,18 @@ export function ProductCard({
             {product.type}{product.season ? ` · ${product.season}` : ""}
           </p>
           <h3
-            className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 mb-2 group-hover:text-[#D4A017] transition-colors min-h-[2.5rem]"
+            className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 mb-2 group-hover:text-[#A47C42] transition-colors min-h-[2.5rem]"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             {cleanProductName(product.name)}
           </h3>
           <div className="flex items-baseline gap-2">
             <span
-              className="text-[#D4A017] font-bold text-sm"
+              className="text-[#A47C42] font-bold text-sm"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               {formatCOP(displayPrice)}
             </span>
-            {discountPercent && (
-              <span
-                className="text-[#666] text-xs line-through"
-                style={{ fontFamily: "var(--font-inter)" }}
-              >
-                {formatCOP(basePrice)}
-              </span>
-            )}
           </div>
           <p className="text-[#22C55E] text-[10px] mt-1">✓ Dorsal y parches gratis</p>
         </div>

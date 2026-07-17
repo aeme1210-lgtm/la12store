@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
 /*
- * Sistema de diseño — REDESIGN_SYSTEM.md §3.
- * Paleta sobria: el dorado es un acento puntual, no un fondo/efecto masivo
- * (el "gold-glow" anterior era exactamente el antipatrón que el brief pide
- * evitar — "página saturada de dorado"). Blanco cálido disponible para
- * secciones claras alternadas en la portada (Fase 4).
+ * Sistema de diseño v2 — REDESIGN_V2_BRIEF.md "ADN DE DISEÑO".
+ * El dorado brillante (v1) se reemplaza por bronce envejecido, usado con
+ * disciplina (≤10% de la interfaz: bordes finos, acentos puntuales, nunca
+ * fondos grandes ni glow). Marfil/vino/verde césped son bloques editoriales
+ * puntuales, no un fondo permanente. Naranja marcador solo para CTAs clave.
  */
 @theme inline {
-  --color-ink: #0A0A0A;
-  --color-ink-soft: #141414;
-  --color-ink-elevated: #1A1A1A;
-  --color-cream: #F5F1E8;
-  --color-neutral: #6B6B6B;
-  --color-neutral-light: #A0A0A0;
-  --color-gold: #B8860B;
-  --color-gold-light: #D4A017;
+  --color-ink: #0B0B0A;          /* Negro túnel — base */
+  --color-ink-soft: #181816;     /* Carbón — superficies elevadas */
+  --color-ink-elevated: #221F1C;
+  --color-cream: #F1EBDD;        /* Marfil tribuna — secciones editoriales claras */
+  --color-sand: #D6C8AE;         /* Arena — texto/detalle sobre marfil */
+  --color-neutral: #8A8478;
+  --color-neutral-light: #B8B2A4;
+  --color-bronze: #A47C42;       /* Bronce envejecido — acento, ≤10% de la UI */
+  --color-bronze-light: #C4A06A;
+  --color-wine: #6B202B;         /* Vino — bloques editoriales puntuales */
+  --color-pitch: #20372A;        /* Verde césped — bloques editoriales puntuales */
+  --color-cta: #D95632;          /* Naranja marcador — SOLO CTAs clave */
   --color-success: #22C55E;
   --color-error: #C70101;
   --color-whatsapp: #25D366;
@@ -26,10 +30,48 @@
   --transition-base: 200ms ease;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/*
+ * Titular editorial "Black Expanded" — Archivo es fuente variable con eje
+ * wdth (62-125) además de wght (100-900): esto es una variación real de la
+ * fuente, no letter-spacing simulado. Clase única para todos los titulares
+ * display del sitio (portada, ficha, secciones editoriales).
+ *
+ * Vive en @layer components (no sin capa) a propósito: así una utilidad
+ * `leading-*` puesta directamente en un heading (@layer utilities, capa
+ * posterior) puede seguir ganando cuando un componente necesita un valor
+ * distinto al default de abajo — mismo tipo de bug de cascade que el de
+ * `* { margin/padding }` más abajo, pero corregido de origen aquí.
+ */
+@layer components {
+  .font-display {
+    font-family: var(--font-archivo), sans-serif;
+    font-weight: 900;
+    font-stretch: 125%;
+    /* Piso de line-height ≥1.05 (pulido final): a line-height 1.0 (el default
+       de Tailwind en tamaños grandes como text-5xl) el peso "Black" expandido
+       con acentos españoles (Á, É, Í, Ó, Ú, Ñ) puede recortarse visualmente
+       contra el borde de la caja de línea, sobre todo en iOS Safari. */
+    line-height: 1.15;
+  }
+}
+
+/*
+ * BUG REAL ENCONTRADO (pulido final, reproducido en iPhone físico): este
+ * reset vivía fuera de cualquier @layer. En cascade layers de CSS, una regla
+ * SIN capa le gana a CUALQUIER regla dentro de una capa (@layer), sin
+ * importar especificidad — así que `* { margin: 0; padding: 0; }` anulaba
+ * TODAS las utilidades de espaciado de Tailwind del sitio entero (mb-*, p-*,
+ * py-*, etc. compiladas dentro de @layer utilities), no solo en un lugar.
+ * Causa raíz confirmada con getComputedStyle en la preview real: márgenes y
+ * paddings de Tailwind medían 0px pese a tener las clases aplicadas. Envuelto
+ * en @layer base para que las utilidades (capa posterior) vuelvan a ganar.
+ */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 :root {
@@ -48,7 +90,7 @@ html {
 }
 
 body {
-  background-color: #0A0A0A;
+  background-color: #0B0B0A;
   color: #FFFFFF;
   font-family: var(--font-inter), sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -60,14 +102,14 @@ body {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #0B0B0A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #B8860B;
+  background: #A47C42;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4A017;
+  background: #C4A06A;
 }
 
 /* Fade in animation */

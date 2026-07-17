@@ -24,14 +24,14 @@ export function LigaVideoBanner({ src, title, subtitle }: Props) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
       <div className="absolute bottom-0 left-0 p-6 md:p-8">
         <p
-          className="text-[#D4AF37] text-[10px] tracking-widest uppercase mb-1"
+          className="text-[#A47C42] text-[10px] tracking-widest uppercase mb-1"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           {subtitle}
         </p>
         <h1
           className="text-3xl md:text-5xl font-bold text-white break-words leading-tight"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           {title}
         </h1>

@@ -47,3 +47,6 @@ pipeline_v3.py
 
 # database
 *.db
+
+# backups (dedupe/import snapshots, pueden ser grandes y contienen datos reales)
+/backups/

@@ -4,11 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CatalogoFilters } from "@/components/product/CatalogoFilters";
 import { LigaVideoBanner } from "@/components/product/LigaVideoBanner";
-import { FadeInUp, ScaleIn } from "@/components/ui/ScrollAnimations";
+import { FadeInUp } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { resolveSearchTerms } from "@/lib/search";
-import { getBarcaPromoStatus, isBarcaProduct } from "@/lib/promo-barca";
 import { buildTaxonomyIndex } from "@/lib/taxonomy";
 
 export const metadata: Metadata = {
@@ -53,6 +52,7 @@ const slugToLeague: Record<string, string> = {
   "ligue-1": "Ligue 1",
   "mundial-fifa-2026": "Mundial FIFA 2026",
   "liga-argentina": "Liga Argentina",
+  "temporada-26-27": "Temporada 26/27",
   // aliases legacy
   "liga-espanola": "La Liga",
   "ligas-sudamericanas": "Retro",
@@ -166,7 +166,6 @@ export default async function CatalogoPage({
   let leagues: { league: string }[] = [];
   let taxonomy = buildTaxonomyIndex([]);
 
-  let barcaPromoActive = false;
   try {
     // Los tipos crudos se obtienen primero (sin filtrar) para construir el
     // índice tipo/color español -> valores crudos (lib/taxonomy.ts) antes de
@@ -180,7 +179,7 @@ export default async function CatalogoPage({
 
     const where = buildWhere(params, taxonomy);
 
-    const [fetchedProducts, fetchedTotal, barcaStatus] = await Promise.all([
+    const [fetchedProducts, fetchedTotal] = await Promise.all([
       prisma.product.findMany({
         where,
         orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
@@ -188,16 +187,14 @@ export default async function CatalogoPage({
         take: PAGE_SIZE,
       }),
       prisma.product.count({ where }),
-      getBarcaPromoStatus(),
     ]);
     products = fetchedProducts;
     total = fetchedTotal;
-    barcaPromoActive = barcaStatus.active;
   } catch {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <p className="text-[#D4AF37] text-sm uppercase tracking-widest mb-2" style={{ fontFamily: "var(--font-inter)" }}>
+          <p className="text-[#A47C42] text-sm uppercase tracking-widest mb-2" style={{ fontFamily: "var(--font-inter)" }}>
             Error temporal
           </p>
           <p className="text-[#9CA3AF] text-sm">
@@ -232,7 +229,7 @@ export default async function CatalogoPage({
           /* Header — no video (all catalog or unsupported liga) */
           <div className="mb-8">
             <p
-              className="text-[#D4AF37] text-[10px] tracking-widest uppercase mb-1"
+              className="text-[#A47C42] text-[10px] tracking-widest uppercase mb-1"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               {total} productos
@@ -240,7 +237,7 @@ export default async function CatalogoPage({
             </p>
             <h1
               className="text-2xl md:text-4xl font-bold text-white break-words leading-tight"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               {leagueTitle}
             </h1>
@@ -255,9 +252,9 @@ export default async function CatalogoPage({
               name="q"
               defaultValue={params.q || ""}
               placeholder="Buscar camiseta... (ej: Barcelona, Colombia, Retro)"
-              className="w-full py-3 px-4 pr-12 bg-[#111111] border-2 border-[#D4AF37] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] text-sm md:text-base"
+              className="w-full py-3 px-4 pr-12 bg-[#111111] border-2 border-[#A47C42] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#A47C42] focus:ring-1 focus:ring-[#A47C42] text-sm md:text-base"
             />
-            <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#D4AF37] hover:text-white transition-colors">
+            <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A47C42] hover:text-white transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
               </svg>
@@ -285,14 +282,12 @@ export default async function CatalogoPage({
               </div>
             ) : (
               <>
+                {/* Sin animación de entrada por tarjeta (REDESIGN_V2 Fase 1) —
+                    animar decenas de cards individualmente en cada scroll era
+                    parte de la causa del "tambaleo" percibido. */}
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
-                  {products.map((p: (typeof products)[number], index: number) => (
-                    <ScaleIn key={p.id} delay={Math.min(index * 0.05, 0.5)}>
-                      <ProductCard
-                        product={p}
-                        showBarcaBadge={barcaPromoActive && isBarcaProduct(p.name)}
-                      />
-                    </ScaleIn>
+                  {products.map((p: (typeof products)[number]) => (
+                    <ProductCard key={p.id} product={p} />
                   ))}
                 </div>
 
@@ -302,7 +297,7 @@ export default async function CatalogoPage({
                     {page > 1 && (
                       <Link
                         href={buildPageUrl(params, page - 1)}
-                        className="px-4 py-2 rounded-lg bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] hover:text-white hover:border-[#D4A017]/40 transition-all text-sm font-semibold"
+                        className="px-4 py-2 rounded-lg bg-[#1A1A1A] border border-[#8A6435]/20 text-[#A0A0A0] hover:text-white hover:border-[#A47C42]/40 transition-all text-sm font-semibold"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         ← Anterior
@@ -319,8 +314,8 @@ export default async function CatalogoPage({
                           href={buildPageUrl(params, pg as number)}
                           className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-bold transition-all ${
                             pg === page
-                              ? "bg-[#D4A017] text-black"
-                              : "bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] hover:text-white hover:border-[#D4A017]/40"
+                              ? "bg-[#A47C42] text-black"
+                              : "bg-[#1A1A1A] border border-[#8A6435]/20 text-[#A0A0A0] hover:text-white hover:border-[#A47C42]/40"
                           }`}
                           style={{ fontFamily: "var(--font-inter)" }}
                         >
@@ -331,7 +326,7 @@ export default async function CatalogoPage({
                     {page < totalPages && (
                       <Link
                         href={buildPageUrl(params, page + 1)}
-                        className="px-4 py-2 rounded-lg bg-[#1A1A1A] border border-[#B8860B]/20 text-[#A0A0A0] hover:text-white hover:border-[#D4A017]/40 transition-all text-sm font-semibold"
+                        className="px-4 py-2 rounded-lg bg-[#1A1A1A] border border-[#8A6435]/20 text-[#A0A0A0] hover:text-white hover:border-[#A47C42]/40 transition-all text-sm font-semibold"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         Siguiente →

@@ -16,24 +16,24 @@ export default function NosotrosPage() {
         {/* 2-column: story text left, photo right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
           {/* Left: story */}
-          <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 flex flex-col justify-center">
+          <div className="bg-[#141414] rounded-2xl border border-[#8A6435]/10 p-8 flex flex-col justify-center">
             <p
-              className="text-[#D4AF37] text-xs tracking-[0.4em] uppercase mb-3"
+              className="text-[#A47C42] text-xs tracking-[0.4em] uppercase mb-3"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Nuestra historia
             </p>
             <h1
               className="text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6"
-              style={{ fontFamily: "var(--font-playfair)" }}
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
               Sobre Nosotros
             </h1>
             <div className="space-y-4 text-[#A0A0A0] leading-relaxed">
               <p>
                 La 12 Store nació en Santa Marta, Colombia, de la unión de dos personas apasionadas por el fútbol y la moda:{" "}
-                <span className="text-[#D4A017] font-semibold">Andrés Méndez</span> y{" "}
-                <span className="text-[#D4A017] font-semibold">Silvana Ossa</span>. Juntos fundaron una tienda con el propósito de ofrecer camisetas de fútbol de la más alta calidad a los aficionados del deporte más popular del mundo.
+                <span className="text-[#A47C42] font-semibold">Andrés Méndez</span> y{" "}
+                <span className="text-[#A47C42] font-semibold">Silvana Ossa</span>. Juntos fundaron una tienda con el propósito de ofrecer camisetas de fútbol de la más alta calidad a los aficionados del deporte más popular del mundo.
               </p>
               <p>
                 Andrés lidera las operaciones, los pedidos y la logística — asegurándose de que cada envío llegue en perfectas condiciones. Silvana es la cara visual de la marca: modelo principal de las sesiones fotográficas y embajadora de La 12 Store, dándole vida a cada prenda con su estilo único.
@@ -47,7 +47,7 @@ export default function NosotrosPage() {
                 En La 12 Store no vendemos simplemente camisetas — vendemos la experiencia de
                 sentirte parte de tu equipo favorito. Cada prenda pasa por control de calidad antes
                 de salir, con{" "}
-                <span className="text-[#D4A017] font-semibold">telas técnicas de alto rendimiento</span>{" "}
+                <span className="text-[#A47C42] font-semibold">telas técnicas de alto rendimiento</span>{" "}
                 y acabados profesionales.
               </p>
             </div>
@@ -81,11 +81,11 @@ export default function NosotrosPage() {
           ].map((person) => (
             <div
               key={person.name}
-              className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-6 hover:border-[#D4A017]/30 transition-all text-center"
+              className="bg-[#141414] rounded-2xl border border-[#8A6435]/10 p-6 hover:border-[#A47C42]/30 transition-all text-center"
             >
-              <div className="w-16 h-16 rounded-full bg-[#D4A017]/10 border border-[#D4A017]/30 flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full bg-[#A47C42]/10 border border-[#A47C42]/30 flex items-center justify-center mx-auto mb-4">
                 <span
-                  className="text-[#D4A017] text-2xl font-black"
+                  className="text-[#A47C42] text-2xl font-black"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {person.name[0]}
@@ -98,7 +98,7 @@ export default function NosotrosPage() {
                 {person.name}
               </h3>
               <p
-                className="text-[#D4A017] text-xs uppercase tracking-wider mb-3"
+                className="text-[#A47C42] text-xs uppercase tracking-wider mb-3"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 {person.role}
@@ -109,7 +109,7 @@ export default function NosotrosPage() {
         </div>
 
         {/* Values */}
-        <div className="bg-[#141414] rounded-2xl border border-[#B8860B]/10 p-8 mb-10">
+        <div className="bg-[#141414] rounded-2xl border border-[#8A6435]/10 p-8 mb-10">
           <h2
             className="text-2xl font-black text-white uppercase mb-6"
             style={{ fontFamily: "var(--font-inter)" }}
@@ -133,7 +133,7 @@ export default function NosotrosPage() {
             ].map((v) => (
               <div key={v.title}>
                 <h3
-                  className="text-[#D4A017] font-bold uppercase tracking-wide text-sm mb-2"
+                  className="text-[#A47C42] font-bold uppercase tracking-wide text-sm mb-2"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   {v.title}
@@ -152,7 +152,7 @@ export default function NosotrosPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/catalogo"
-              className="inline-flex items-center justify-center bg-[#D4A017] hover:bg-[#F0D060] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all text-sm"
+              className="inline-flex items-center justify-center bg-[#A47C42] hover:bg-[#C4A06A] text-black font-bold px-8 py-4 rounded-lg uppercase tracking-widest transition-all text-sm"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Ver Catálogo

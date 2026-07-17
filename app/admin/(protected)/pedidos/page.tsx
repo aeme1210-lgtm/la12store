@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { formatCOP } from "@/lib/utils";
 import { AdminOrderStatus } from "@/components/admin/AdminOrderStatus";
+import { orderStatusLabel, orderStatusColor } from "@/lib/order-status";
 
 export default async function AdminPedidos() {
   const orders = await prisma.order.findMany({
@@ -10,26 +11,12 @@ export default async function AdminPedidos() {
     orderBy: { createdAt: "desc" },
   });
 
-  const statusLabel: Record<string, string> = {
-    pending: "Pendiente",
-    confirmed: "Confirmado",
-    shipped: "Enviado",
-    delivered: "Entregado",
-  };
-
-  const statusColor: Record<string, string> = {
-    pending: "bg-yellow-500/10 text-yellow-500",
-    confirmed: "bg-blue-500/10 text-blue-400",
-    shipped: "bg-purple-500/10 text-purple-400",
-    delivered: "bg-green-500/10 text-green-400",
-  };
-
   return (
     <div>
       <div className="mb-6">
         <h1
           className="text-3xl font-black text-white uppercase"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Pedidos
         </h1>
@@ -38,14 +25,14 @@ export default async function AdminPedidos() {
 
       <div className="space-y-4">
         {orders.length === 0 ? (
-          <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-12 text-center">
+          <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-12 text-center">
             <p className="text-[#666666]">No hay pedidos aún</p>
           </div>
         ) : (
           orders.map((order: (typeof orders)[number]) => (
             <div
               key={order.id}
-              className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-5"
+              className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-5"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -57,23 +44,32 @@ export default async function AdminPedidos() {
                       {order.orderNumber}
                     </h3>
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full font-semibold ${statusColor[order.status] ?? "bg-gray-500/10 text-gray-400"}`}
+                      className={`text-xs px-2 py-0.5 rounded-full font-semibold ${orderStatusColor(order.status)}`}
                     >
-                      {statusLabel[order.status] ?? order.status}
+                      {orderStatusLabel(order.status)}
                     </span>
                   </div>
                   <p className="text-[#A0A0A0] text-sm">{order.customerName}</p>
                   <p className="text-[#666666] text-xs">{order.customerPhone}</p>
                   {order.city && (
                     <p className="text-[#666666] text-xs">
+                      {order.address ? `${order.address}, ` : ""}
+                      {order.neighborhood ? `${order.neighborhood} — ` : ""}
                       {order.city}, {order.department}
+                    </p>
+                  )}
+                  {order.receiptFileName && (
+                    <p className="text-[#666666] text-xs mt-1">
+                      Comprobante: {order.receiptFileName}
+                      {(order.receiptShareMethod === "direct_chat" || order.receiptShareMethod === "whatsapp_fallback") &&
+                        " (enviado manual por WhatsApp — verificar que el cliente haya adjuntado la imagen)"}
                     </p>
                   )}
                 </div>
 
                 <div className="text-right">
                   <p
-                    className="text-[#D4A017] font-bold text-xl"
+                    className="text-[#A47C42] font-bold text-xl"
                     style={{ fontFamily: "var(--font-inter)" }}
                   >
                     {formatCOP(order.total)}
@@ -90,7 +86,7 @@ export default async function AdminPedidos() {
               </div>
 
               {/* Items */}
-              <div className="mt-3 pt-3 border-t border-[#B8860B]/10 space-y-1">
+              <div className="mt-3 pt-3 border-t border-[#8A6435]/10 space-y-1">
                 {order.items.map((item: (typeof order.items)[number]) => (
                   <p key={item.id} className="text-[#A0A0A0] text-xs">
                     • {item.product.name} — Talla: {item.size} · {item.version}

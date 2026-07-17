@@ -1,7 +1,9 @@
 "use client";
 
 import { MessageCircle, Mail } from "lucide-react";
+import Link from "next/link";
 import { whatsAppLink } from "@/lib/whatsapp";
+import { paymentMethodNames } from "@/lib/payment-methods";
 
 function InstagramIcon({ size = 20, className = "" }) {
   return (
@@ -26,13 +28,13 @@ export default function ContactoPage() {
     <div className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <p className="text-[#D4A017] text-xs tracking-widest uppercase mb-2" style={{ fontFamily: "var(--font-inter)" }}>
+          <p className="text-[#A47C42] text-xs tracking-widest uppercase mb-2" style={{ fontFamily: "var(--font-inter)" }}>
             Estamos para ti
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
+          <h1 className="text-4xl md:text-5xl font-black text-white uppercase mb-4" style={{ fontFamily: "var(--font-archivo)" }}>
             Contacto
           </h1>
-          <div className="w-16 h-0.5 bg-[#D4A017] mx-auto" />
+          <div className="w-16 h-0.5 bg-[#A47C42] mx-auto" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -86,35 +88,26 @@ export default function ContactoPage() {
 
             <a
               href="mailto:la12store.sm@gmail.com"
-              className="flex items-center gap-4 p-4 rounded-xl border bg-[#D4A017]/10 border-[#D4A017]/20 hover:border-[#D4A017]/40 transition-all"
+              className="flex items-center gap-4 p-4 rounded-xl border bg-[#A47C42]/10 border-[#A47C42]/20 hover:border-[#A47C42]/40 transition-all"
             >
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-black/20">
-                <Mail size={20} className="text-[#D4A017]" />
+                <Mail size={20} className="text-[#A47C42]" />
               </div>
               <div>
                 <p className="text-white font-semibold text-sm" style={{ fontFamily: "var(--font-inter)" }}>Email</p>
-                <p className="text-[#D4A017] text-sm">la12store.sm@gmail.com</p>
+                <p className="text-[#A47C42] text-sm">la12store.sm@gmail.com</p>
               </div>
             </a>
 
-            {/* Payments */}
-            <div className="bg-[#141414] rounded-xl border border-[#B8860B]/10 p-4 mt-2">
+            {/* Payments — solo nombres. Cuentas y llaves completas viven únicamente en el checkout. */}
+            <div className="bg-[#141414] rounded-xl border border-[#8A6435]/10 p-4 mt-2">
               <h3 className="text-white font-bold uppercase tracking-wider text-sm mb-3" style={{ fontFamily: "var(--font-inter)" }}>
                 Métodos de pago
               </h3>
-              <div className="space-y-2 text-sm">
-                {[
-                  { method: "Nequi", number: "300 844 3885" },
-                  { method: "Daviplata", number: "300 844 3885" },
-                  { method: "Bancolombia (Cta. Ahorros)", number: "91622993231 · Silvana Ossa" },
-                  { method: "Nubank (Llave)", number: "@AME429" },
-                ].map((p) => (
-                  <div key={p.method} className="flex justify-between">
-                    <span className="text-[#D4A017] font-semibold">{p.method}</span>
-                    <span className="text-white" style={{ fontFamily: "var(--font-inter)" }}>{p.number}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-[#A0A0A0] text-sm mb-3">{paymentMethodNames().join(" · ")}</p>
+              <Link href="/checkout" className="text-[#A47C42] text-xs hover:underline">
+                Ver cuentas completas en el checkout →
+              </Link>
             </div>
           </div>
 
@@ -124,7 +117,7 @@ export default function ContactoPage() {
               Envíanos un mensaje
             </h2>
             <form
-              className="space-y-4 bg-[#141414] rounded-xl border border-[#B8860B]/10 p-5"
+              className="space-y-4 bg-[#141414] rounded-xl border border-[#8A6435]/10 p-5"
               onSubmit={(e) => {
                 e.preventDefault();
                 const data = new FormData(e.target as HTMLFormElement);
@@ -140,7 +133,7 @@ export default function ContactoPage() {
                 </label>
                 <input
                   name="nombre" type="text" required
-                  className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50"
+                  className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50"
                   placeholder="Nombre completo"
                 />
               </div>
@@ -150,7 +143,7 @@ export default function ContactoPage() {
                 </label>
                 <textarea
                   name="mensaje" required rows={5}
-                  className="w-full bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#D4A017]/50 resize-none"
+                  className="w-full bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-3 py-2.5 text-white text-sm placeholder-[#666666] focus:outline-none focus:border-[#A47C42]/50 resize-none"
                   placeholder="¿En qué podemos ayudarte?"
                 />
               </div>

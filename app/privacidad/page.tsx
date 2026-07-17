@@ -10,14 +10,14 @@ export default function PrivacidadPage() {
     <div className="min-h-screen">
       <div className="max-w-2xl mx-auto px-4 py-16">
         <p
-          className="text-[#D4A017] text-xs tracking-widest uppercase mb-2"
+          className="text-[#A47C42] text-xs tracking-widest uppercase mb-2"
           style={{ fontFamily: "var(--font-inter)" }}
         >
           Tus datos
         </p>
         <h1
           className="text-3xl md:text-4xl font-black text-white uppercase mb-8"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          style={{ fontFamily: "var(--font-archivo)" }}
         >
           Política de Privacidad
         </h1>
@@ -37,8 +37,8 @@ export default function PrivacidadPage() {
             Puedes solicitar en cualquier momento que eliminemos tus datos de contacto de nuestros
             registros escribiéndonos directamente.
           </p>
-          <div className="bg-[#141414] border border-[#B8860B]/20 rounded-xl p-4 text-xs text-[#666]">
-            <p className="text-[#D4A017] font-semibold mb-1">Nota</p>
+          <div className="bg-[#141414] border border-[#8A6435]/20 rounded-xl p-4 text-xs text-[#666]">
+            <p className="text-[#A47C42] font-semibold mb-1">Nota</p>
             <p>
               Este texto describe el tratamiento real de datos hoy. Pendiente de revisión legal
               formal por el propietario del negocio para una política de tratamiento de datos

@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ORDER_STATUS, orderStatusLabel } from "@/lib/order-status";
 
-const statusOptions = [
-  { value: "pending", label: "Pendiente" },
-  { value: "confirmed", label: "Confirmado" },
-  { value: "shipped", label: "Enviado" },
-  { value: "delivered", label: "Entregado" },
-];
+// El admin puede mover el pedido a cualquiera de los estados honestos, pero
+// la única forma correcta de llegar a CONFIRMED_MANUALLY es habiendo
+// verificado el pago real en la app bancaria — ver ADMIN_GUIDE.md.
+const statusOptions = Object.values(ORDER_STATUS).map((value) => ({
+  value,
+  label: orderStatusLabel(value),
+}));
 
 export function AdminOrderStatus({
   orderId,
@@ -20,6 +22,13 @@ export function AdminOrderStatus({
   const router = useRouter();
   const [status, setStatus] = useState(currentStatus);
   const [loading, setLoading] = useState(false);
+
+  // Pedidos creados antes de esta fase pueden traer un estado legacy
+  // (pending/confirmed/...) que no está en la lista nueva — se agrega como
+  // opción extra para no perderlo silenciosamente en el <select>.
+  const options = statusOptions.some((o) => o.value === currentStatus)
+    ? statusOptions
+    : [{ value: currentStatus, label: orderStatusLabel(currentStatus) }, ...statusOptions];
 
   const handleChange = async (newStatus: string) => {
     setLoading(true);
@@ -41,9 +50,9 @@ export function AdminOrderStatus({
       value={status}
       onChange={(e) => handleChange(e.target.value)}
       disabled={loading}
-      className="text-xs bg-[#1A1A1A] border border-[#B8860B]/20 rounded-lg px-2 py-1.5 text-white focus:outline-none focus:border-[#D4A017]/50 disabled:opacity-50"
+      className="text-xs bg-[#1A1A1A] border border-[#8A6435]/20 rounded-lg px-2 py-1.5 text-white focus:outline-none focus:border-[#A47C42]/50 disabled:opacity-50"
     >
-      {statusOptions.map((opt) => (
+      {options.map((opt) => (
         <option key={opt.value} value={opt.value}>
           {opt.label}
         </option>
