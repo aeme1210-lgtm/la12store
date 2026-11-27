@@ -5,58 +5,12 @@
  * Funciones puras: no tocan la base de datos.
  */
 
+import { TEAM_ALIASES } from "../lib/team-aliases";
+
+export { TEAM_ALIASES };
+
 // ── Diccionarios ────────────────────────────────────────────────────────────
 
-/** Clave normalizada (minúsculas, sin tildes) → nombre canónico en español. */
-export const TEAM_ALIASES: Record<string, string> = {
-  // Clubes
-  "m-u": "Manchester United", mu: "Manchester United", "man utd": "Manchester United",
-  "man united": "Manchester United", "manchester united": "Manchester United",
-  "man city": "Manchester City", "manchester city": "Manchester City",
-  "paris psg": "PSG", psg: "PSG", "paris saint germain": "PSG", "paris saint-germain": "PSG", paris: "PSG",
-  inter: "Inter de Milán", "inter milan": "Inter de Milán", internazionale: "Inter de Milán",
-  ac: "AC Milan", "ac milan": "AC Milan", milan: "AC Milan",
-  "river bed": "River Plate", river: "River Plate", "river plate": "River Plate",
-  bayern: "Bayern Múnich", "bayern munich": "Bayern Múnich", "fc bayern": "Bayern Múnich",
-  "atletico madrid": "Atlético de Madrid", atletico: "Atlético de Madrid",
-  "real madrid": "Real Madrid", barcelona: "FC Barcelona", "fc barcelona": "FC Barcelona", barca: "FC Barcelona",
-  dortmund: "Borussia Dortmund", "borussia dortmund": "Borussia Dortmund",
-  tottenham: "Tottenham", spurs: "Tottenham",
-  "newcastle united": "Newcastle", newcastle: "Newcastle",
-  "west ham utd": "West Ham", "west ham united": "West Ham", "west ham": "West Ham",
-  "sao paulo": "São Paulo", "colo colo": "Colo-Colo", "catholic university": "Universidad Católica",
-  chivas: "Chivas", "chivas de guadalajara": "Chivas",
-  "sporting gijon": "Sporting de Gijón", cologne: "FC Colonia",
-  "boca juniors": "Boca Juniors", boca: "Boca Juniors",
-  juventus: "Juventus", juve: "Juventus", roma: "AS Roma", "as roma": "AS Roma",
-  liverpool: "Liverpool", arsenal: "Arsenal", chelsea: "Chelsea", napoli: "Napoli",
-  "la galaxy": "LA Galaxy", "inter miami": "Inter Miami",
-  // Selecciones
-  brazil: "Brasil", brasil: "Brasil", germany: "Alemania", italy: "Italia", italia: "Italia",
-  france: "Francia", spain: "España", england: "Inglaterra", netherlands: "Países Bajos",
-  holland: "Países Bajos", mexico: "México", japan: "Japón", belgium: "Bélgica",
-  switzerland: "Suiza", portugal: "Portugal", argentina: "Argentina", colombia: "Colombia",
-  peru: "Perú", cameroon: "Camerún", turkiye: "Turquía", turkey: "Turquía",
-  usa: "Estados Unidos", "united states": "Estados Unidos", canada: "Canadá",
-  uruguay: "Uruguay", chile: "Chile", ecuador: "Ecuador", croatia: "Croacia",
-  denmark: "Dinamarca", scotland: "Escocia", nigeria: "Nigeria", morocco: "Marruecos",
-  "south korea": "Corea del Sur", korea: "Corea del Sur", sweden: "Suecia", norway: "Noruega",
-  columbia: "Colombia", wales: "Gales", ireland: "Irlanda", tunisia: "Túnez", algeria: "Argelia",
-  haiti: "Haití", senegal: "Senegal", jamaica: "Jamaica", guatemala: "Guatemala",
-  // Clubes (segunda pasada, 2026-11-27)
-  "m u": "Manchester United", naples: "Napoli", marseille: "Olympique de Marsella",
-  "deportivo universidad catolica": "Universidad Católica", "universidad catolica": "Universidad Católica",
-  "university of chile": "Universidad de Chile", "universidad de chile": "Universidad de Chile",
-  "deportivo la coruna": "Deportivo La Coruña", "athletic bilbao": "Athletic Club", bilbao: "Athletic Club",
-  celtic: "Celtic", celtics: "Celtic", eindhoven: "PSV", psv: "PSV", schalke: "Schalke 04",
-  leverkusen: "Bayer Leverkusen", miami: "Inter Miami", gremio: "Grêmio", malaga: "Málaga",
-  celta: "Celta de Vigo", "real betis": "Real Betis", betis: "Real Betis", sevilla: "Sevilla",
-  "san lorenzo": "San Lorenzo", "racing club": "Racing Club", "vasco da gama": "Vasco da Gama",
-  // Clubes distintos que comparten la primera palabra con otro alias (revisión 2026-11-27):
-  // sin esto, "Atletico Mineiro" terminaba como Atlético de Madrid y "Miami FC" como Inter Miami.
-  "atletico mineiro": "Atlético Mineiro", "atletico nacional": "Atlético Nacional",
-  "athletico paranaense": "Athletico Paranaense", "miami fc": "Miami FC",
-};
 
 /**
  * Primeras palabras que no alcanzan para identificar un club: solo valen si
@@ -116,6 +70,9 @@ export function cleanTeamKey(team: string): string {
   return s;
 }
 
+const CANONICAL_TEAMS = new Set(Object.values(TEAM_ALIASES));
+const CANONICAL_BY_KEY = new Map([...CANONICAL_TEAMS].map((t) => [strip(t), t]));
+
 /**
  * Equipo canónico. `name` es el respaldo cuando `team` es solo ruido
  * ("Mens", "Kids", "Womens" — 213 productos importados así).
@@ -123,6 +80,11 @@ export function cleanTeamKey(team: string): string {
  * máximo 4 palabras). Lo demás se marca REVISAR.
  */
 export function canonicalTeam(team: string, name: string): { team: string; resolved: boolean } {
+  // Ya canónico (fase 1 aplicada): se respeta tal cual, con sus tildes.
+  // Sin esto "Japón" → clave "japon" → "Japon".
+  if (CANONICAL_TEAMS.has(team.trim())) return { team: team.trim(), resolved: true };
+  const byStripped = CANONICAL_BY_KEY.get(strip(team.trim()));
+  if (byStripped) return { team: byStripped, resolved: true };
   let key = cleanTeamKey(team);
   if (!key) key = cleanTeamKey(name);
   if (!key) return { team: team.trim(), resolved: false };
@@ -142,6 +104,7 @@ export function garmentKind(name: string): string {
   const n = strip(name);
   if (/windbreaker|jacket|chaqueta|rompevientos/.test(n)) return "Chaqueta";
   if (/training suit|tracksuit|sudadera/.test(n)) return "Conjunto de entrenamiento";
+  if (/hoodie|sweatshirt|\bbuzo\b/.test(n)) return "Buzo";
   if (/\bpolo\b/.test(n)) return "Polo";
   if (/\bvest\b|\bchaleco\b/.test(n)) return "Esqueleto";
   if (/\bshorts?\b/.test(n)) return "Pantaloneta";
@@ -158,7 +121,8 @@ export function audience(name: string): string {
 }
 
 export function sleeve(name: string, isLongSleeve: boolean): string {
-  return isLongSleeve || /\bls\b|long sleeve|manga larga/i.test(name) ? "Larga" : "Corta";
+  // "Long-Sleeve" con guion se escapaba (fase 2): esas camisetas se cobraban como Fan.
+  return isLongSleeve || /\bls\b|long[- ]?sleeves?|manga larga/i.test(name) ? "Larga" : "Corta";
 }
 
 export function shirtType(name: string, type: string): string {
@@ -175,7 +139,8 @@ export function shirtType(name: string, type: string): string {
 }
 
 export function season(name: string, raw: string | null): string {
-  const src = `${raw ?? ""} ${name}`;
+  // Quita rangos de talla ("SIZE 16-28") para que no se lean como temporada 2016/28.
+  const src = `${raw ?? ""} ${name}`.replace(/\bsizes?\s*\d+\s*-\s*\d+/gi, " ");
   const pair = src.match(/\b(\d{2,4})[/_-](\d{2})\b/);
   if (pair) {
     const a = pair[1].length === 2 ? (Number(pair[1]) > 50 ? `19${pair[1]}` : `20${pair[1]}`) : pair[1];
@@ -233,9 +198,15 @@ export function proposeProduct(p: ProductInput): Proposal {
   const sufijos = [
     ver === "Retro" ? "Retro" : ver === "Jugador" ? "Versión Jugador" : null,
     man === "Larga" ? "Manga Larga" : null,
-    aud !== "Adulto" ? aud : null,
+    // "Conjunto niño" ya dice el público: no repetir "Niño" al final.
+    aud !== "Adulto" && !/niño/i.test(kind) ? aud : null,
   ].filter(Boolean);
-  const base = kind === "Camiseta" ? `${t.team} ${tipo}` : `${kind} ${t.team}`;
+  const base =
+    kind === "Camiseta"
+      ? `${t.team} ${tipo}`
+      : kind === "Conjunto niño"
+        ? `${kind} ${t.team} ${tipo}` // conserva Local/Visitante del conjunto
+        : `${kind} ${t.team}`;
   const name = [base, temp, ...sufijos].filter(Boolean).join(" ").replace(/\s+/g, " ");
 
   const isNew = /2026\/27|2026$/.test(temp) && aud === "Adulto" && kind === "Camiseta";
@@ -257,4 +228,101 @@ export function proposeProduct(p: ProductInput): Proposal {
     team: t.team, teamResolved: t.resolved, kind, audience: aud, sleeve: man,
     shirtType: tipo, season: temp, version: ver, name, isNew, isLongSleeve, alerts,
   };
+}
+
+// ── Fase 2: nombres únicos y URLs limpias ───────────────────────────────────
+
+const COLOR_ES: Record<string, string> = {
+  green: "Verde", black: "Negra", white: "Blanca", gold: "Dorada", golden: "Dorada",
+  red: "Roja", blue: "Azul", yellow: "Amarilla", pink: "Rosada", purple: "Morada",
+  grey: "Gris", gray: "Gris", navy: "Azul marino", beige: "Beige", orange: "Naranja",
+  maroon: "Vinotinto", fluorescent: "Fluorescente", silver: "Plateada", brown: "Café",
+};
+
+const WORD_ES: Record<string, string> = {
+  baseball: "Béisbol", reflective: "Reflectiva", casual: "Casual", embroidered: "Bordado",
+  rainbow: "Arcoíris", stripes: "Rayas", stripe: "Rayas", champions: "Champions",
+  league: "League", centenary: "Centenario", anniversary: "Aniversario", original: "Original",
+};
+
+/** Palabras que no aportan para distinguir dos productos del mismo equipo/temporada. */
+// Los colores SÍ distinguen (Mallorca roja vs. blanca): se excluyen de NOISE aquí.
+const DESCRIPTOR_STOP = new Set([
+  ...NOISE.filter((w) => !(w in COLOR_ES)),
+  "with", "pants", "and", "x", "of", "for", "stadium", "sale", "presale",
+  "quality", "players", "fc", "co", "branded", "version", "jerseys", "shirt", "edicion",
+  "especial", "local", "visitante", "tercera", "portero", "entrenamiento", "partido",
+  "jugador", "player", "nino", "nina", "mujer", "bebe", "s", "xxl", "xl", "l", "m",
+  "sleeved", "sleeves", "original",
+  // Nombres de equipo en cualquier idioma ("Spain" cuando el equipo ya es "España").
+  ...Object.keys(TEAM_ALIASES).flatMap((k) => k.split(" ")),
+]);
+
+/**
+ * Detalle que distingue a un producto de otro con el mismo nombre propuesto:
+ * colores y palabras del nombre original que las reglas descartaron
+ * ("Black Panther", "Baseball", "Green"). Máximo 3 palabras.
+ */
+export function descriptor(originalName: string, team: string): string {
+  const teamWords = new Set(strip(team).split(/\s+/));
+  const words = strip(originalName)
+    .replace(/&#x27;|&amp;/g, " ")
+    .replace(/[_/(),.+-]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w && !/\d/.test(w) && !DESCRIPTOR_STOP.has(w) && !teamWords.has(w) && !SUPPLIER_JUNK.test(w));
+  const out: string[] = [];
+  for (const w of words) {
+    const t = COLOR_ES[w] ?? WORD_ES[w] ?? (w.length > 2 ? w[0].toUpperCase() + w.slice(1) : null);
+    if (t && !out.includes(t)) out.push(t);
+    if (out.length === 3) break;
+  }
+  return out.join(" ");
+}
+
+/**
+ * Nombre final por producto. Si dos productos quedan con el mismo nombre se
+ * les agrega su detalle distintivo ("Liverpool Edición especial 2025/26 ·
+ * Verde"). Los que siguen iguales después de eso son, casi siempre, el mismo
+ * producto importado dos veces: se reportan como posibles duplicados.
+ */
+export function proposeNames(
+  products: (ProductInput & { id: string })[]
+): { names: Map<string, string>; possibleDuplicates: string[][] } {
+  const base = new Map(products.map((p) => [p.id, proposeProduct(p).name]));
+  const groups = new Map<string, string[]>();
+  for (const [id, n] of base) groups.set(n, [...(groups.get(n) ?? []), id]);
+
+  const byId = new Map(products.map((p) => [p.id, p]));
+  const names = new Map(base);
+  for (const ids of groups.values()) {
+    if (ids.length < 2) continue;
+    for (const id of ids) {
+      const p = byId.get(id)!;
+      const d = descriptor(p.name, proposeProduct(p).team);
+      if (d) names.set(id, `${base.get(id)} · ${d}`);
+    }
+  }
+
+  const final = new Map<string, string[]>();
+  for (const [id, n] of names) final.set(n, [...(final.get(n) ?? []), id]);
+  const possibleDuplicates = [...final.values()].filter((ids) => ids.length > 1);
+  return { names, possibleDuplicates };
+}
+
+/** URL a partir del nombre: sin tildes, minúsculas, guiones. */
+export function slugify(s: string): string {
+  return strip(s)
+    .replace(/[·/]/g, " ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 90);
+}
+
+/**
+ * URLs que vale la pena cambiar: las que muestran texto de mayorista, tallas,
+ * entidades HTML o el prefijo "mens". Las demás se conservan aunque el nombre
+ * cambie, para no mover URLs que ya están indexadas sin necesidad.
+ */
+export function isBadSlug(slug: string): boolean {
+  return /cheap|wholesale|yupoo?|(^|-)s-?[2-4]?x+l(-|$)|size-?\d|x27|(^|-)mens-|(^|-)womens-|quality|pre-sale/.test(slug);
 }

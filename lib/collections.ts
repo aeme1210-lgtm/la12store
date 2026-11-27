@@ -73,7 +73,7 @@ export const COLLECTIONS: Collection[] = [
     story:
       "De la 10 en la playa a La Bombonera en la memoria. Las camisetas de la selección campeona y del club más pasional de Sudamérica, juntas.",
     cover: BRAND_URLS.gallery[4],
-    where: { AND: [nameAny(["Argentina", "Boca"]), ...notKids] },
+    where: { AND: [{ team: { in: ["Argentina", "Boca Juniors"] } }, ...notKids] },
   },
   {
     // ~192 productos
@@ -86,12 +86,15 @@ export const COLLECTIONS: Collection[] = [
     where: {
       AND: [
         { isRetro: true },
-        { league: { in: ["Selecciones Nacionales", "Retro"] } },
-        nameAny([
-          "Argentina", "Brazil", "Brasil", "Italy", "Italia", "Germany", "Alemania",
-          "France", "Francia", "Colombia", "Netherlands", "Holland", "England",
-          "Spain", "Mexico",
-        ]),
+        // Equipos canónicos (lib/team-aliases.ts) — no depende del idioma del nombre.
+        {
+          team: {
+            in: [
+              "Argentina", "Brasil", "Italia", "Alemania", "Francia", "Colombia",
+              "Países Bajos", "Inglaterra", "España", "México", "Uruguay",
+            ],
+          },
+        },
         ...notKids,
       ],
     },
@@ -107,10 +110,14 @@ export const COLLECTIONS: Collection[] = [
     where: {
       AND: [
         { isRetro: true },
-        nameAny([
-          "Real Madrid", "Barcelona", "M-U", "Manchester United", "Milan", "Inter",
-          "Juventus", "Liverpool", "Bayern", "Arsenal", "Chelsea",
-        ]),
+        {
+          team: {
+            in: [
+              "Real Madrid", "FC Barcelona", "Manchester United", "AC Milan", "Inter de Milán",
+              "Juventus", "Liverpool", "Bayern Múnich", "Arsenal", "Chelsea",
+            ],
+          },
+        },
         ...notKids,
       ],
     },
@@ -122,7 +129,7 @@ export const COLLECTIONS: Collection[] = [
     title: "La Tricolor",
     story:
       "Amarilla de domingo, de barrio y de estadio. Todas las versiones de la camiseta de Colombia que tenemos, en un solo lugar.",
-    where: { AND: [nameAny(["Colombia"]), ...notKids] },
+    where: { AND: [{ team: "Colombia" }, ...notKids] },
   },
 ];
 

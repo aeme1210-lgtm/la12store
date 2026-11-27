@@ -24,7 +24,9 @@ export function isPlayerOnly(p: NamedProduct): boolean {
 
 /** Niño / bebé — se excluye de Estrenos y de colecciones editoriales. */
 export function isKidsProduct(p: NamedProduct): boolean {
-  return /\b(kids?|baby|infant|niñ[oa]s?|beb[eé])\b/i.test(p.name);
+  // Límites Unicode (no \b): \b no reconoce "é"/"ñ" y "Bebé" no coincidía
+  // con los nombres en español de la fase 2.
+  return /(?<![\p{L}])(kids?|baby|infant|niñ[oa]s?|beb[eé])(?![\p{L}])/iu.test(p.name);
 }
 
 /** Fragmentos de `name` usados para excluir niño/bebé en consultas Prisma. */

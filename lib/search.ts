@@ -4,6 +4,8 @@
  * Usado por el catálogo (server) y el Navbar (client).
  */
 
+import { TEAM_ALIASES } from "@/lib/team-aliases";
+
 /** Convierte texto a minúsculas sin acentos */
 export function normalizeText(text: string): string {
   return text
@@ -223,12 +225,57 @@ export function resolveSearchTerms(query: string): string[] {
   if (!normalized) return [];
 
   const terms = new Set<string>([query.trim()]);
+  const padded = ` ${normalized} `;
 
-  for (const [alias, canonical] of Object.entries(searchAliases)) {
-    if (normalizeText(alias) === normalized || normalized.includes(normalizeText(alias))) {
-      terms.add(canonical);
-    }
+  // Alias que aparecen como palabra(s) completa(s) en la búsqueda. Incluye los
+  // equipos canónicos de la BD tras la normalización (2026-11-27): "bayern" →
+  // "Bayern Múnich", "spain" → "España".
+  const matched: [string, string][] = [];
+  for (const [alias, canonical] of [
+    ...Object.entries(searchAliases),
+    ...Object.entries(TEAM_ALIASES).filter(([a]) => a.length >= 4),
+  ]) {
+    const a = normalizeText(alias);
+    if (padded.includes(` ${a} `)) matched.push([a, canonical]);
+  }
+  // Gana el alias más específico: en "inter milan" no se suma "milan" → AC Milan.
+  const specific = matched.filter(
+    ([a]) => !matched.some(([b]) => b !== a && b.length > a.length && ` ${b} `.includes(` ${a} `))
+  );
+  for (const [, canonical] of specific) terms.add(canonical);
+
+  // Los nombres quedaron en español: la frase completa se traduce como UN
+  // término ("real madrid home" → "Real Madrid Local"), no como "Local"
+  // suelto, que traería todas las camisetas locales del catálogo.
+  let phrase = normalized;
+  const longestTeam = [...specific].sort((x, y) => y[0].length - x[0].length)[0];
+  if (longestTeam) phrase = phrase.replace(longestTeam[0], longestTeam[1]);
+  for (const [en, es] of Object.entries(KIT_WORDS_ES)) {
+    phrase = phrase.replace(new RegExp(`(^|\\s)${en}(?=\\s|$)`), `$1${es}`);
+  }
+  if (phrase !== normalized) terms.add(phrase);
+  if (KIT_WORDS_ES[normalized]) terms.add(KIT_WORDS_ES[normalized]);
+
+  // Si hay un equipo en la búsqueda junto con otras palabras, el nombre del
+  // equipo solo trae todo el club; la frase traducida es la que afina.
+  if (longestTeam && phrase.trim() !== longestTeam[1] && Object.keys(KIT_WORDS_ES).some((w) => padded.includes(` ${w} `))) {
+    terms.delete(longestTeam[1]);
   }
 
   return Array.from(terms);
 }
+
+/** Inglés del proveedor → español de los nombres normalizados. */
+const KIT_WORDS_ES: Record<string, string> = {
+  home: "Local",
+  away: "Visitante",
+  third: "Tercera",
+  goalkeeper: "Portero",
+  training: "Entrenamiento",
+  player: "Versión Jugador",
+  kids: "Niño",
+  women: "Mujer",
+  womens: "Mujer",
+  jacket: "Chaqueta",
+  windbreaker: "Chaqueta",
+};

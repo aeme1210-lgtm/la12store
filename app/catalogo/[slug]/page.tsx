@@ -1,7 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import SLUG_REDIRECTS from "@/lib/slug-redirects.json";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductCard } from "@/components/product/ProductCard";
 import { RecentlyViewed } from "@/components/product/RecentlyViewed";
@@ -53,7 +54,13 @@ export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const product = await prisma.product.findUnique({ where: { slug } });
 
-  if (!product) notFound();
+  if (!product) {
+    // URL anterior a la normalización de fase 2 → 308 permanente a la nueva,
+    // para no perder enlaces de Google, WhatsApp ni carritos guardados.
+    const target = (SLUG_REDIRECTS as Record<string, string>)[slug];
+    if (target && target !== slug) permanentRedirect(`/catalogo/${target}`);
+    notFound();
+  }
 
   const related = await prisma.product.findMany({
     where: {

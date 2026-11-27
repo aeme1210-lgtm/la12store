@@ -8,24 +8,25 @@
 | Métrica | Actual | Propuesto |
 |---|---|---|
 | Productos | 2588 | 2588 |
-| Equipos distintos | 1329 | 286 |
-| Marcados "nuevo" (isNew) | 1398 | 357 (solo camisetas adulto 2026 y 26/27) |
-| Manga larga sin marcar | 96 | 0 |
-| Productos con alguna alerta (precio, retro, texto de mayorista) | 333 | — |
-| Prendas que no son camiseta | 209 | separadas por tipo |
+| Equipos distintos | 286 | 284 |
+| Marcados "nuevo" (isNew) | 357 | 356 (solo camisetas adulto 2026 y 26/27) |
+| Manga larga sin marcar | 33 | 0 |
+| Productos con alguna alerta (precio, retro, texto de mayorista) | 282 | — |
+| Prendas que no son camiseta | 213 | separadas por tipo |
 | Nombres con tallas dentro | 380 | 0 |
 
 ## Por tipo de prenda
 
 | Prenda | Productos |
 |---|---|
-| Camiseta | 2379 |
+| Camiseta | 2375 |
 | Conjunto niño | 91 |
 | Pantaloneta | 40 |
 | Chaqueta | 33 |
 | Conjunto de entrenamiento | 22 |
 | Esqueleto | 17 |
 | Polo | 6 |
+| Buzo | 4 |
 
 ## Por público
 
