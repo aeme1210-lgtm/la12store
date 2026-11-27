@@ -6,7 +6,12 @@
 
 export type ProductVersion = "Fan" | "Player" | "Retro" | "Manga Larga";
 
+import { isPlayerOnly } from "@/lib/product-rules";
+
 export interface PricedProduct {
+  /** Si se pasa, se detectan productos que solo existen en versión Jugador. */
+  name?: string;
+  type?: string | null;
   priceFan?: number | null;
   pricePlayer?: number | null;
   priceRetro?: number | null;
@@ -34,10 +39,15 @@ export function getProductPrice(
   if (product.isRetro) {
     return product.priceRetro ?? DEFAULT_RETRO;
   }
-  if (version === "Player") {
+  if (version === "Player" || isPlayerOnlyProduct(product)) {
     return product.pricePlayer ?? DEFAULT_PLAYER;
   }
   return product.priceFan ?? DEFAULT_FAN;
+}
+
+/** Producto que solo se vende en versión Jugador (ver lib/product-rules.ts). */
+export function isPlayerOnlyProduct(product: PricedProduct): boolean {
+  return !!product.name && isPlayerOnly({ name: product.name, type: product.type });
 }
 
 /** Precio "desde" para mostrar en tarjeta de catálogo (el más bajo disponible). */
@@ -47,6 +57,9 @@ export function getStartingPrice(product: PricedProduct): number {
   }
   if (product.isRetro) {
     return product.priceRetro ?? DEFAULT_RETRO;
+  }
+  if (isPlayerOnlyProduct(product)) {
+    return product.pricePlayer ?? DEFAULT_PLAYER;
   }
   return product.priceFan ?? DEFAULT_FAN;
 }

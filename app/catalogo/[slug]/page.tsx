@@ -9,6 +9,7 @@ import { FadeInUp } from "@/components/ui/ScrollAnimations";
 import type { Metadata } from "next";
 import { formatCOP } from "@/lib/utils";
 import { getStartingPrice } from "@/lib/pricing";
+import { displayName } from "@/lib/product-rules";
 import supabaseImageUrl from "@/supabase-image-loader";
 
 interface Props {
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return { title: "Producto no encontrado" };
 
   const price = getStartingPrice(product);
-  const description = `${product.name} - ${product.type} ${product.season ?? ""}. ${formatCOP(price)} COP. Calidad premium con acabados profesionales.`;
+  const description = `${displayName(product.name)} - ${product.type} ${product.season ?? ""}. ${formatCOP(price)} COP. Calidad premium con acabados profesionales.`;
   const rawImage = (JSON.parse(product.images || "[]") as string[])[0];
   // Misma transformación que supabase-image-loader.js (sin /render/image/,
   // solo objeto público directo) — necesaria porque og:image debe ser una URL
@@ -29,17 +30,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const mainImage = rawImage ? supabaseImageUrl({ src: rawImage }) : undefined;
 
   return {
-    title: product.name,
+    title: displayName(product.name),
     description,
     openGraph: {
-      title: product.name,
+      title: displayName(product.name),
       description,
       type: "website",
       images: mainImage ? [{ url: mainImage }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: product.name,
+      title: displayName(product.name),
       description,
       images: mainImage ? [mainImage] : undefined,
     },
@@ -72,9 +73,9 @@ export default async function ProductPage({ params }: Props) {
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
+    name: displayName(product.name),
     image: productImage ? [productImage] : undefined,
-    description: product.description || `${product.name} - ${product.type}`,
+    description: product.description || `${displayName(product.name)} - ${product.type}`,
     sku: product.id,
     offers: {
       "@type": "Offer",
@@ -91,7 +92,7 @@ export default async function ProductPage({ params }: Props) {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Catálogo", item: `${BASE_URL}/catalogo` },
       { "@type": "ListItem", position: 2, name: product.league, item: `${BASE_URL}/catalogo?liga=${encodeURIComponent(product.league)}` },
-      { "@type": "ListItem", position: 3, name: product.name, item: productUrl },
+      { "@type": "ListItem", position: 3, name: displayName(product.name), item: productUrl },
     ],
   };
 

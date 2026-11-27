@@ -56,6 +56,16 @@ export function Step3Revision({
           total: subtotal,
         }),
       });
+      if (res.status === 409) {
+        // El servidor recalcula precios desde la BD; si el carrito guardado
+        // tiene un precio viejo, se avisa en vez de cobrar un total distinto.
+        const body = await res.json().catch(() => null);
+        setError(
+          body?.error ??
+            "Los precios de tu carrito cambiaron. Vuelve al carrito para ver el total actualizado."
+        );
+        return;
+      }
       if (!res.ok) throw new Error("request_failed");
       const result = await res.json();
       setOrder(result.id, result.orderNumber, ORDER_STATUS.READY_FOR_PAYMENT);

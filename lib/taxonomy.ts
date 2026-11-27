@@ -38,7 +38,11 @@ const TYPE_MAP: Record<string, string> = {
   "special edition": "Edición Especial",
   "edición especial": "Edición Especial",
   "pre-partido": "Pre-partido",
+  "pre-match": "Pre-partido",
   entrenamiento: "Entrenamiento",
+  training: "Entrenamiento",
+  // redesign-v3: valores crudos que se mostraban en inglés en las tarjetas.
+  "player version": "Versión Jugador",
 };
 
 const COLOR_MAP: Record<string, string> = {

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { isKidsProduct } from "@/lib/product-rules";
 
 /**
  * "ESTRENOS" — selección determinista sembrada por fecha (YYYYMMDD), sin
@@ -59,11 +60,14 @@ export interface EstrenoProduct {
 }
 
 export async function getEstrenos(): Promise<EstrenoProduct[]> {
-  const all = await prisma.product.findMany({
+  const allRaw = await prisma.product.findMany({
     where: { league: COLLECTION_LEAGUE, isActive: true },
     orderBy: { createdAt: "desc" },
   });
 
+  // Auditoría 2026-11-26: "Mexico Baby Jersey" aparecía en Estrenos de la
+  // portada. Niño/bebé se queda en el catálogo, no en la vitrina principal.
+  const all = allRaw.filter((p) => !isKidsProduct(p));
   if (all.length === 0) return [];
 
   const isFixed = (p: (typeof all)[number]) =>

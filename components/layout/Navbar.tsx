@@ -13,6 +13,7 @@ import { drawerTransition } from "@/lib/motion";
 // bloque 2: "máximo 6 ítems; el resto al footer"). Nosotros/Contacto/FAQ ya
 // viven en el footer (components/layout/Footer.tsx) — no se duplican aquí.
 const navLinks = [
+  { href: "/colecciones", label: "Colecciones" },
   { href: "/catalogo", label: "Catálogo" },
   { href: "/catalogo?liga=selecciones-nacionales", label: "Selecciones" },
   { href: "/catalogo?liga=retro", label: "Retro" },
@@ -153,12 +154,12 @@ export function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-7">
+            <div className="hidden md:flex items-center gap-4 lg:gap-7 ml-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-semibold tracking-wider uppercase transition-colors duration-200 ${
+                  className={`text-xs lg:text-sm font-semibold tracking-wider uppercase transition-colors duration-200 ${
                     pathname === link.href
                       ? "text-[#A47C42]"
                       : "text-[#A0A0A0] hover:text-white"

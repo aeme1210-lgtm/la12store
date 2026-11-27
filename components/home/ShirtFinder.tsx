@@ -28,6 +28,8 @@ const PRESUPUESTO_OPTIONS = [
   { value: "150000", label: "Hasta $150.000" },
   { value: "170000", label: "Hasta $170.000" },
   { value: "180000", label: "Hasta $180.000" },
+  // Manga larga cuesta $185.000 — antes quedaba fuera de todo tope.
+  { value: "185000", label: "Hasta $185.000" },
 ];
 
 const TALLA_OPTIONS = ["", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
