@@ -94,7 +94,7 @@ async function writeRows(rows: Row[], label: string) {
       );
       return prisma.$executeRaw`
         UPDATE "Product" AS p
-        SET name = v.name, slug = v.slug, "isLongSleeve" = v.ls, "updatedAt" = now()
+        SET name = v.name, slug = v.slug, "isLongSleeve" = v.ls::boolean, "updatedAt" = now()
         FROM (VALUES ${values}) AS v(id, name, slug, ls)
         WHERE p.id = v.id`;
     }),
