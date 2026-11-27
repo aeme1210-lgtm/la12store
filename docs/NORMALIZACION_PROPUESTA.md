@@ -8,10 +8,10 @@
 | Métrica | Actual | Propuesto |
 |---|---|---|
 | Productos | 2588 | 2588 |
-| Equipos distintos | 1329 | 281 |
+| Equipos distintos | 1329 | 286 |
 | Marcados "nuevo" (isNew) | 1398 | 357 (solo camisetas adulto 2026 y 26/27) |
 | Manga larga sin marcar | 96 | 0 |
-| Productos con alerta de precio | 333 | — |
+| Productos con alguna alerta (precio, retro, texto de mayorista) | 333 | — |
 | Prendas que no son camiseta | 209 | separadas por tipo |
 | Nombres con tallas dentro | 380 | 0 |
 
