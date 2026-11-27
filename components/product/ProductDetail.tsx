@@ -67,7 +67,7 @@ export function ProductDetail({ product }: { product: Product }) {
     recordView({
       id: product.id,
       slug: product.slug,
-      name: product.name,
+      name: displayName(product.name),
       image: allImages[0],
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,7 +94,7 @@ export function ProductDetail({ product }: { product: Product }) {
     addItem({
       id: uniqueId,
       productId: product.id,
-      name: product.name,
+      name: displayName(product.name),
       image: allImages[0],
       size: selectedSize,
       version: product.isRetro ? "Retro" : version,
@@ -114,7 +114,7 @@ export function ProductDetail({ product }: { product: Product }) {
     const msg = buildOrderMessage({
       items: [
         {
-          name: product.name,
+          name: displayName(product.name),
           url: `${origin}/catalogo/${product.slug}`,
           size: selectedSize || "(por definir)",
           version: product.isRetro ? "Retro" : version,

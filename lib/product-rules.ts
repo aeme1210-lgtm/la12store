@@ -37,12 +37,21 @@ export const KIDS_NAME_FRAGMENTS = ["Kids", "Kid ", "Baby", "Infant", "Niño", "
  */
 export function displayName(name: string): string {
   return name
+    // Entidades HTML que llegaron crudas del scraping ("Women&#x27;s").
+    .replace(/&#x27;|&#39;|&apos;/gi, "'")
+    .replace(/&amp;/gi, "&")
+    // Texto de mayorista (90 productos de Yupoo, auditoría 2026-11-27):
+    // "Kit Cheap Football Jersey Wholesale Yupoo" nunca debe verlo el cliente.
+    .replace(/\b(cheap|wholesale|yupoo)\b/gi, "")
+    .replace(/\bFootball Jersey\b/gi, "")
     .replace(/\s*Sizes?[_ ]?(S|\d+)\s*-\s*(\w+)/gi, "")
     .replace(/\s*\bS\s*-\s*[2-4]?X*L\b/gi, "")
     .replace(/^Mens\s+/i, "")
     .replace(/\bJersey\b/gi, "")
     .replace(/\b(Home)\s+\1\b/gi, "$1")
     .replace(/\s+Home\s+Retro$/i, " Retro")
+    // El importador agregaba "Home" al final aunque fuera visitante/tercera.
+    .replace(/(\b(?:Home|Away|Third|Visitante|Tercera|Goalkeeper|Portero)\b.*?)\s+Home\s*$/i, "$1")
     .replace(/_/g, "/")
     .replace(/\s*\/\s*(?=\s|$)/g, " ")
     .replace(/\s+/g, " ")
