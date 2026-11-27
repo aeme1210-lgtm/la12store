@@ -30,7 +30,9 @@ export function Hero() {
       {/* Gradiente — legibilidad del texto, no decorativo */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0A] via-black/50 to-black/10" />
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-end pb-16 md:pb-20 px-4 text-center">
+      {/* pt-32: en móvil el titular de 3 líneas empujaba el kicker por debajo
+          de la barra superior + navbar (se superponía con el logo). */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-end pt-32 md:pt-36 pb-16 md:pb-20 px-4 text-center">
         <FadeInUp className="max-w-2xl">
           <p
             className="text-[#C4A06A] text-[10px] md:text-xs tracking-[0.5em] uppercase mb-4"

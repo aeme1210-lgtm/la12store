@@ -9,7 +9,12 @@ import { MessageCircle } from "lucide-react";
 import { Hero } from "@/components/home/Hero";
 import { EstrenosSection } from "@/components/home/EstrenosSection";
 import { WorldsGrid, type World } from "@/components/home/WorldsGrid";
-import { FeaturedCollection } from "@/components/home/FeaturedCollection";
+import { KIDS_NAME_FRAGMENTS } from "@/lib/product-rules";
+import { TrustBar } from "@/components/home/TrustBar";
+import { Manifesto } from "@/components/home/Manifesto";
+import { Lookbook } from "@/components/home/Lookbook";
+import { VersionGuide } from "@/components/home/VersionGuide";
+import { CollectionsShowcase } from "@/components/home/CollectionsShowcase";
 import { NosotrosSection } from "@/components/home/NosotrosSection";
 import { ShirtFinder } from "@/components/home/ShirtFinder";
 import { ComoComprar } from "@/components/home/ComoComprar";
@@ -31,7 +36,15 @@ async function getTrendingProducts() {
   const results = await Promise.all(
     terms.map((t) =>
       prisma.product.findFirst({
-        where: { isActive: true, name: { contains: t } },
+        // Sin 26/27 (ya están en Estrenos → evita duplicados en portada) y sin niño/bebé.
+        where: {
+          isActive: true,
+          name: { contains: t },
+          league: { not: "Temporada 26/27" },
+          AND: KIDS_NAME_FRAGMENTS.map((f) => ({
+            NOT: { name: { contains: f, mode: "insensitive" as const } },
+          })),
+        },
         orderBy: [{ isTrending: "desc" }, { isFeatured: "desc" }, { createdAt: "desc" }],
       })
     )
@@ -64,13 +77,45 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── 3. HERO ── */}
+      {/* ── HERO ── */}
       <Hero />
 
-      {/* ── 4. ESTRENOS 26/27 ── */}
+      {/* ── PROMESAS — redesign-v3 ── */}
+      <TrustBar />
+
+      {/* ── COLECCIONES EDITORIALES — redesign-v3: la marca guía, no el listado ── */}
+      <section className="py-16 md:py-24 px-3 md:px-6 max-w-7xl mx-auto">
+        <FadeInUp className="flex items-end justify-between mb-8 md:mb-10">
+          <div>
+            <p
+              className="text-[#C4A06A] text-[10px] tracking-[0.4em] uppercase mb-2"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              Curadas por La 12
+            </p>
+            <h2 className="font-display text-white text-3xl md:text-5xl uppercase">Colecciones</h2>
+          </div>
+          <Link
+            href="/colecciones"
+            className="text-[#C4A06A] hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            Ver todas →
+          </Link>
+        </FadeInUp>
+        <CollectionsShowcase />
+      </section>
+
+      {/* ── MANIFIESTO — marfil ── */}
+      <Manifesto />
+
+      {/* ── ESTRENOS 26/27 ── */}
       <EstrenosSection />
 
-      {/* ── 5. MUNDOS — composición asimétrica ── */}
+      {/* ── LOOKBOOK — fotos reales ── */}
+      <Lookbook />
+
+      {/* ── MUNDOS — composición asimétrica ── */}
       <section className="py-14 md:py-20 bg-[#181816]">
         <div className="max-w-7xl mx-auto px-3 md:px-4">
           <FadeInUp className="text-center mb-10">
@@ -89,8 +134,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 6. COLECCIÓN DESTACADA — fondo marfil ── */}
-      <FeaturedCollection />
+      {/* ── FAN / JUGADOR / RETRO ── */}
+      <VersionGuide />
 
       {/* ── 7. DESTACADOS — grilla limpia, sin animar cada producto ── */}
       <section className="py-14 md:py-20 px-3 md:px-4 max-w-7xl mx-auto">
@@ -100,10 +145,12 @@ export default async function HomePage() {
               className="text-[#C4A06A] text-[10px] tracking-[0.4em] uppercase mb-2"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              Lo más pedido
+              {/* Antes decía "Lo más pedido" sin datos de ventas que lo
+                  respalden (la selección es por nombre de club). */}
+              Los que nunca pasan de moda
             </p>
             <h2 className="font-display text-white text-3xl md:text-5xl uppercase">
-              Tendencias
+              Clásicos de la casa
             </h2>
           </div>
           <Link

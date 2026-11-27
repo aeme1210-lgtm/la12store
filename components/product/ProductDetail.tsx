@@ -15,6 +15,8 @@ import { Accordion, AccordionItem } from "@/components/ui/Accordion";
 import { SizeGuideSheet } from "@/components/product/SizeGuideSheet";
 import Link from "next/link";
 import { FadeInLeft, FadeInRight } from "@/components/ui/ScrollAnimations";
+import { DELIVERY, displayName, isPlayerOnly } from "@/lib/product-rules";
+import { normalizeType } from "@/lib/taxonomy";
 
 interface Product {
   id: string;
@@ -43,7 +45,10 @@ export function ProductDetail({ product }: { product: Product }) {
 
   const [imgIdx, setImgIdx] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>("");
-  const [version, setVersion] = useState<"Fan" | "Player">("Fan");
+  // Producto que solo existe en versión Jugador: no se ofrece "Fan" (antes se
+  // vendía a $150.000 por defecto — fuga de margen de $30.000 por unidad).
+  const playerOnly = isPlayerOnly(product);
+  const [version, setVersion] = useState<"Fan" | "Player">(playerOnly ? "Player" : "Fan");
   const sizes = product.isRetro ? rawSizes : availableSizesFor(rawSizes, version);
   const [dorsalName, setDorsalName] = useState("");
   const [dorsalNumber, setDorsalNumber] = useState("");
@@ -190,13 +195,14 @@ export function ProductDetail({ product }: { product: Product }) {
             className="text-[#A47C42] text-xs uppercase tracking-widest mb-1"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            {product.type} {product.season && `· ${product.season}`}
+            {normalizeType(product.type).tipoCamiseta ?? product.type}{" "}
+            {product.season && `· ${product.season}`}
           </p>
           <h1
             className="text-3xl md:text-4xl font-black text-white uppercase leading-tight"
             style={{ fontFamily: "var(--font-archivo)" }}
           >
-            {product.name}
+            {displayName(product.name)}
           </h1>
         </div>
 
@@ -212,14 +218,32 @@ export function ProductDetail({ product }: { product: Product }) {
             {formatCOP(getPrice())}
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
-            <span className="text-[#22C55E] text-xs font-semibold">✓ En stock</span>
             <span className="text-[#22C55E] text-xs font-semibold">✓ Dorsal gratis</span>
             <span className="text-[#22C55E] text-xs font-semibold">✓ Parches incluidos</span>
+            <span className="text-[#22C55E] text-xs font-semibold">✓ Envío gratis</span>
+          </div>
+          {/* Plazo real — antes decía "✓ En stock" en todo el catálogo, que es
+              bajo encargo. Es la duda #1 que llega por WhatsApp. */}
+          <div className="mt-3 pt-3 border-t border-white/5 flex items-start gap-2">
+            <span className="mt-1 inline-block w-1.5 h-1.5 rounded-full bg-[#C4A06A] flex-shrink-0" />
+            <p className="text-xs text-white/70 leading-relaxed">
+              <span className="text-white font-semibold">
+                {DELIVERY.label} · {DELIVERY.short}.
+              </span>{" "}
+              {DELIVERY.detail}
+            </p>
           </div>
         </div>
 
+        {playerOnly && !product.isRetro && (
+          <p className="text-xs text-white/60 -mt-2">
+            Esta referencia solo existe en <span className="text-white font-semibold">versión Jugador</span>{" "}
+            (corte entallado, tela técnica de partido).
+          </p>
+        )}
+
         {/* Version selector */}
-        {!product.isRetro && product.hasPlayer && (
+        {!product.isRetro && product.hasPlayer && !playerOnly && (
           <div>
             <p
               className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-2"

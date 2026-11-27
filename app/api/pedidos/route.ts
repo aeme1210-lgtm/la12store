@@ -5,6 +5,8 @@ import { requireAdminAuth } from "@/lib/admin-auth";
 import { OrderCreateSchema } from "@/lib/validation";
 import { ORDER_STATUS } from "@/lib/order-status";
 import { isValidSizeForVersion } from "@/lib/sizes";
+import { getProductPrice } from "@/lib/pricing";
+import { SHIPPING } from "@/lib/shipping";
 
 async function generateUniqueOrderCode(): Promise<string> {
   for (let attempt = 0; attempt < 10; attempt++) {
@@ -47,6 +49,38 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // El precio NUNCA se confía al navegador: se recalcula desde la BD con la
+  // misma función que usa la ficha. Antes cualquiera podía crear un pedido
+  // con `price: 1000` y el admin lo vería como total "real" al verificar.
+  const products = await prisma.product.findMany({
+    where: { id: { in: items.map((i) => i.productId) }, isActive: true },
+  });
+  const byId = new Map(products.map((p) => [p.id, p]));
+  if (items.some((i) => !byId.has(i.productId))) {
+    return NextResponse.json(
+      { error: "Uno de los productos ya no está disponible. Actualiza tu carrito." },
+      { status: 409 }
+    );
+  }
+  const pricedItems = items.map((item) => ({
+    ...item,
+    price: getProductPrice(byId.get(item.productId)!, item.version),
+  }));
+  const serverSubtotal = pricedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const serverShipping = SHIPPING.nacional.cost;
+  const serverTotal = serverSubtotal + serverShipping;
+  if (serverSubtotal !== subtotal || serverTotal !== total) {
+    return NextResponse.json(
+      {
+        error:
+          "Los precios de tu carrito cambiaron. Vuelve al carrito para ver el total actualizado.",
+        subtotal: serverSubtotal,
+        total: serverTotal,
+      },
+      { status: 409 }
+    );
+  }
+
   try {
     const orderNumber = await generateUniqueOrderCode();
     const order = await prisma.order.create({
@@ -62,11 +96,11 @@ export async function POST(req: NextRequest) {
         neighborhood: neighborhood || null,
         notes: notes || null,
         paymentMethod: paymentMethod || null,
-        subtotal,
-        shipping: shipping ?? 0,
-        total,
+        subtotal: serverSubtotal,
+        shipping: serverShipping,
+        total: serverTotal,
         items: {
-          create: items.map((item) => ({
+          create: pricedItems.map((item) => ({
             productId: item.productId,
             quantity: item.quantity,
             size: item.size,

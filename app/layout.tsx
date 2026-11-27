@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { UrgencyBar } from "@/components/ui/UrgencyBar";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { Analytics } from "@vercel/analytics/next";
 import { BRAND_URLS } from "@/lib/brand-urls";
 
 // Sistema tipográfico v2 (REDESIGN_V2_BRIEF.md "ADN DE DISEÑO"): Archivo
@@ -109,6 +110,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <WhatsAppButton />
         <CartDrawer />
+        {/* Analítica sin cookies (Vercel Web Analytics) — hasta 2026-11 el
+            sitio no medía nada. Activar "Analytics" en el panel de Vercel. */}
+        <Analytics />
       </body>
     </html>
   );
