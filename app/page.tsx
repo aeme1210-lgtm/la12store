@@ -28,18 +28,20 @@ export const metadata: Metadata = {
 };
 
 async function getTrendingProducts() {
-  const terms = [
-    "Barcelona", "Real Madrid", "Colombia", "Argentina",
-    "Manchester United", "PSG", "Inter Milan", "Boca Juniors",
-    "Bayern", "Liverpool",
+  // Equipos canónicos (normalización 2026-11-27) — se filtra por `team`, no por
+  // texto del nombre, para no depender del idioma en que quedó el nombre.
+  const teams = [
+    "FC Barcelona", "Real Madrid", "Colombia", "Argentina",
+    "Manchester United", "PSG", "Inter de Milán", "Boca Juniors",
+    "Bayern Múnich", "Liverpool",
   ];
   const results = await Promise.all(
-    terms.map((t) =>
+    teams.map((t) =>
       prisma.product.findFirst({
         // Sin 26/27 (ya están en Estrenos → evita duplicados en portada) y sin niño/bebé.
         where: {
           isActive: true,
-          name: { contains: t },
+          team: t,
           league: { not: "Temporada 26/27" },
           AND: KIDS_NAME_FRAGMENTS.map((f) => ({
             NOT: { name: { contains: f, mode: "insensitive" as const } },

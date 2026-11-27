@@ -72,7 +72,8 @@ interface SearchParams {
 
 function buildWhere(
   params: SearchParams,
-  taxonomy: ReturnType<typeof buildTaxonomyIndex>
+  taxonomy: ReturnType<typeof buildTaxonomyIndex>,
+  accentInsensitiveIds: string[] = []
 ): Record<string, unknown> {
   // Se acumulan condiciones en un array y se combinan con AND — evita que un
   // segundo filtro basado en OR (precio, búsqueda) pise al primero.
@@ -120,11 +121,15 @@ function buildWhere(
   if (params.q) {
     const terms = resolveSearchTerms(params.q);
     and.push({
-      OR: terms.flatMap((term) => [
-        { name: { contains: term, mode: "insensitive" } },
-        { team: { contains: term, mode: "insensitive" } },
-        { league: { contains: term, mode: "insensitive" } },
-      ]),
+      OR: [
+        ...terms.flatMap((term) => [
+          { name: { contains: term, mode: "insensitive" } },
+          { team: { contains: term, mode: "insensitive" } },
+          { league: { contains: term, mode: "insensitive" } },
+        ]),
+        // "mexico" encuentra "México", "atletico" encuentra "Atlético".
+        ...(accentInsensitiveIds.length ? [{ id: { in: accentInsensitiveIds } }] : []),
+      ],
     });
   }
 
@@ -177,7 +182,20 @@ export default async function CatalogoPage({
     leagues = fetchedLeagues;
     taxonomy = buildTaxonomyIndex(fetchedRawTypes.map((t) => t.type));
 
-    const where = buildWhere(params, taxonomy);
+    // Búsqueda sin tildes vía la extensión `unaccent` (instalada en la BD, ver
+    // docs/db-search-extensions.sql). Prisma `contains` distingue tildes.
+    let accentIds: string[] = [];
+    const q = params.q?.trim();
+    if (q && q.length >= 2 && q.length <= 100) {
+      const like = `%${q.replace(/[%_\\]/g, "\\$&")}%`;
+      const rows = await prisma.$queryRaw<{ id: string }[]>`
+        SELECT id FROM "Product"
+        WHERE "isActive" AND (unaccent(name) ILIKE unaccent(${like}) OR unaccent(team) ILIKE unaccent(${like}))
+        LIMIT 3000`;
+      accentIds = rows.map((r) => r.id);
+    }
+
+    const where = buildWhere(params, taxonomy, accentIds);
 
     const [fetchedProducts, fetchedTotal] = await Promise.all([
       prisma.product.findMany({

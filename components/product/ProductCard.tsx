@@ -36,7 +36,7 @@ interface Product {
  * decisión de compra.
  */
 function primaryBadge(product: Product): string | null {
-  if (product.isLongSleeve || /manga larga|long sleeve|\bLS\b/i.test(product.name)) return "Manga larga";
+  if (product.isLongSleeve || /manga larga|long[- ]?sleeve|\bLS\b/i.test(product.name)) return "Manga larga";
   if (product.isRetro) return "Retro";
   if (isPlayerOnlyProduct(product)) return "Jugador";
   if (/26\/27|2026\/27/.test(`${product.season ?? ""} ${product.name}`)) return "26/27";
