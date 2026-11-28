@@ -42,13 +42,68 @@ const arg = (f: string) => {
   return i > -1 ? process.argv[i + 1] : undefined;
 };
 const CATEGORY = arg("--category") ?? "https://pandasportjersey.x.yupoo.com/categories/545635";
-const [P_FROM, P_TO] = (arg("--pages") ?? "1-4").split("-").map(Number);
+const PAGES = (arg("--pages") ?? "1-4").split("-").map(Number);
+const [P_FROM, P_TO] = [PAGES[0], PAGES[1] ?? PAGES[0]];
 const EXECUTE = process.argv.includes("--execute");
+/** Fuerza la liga de todo lo que no sea retro (p. ej. "Temporada 26/27"). */
+const LEAGUE_OVERRIDE = arg("--league");
 const MAX_PHOTOS = 6;
 const BUCKET = "products";
-const FOLDER = "Pandasport";
 const SUPABASE_HOST = "chljxifjjzaffvwixtfm.supabase.co";
 const ORIGIN = new URL(CATEGORY).origin;
+// Carpeta por proveedor: pandasportjersey → "Pandasport", todojerseys → "Todojerseys".
+const FOLDER = (() => {
+  const sub = new URL(CATEGORY).hostname.split(".")[0].replace(/jersey$/, "");
+  return sub[0].toUpperCase() + sub.slice(1);
+})();
+
+/**
+ * Títulos de proveedores como todojerseys traen texto de mayorista y
+ * abreviaturas: "BAR PV special Soccer Jersey 26 27 todojerseys yupoo maglia
+ * calcio/maillot football/camiseta futbol". Se normalizan antes de clasificar.
+ */
+function preprocessTitle(t: string): string {
+  return t
+    .replace(/\btodojerseys\b.*$/i, "")
+    // Caracteres chinos y la talla duplicada que los acompaña ("休达 主场 S--4XL").
+    .replace(/[　-鿿＀-￯]+[^A-Za-z]*/g, " ")
+    // Código de fábrica pegado a la temporada: "26 27-hongpin", "26 -678".
+    .replace(/(\d)\s*-\s*[a-z0-9]+\b(?!\s*\d)/gi, (m, d) => (/^\d+\s*-\s*\d{2}$/.test(m) ? m : `${d} `))
+    .replace(/\badd\+\$\d+/gi, "")
+    .replace(/\bAT\s*Madrid\b/gi, "Atletico Madrid")
+    .replace(/\bLamine Yamal x Barcelona\b/gi, "Barcelona Lamine Yamal")
+    .replace(/\bMiami x Argentina\b/gi, "Inter Miami Argentina")
+    .replace(/\bParis x AJ\b/gi, "PSG Jordan")
+    .replace(/\b(?:Bar|Barcelona)\s+x\s+/gi, "Barcelona ")
+    .replace(/\b(maglia calcio|maillot football|camiseta futbol)\b/gi, "")
+    .replace(/\bPV\b/g, "Player Version")
+    .replace(/\bLS\b/g, "Long Sleeve")
+    .replace(/\bBAR\b|\bBar\b(?= (GK|PV|Player|special|home|away|third))/g, "Barcelona")
+    .replace(/\bLe Coruna\b/gi, "Deportivo La Coruna")
+    .replace(/\bel classico\b/gi, "")
+    .replace(/\bsoccer\b|\bjerseys?\b|\bfanpack\b|\bfanwear\b/gi, " ")
+    .replace(/-S-?(\d?XL)\b/gi, " S-$1")
+    .replace(/\bS\s*[-—–]{1,2}\s*\d?X+L\b/gi, " ")
+    // "BOCHUM", "STUTTGART" → "Bochum"; siglas cortas (PSG, AC) se respetan.
+    .replace(/\b[A-Z]{4,}\b/g, (w) => w[0] + w.slice(1).toLowerCase())
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+/** Reintenta operaciones de BD ante cortes de red (P1001 / "Can't reach database"). */
+async function withDbRetry<T>(fn: () => Promise<T>): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      const msg = String((e as Error).message);
+      const transient = /reach database|P1001|ECONNRESET|ETIMEDOUT|DatabaseNotReachable|Connection terminated/i.test(msg);
+      if (!transient || attempt >= 6) throw e;
+      console.log(`  (BD no responde, reintento ${attempt}/5 en ${10 * attempt}s)`);
+      await sleep(10000 * attempt);
+    }
+  }
+}
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 
@@ -125,7 +180,7 @@ function sizesFor(title: string): string[] {
 }
 
 function classify(album: Album) {
-  const raw = album.title;
+  const raw = preprocessTitle(album.title);
   const isRetro = /\bretro\b/i.test(raw);
   // Colaboraciones "Venezia FC x NOCTA", "Travis Scott Cactus Jack x NK Norway":
   // el equipo es la parte que es club/selección; el resto queda como detalle.
@@ -133,15 +188,20 @@ function classify(album: Album) {
     .replace(/^retro\s+/i, "")
     .replace(/^travis scott cactus jack x (nk )?/i, "")
     .replace(/\s+x\s+(nocta|adidas|nike|puma|kappa|nk)\b/i, "")
-    .replace(/\bmessi\b/i, "Argentina");
+    // "Messi commemorative" sin otro equipo → Argentina; "Miami Messi" → Inter Miami (alias).
+    .replace(/^messi\b/i, "Argentina");
   const team = canonicalTeam(forTeam, forTeam).team;
 
-  const tok = (raw.match(/\b(\d{4})\b/) ?? [])[1];
+  // "2627", "26 27", "26-27", "2026" → temporada.
+  const pair = raw.match(/\b(\d{2})[\s-](\d{2})\b/);
+  const pairTok = pair && (Number(pair[1]) + 1) % 100 === Number(pair[2]) ? `${pair[1]}${pair[2]}` : null;
+  const tok = pairTok ?? (raw.match(/\b(\d{4})\b/) ?? [])[1];
   const season = tok ? seasonFromToken(tok) : null;
   const isNational = NATIONAL.has(team);
 
   let league: string;
   if (isRetro) league = "Retro";
+  else if (LEAGUE_OVERRIDE) league = LEAGUE_OVERRIDE;
   else if (season && /^(2026\/27|2027\/28|2027)$/.test(season)) league = "Temporada 26/27";
   else if (season === "2026") league = isNational ? "Mundial FIFA 2026" : "Temporada 26/27";
   else if (season === "2025/26") league = "New Season";
@@ -152,7 +212,8 @@ function classify(album: Album) {
     name: raw,
     team,
     type: "",
-    season: season ?? null,
+    // Liga forzada a 26/27 sin año en el título → temporada 2026/27.
+    season: season ?? (LEAGUE_OVERRIDE === "Temporada 26/27" && !isRetro ? "2026/27" : null),
     isRetro,
     isLongSleeve,
     priceFan: null,
@@ -160,16 +221,17 @@ function classify(album: Album) {
     priceLongSleeve: null,
   };
   const pr = proposeProduct(input);
+  const finalSeason = input.season;
   // "crop top" y "Crop Jersey" son la misma prenda: top corto de mujer.
   const crop = /\bcrop\b/i.test(raw);
   const baseName = crop ? `Crop top ${pr.name.replace(/\s+Mujer$/, "")}` : pr.name;
-  const isNew = !!season && /^(2026\/27|2026|2027|2027\/28)$/.test(season) && pr.audience === "Adulto" && pr.kind === "Camiseta" && !crop;
+  const isNew = !!finalSeason && /^(2026\/27|2026|2027|2027\/28)$/.test(finalSeason) && pr.audience === "Adulto" && pr.kind === "Camiseta" && !crop;
 
   return {
     album,
     team,
     league,
-    season: season ?? null,
+    season: finalSeason,
     type: pr.shirtType === "Edición especial" ? "Edición Especial" : pr.shirtType,
     isRetro,
     isLongSleeve,
@@ -184,10 +246,19 @@ type Item = ReturnType<typeof classify> & { name: string; slug: string };
 
 // ── 3. Plan: nombres finales y duplicados ──────────────────────────────────
 
+/** Siglas o palabras sueltas que no permiten saber de qué equipo es la camiseta. */
+const UNIDENTIFIED_TEAMS = new Set(["bf", "ca", "st island", "audi", "cropped", "victoria", "all", "james", "local", ""]);
+
 async function buildPlan(albums: Album[]) {
-  const existing = await prisma.product.findMany({ where: { isActive: true }, select: { name: true, slug: true } });
-  const existingNames = new Set(existing.map((p) => p.name));
-  const taken = new Set((await prisma.product.findMany({ select: { slug: true } })).map((p) => p.slug));
+  const existing = await withDbRetry(() => prisma.product.findMany({ where: { isActive: true }, select: { name: true, slug: true } }));
+  // Comparación sin tildes ni mayúsculas: "SV Elversberg" = "sv Elversberg".
+  const norm = (s: string) => strip(s).replace(/\s+/g, " ").trim();
+  const existingNorm = existing.map((p) => norm(p.name));
+  const existingNames = {
+    has: (n: string) => existingNorm.includes(norm(n)),
+    some: (pred: (n: string) => boolean) => existing.some((p) => pred(p.name)),
+  };
+  const taken = new Set((await withDbRetry(() => prisma.product.findMany({ select: { slug: true } }))).map((p) => p.slug));
 
   const items = albums.map(classify);
   const byBase = new Map<string, typeof items>();
@@ -198,8 +269,18 @@ async function buildPlan(albums: Album[]) {
   const batchNames = new Set<string>();
 
   for (const it of items) {
+    // No es fútbol, o no se puede identificar el equipo: no se crea (queda en el reporte).
+    if (/\b(basketball|rugby|nba)\b/i.test(it.album.title)) {
+      skipped.push({ album: it.album, reason: "no es camiseta de fútbol" });
+      continue;
+    }
+    if (!it.team || /\d/.test(it.team) || UNIDENTIFIED_TEAMS.has(it.team.toLowerCase())) {
+      skipped.push({ album: it.album, reason: `equipo no identificable ("${it.team}")` });
+      continue;
+    }
     const collidesInBatch = (byBase.get(it.baseName)?.length ?? 0) > 1;
-    const collidesExisting = existingNames.has(it.baseName) || [...existingNames].some((n) => n.startsWith(`${it.baseName} · `));
+    const collidesExisting =
+      existingNames.has(it.baseName) || existingNames.some((n) => norm(n).startsWith(`${norm(it.baseName)} · `));
     let name = it.baseName;
     if (collidesInBatch || collidesExisting) {
       if (!it.detail) {
@@ -209,8 +290,8 @@ async function buildPlan(albums: Album[]) {
       }
     }
     if (existingNames.has(name)) { skipped.push({ album: it.album, reason: `ya existe "${name}"` }); continue; }
-    if (batchNames.has(name)) { skipped.push({ album: it.album, reason: `repetido en la categoría: "${name}"` }); continue; }
-    batchNames.add(name);
+    if (batchNames.has(norm(name))) { skipped.push({ album: it.album, reason: `repetido en la categoría: "${name}"` }); continue; }
+    batchNames.add(norm(name));
 
     const base = slugify(name) || `yupoo-${it.album.id}`;
     let slug = base;
@@ -281,14 +362,17 @@ async function main() {
   }
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error("Falta SUPABASE_SERVICE_ROLE_KEY en .env");
 
-  const before = await prisma.product.count();
+  const before = await withDbRetry(() => prisma.product.count());
   const results: { album: string; title: string; status: string; slug?: string; detail?: string }[] = [];
   let errors = 0;
-  for (const [n, it] of create.entries()) {
+  // 4 álbumes en paralelo (antes 1): mismo resultado, ~4x más rápido.
+  let done = 0;
+  let aborted = false;
+  const processOne = async (it: Item) => {
     try {
-      if (await prisma.product.findUnique({ where: { slug: it.slug } })) {
+      if (await withDbRetry(() => prisma.product.findUnique({ where: { slug: it.slug } }))) {
         results.push({ album: it.album.id, title: it.album.title, status: "ya_creado", slug: it.slug });
-        continue;
+        return;
       }
       await sleep(400);
       const photos = await albumPhotos(it.album.id);
@@ -298,7 +382,7 @@ async function main() {
         await sleep(250);
         images.push(await copyPhoto(url, `${FOLDER}/${it.slug}/${i}.${url.split(".").pop()!.replace("jpeg", "jpg")}`));
       }
-      await prisma.product.create({
+      await withDbRetry(() => prisma.product.create({
         data: {
           name: it.name,
           slug: it.slug,
@@ -321,19 +405,30 @@ async function main() {
           isTrending: false,
           stock: 99,
         },
-      });
+      }));
       results.push({ album: it.album.id, title: it.album.title, status: "creado", slug: it.slug, detail: `${images.length} fotos` });
     } catch (e) {
       errors++;
       results.push({ album: it.album.id, title: it.album.title, status: "error", detail: (e as Error).message });
     }
-    if ((n + 1) % 20 === 0) console.log(`  … ${n + 1}/${create.length} (${errors} errores)`);
-    if (n + 1 >= 30 && errors / (n + 1) > 0.3) {
-      console.error(`ABORTADO: tasa de error ${(100 * errors / (n + 1)).toFixed(0)}% > 30%`);
-      break;
+    const n = done++;
+    if ((n + 1) % 20 === 0) {
+      console.log(`  … ${n + 1}/${create.length} (${errors} errores)`);
+      // Progreso parcial: si el proceso se corta, queda registro de lo hecho.
+      writeFileSync(`backups/import-yupoo-${stamp}.json`, JSON.stringify({ ...report, before, partial: true, results }, null, 1));
     }
-  }
-  const after = await prisma.product.count();
+    if (n + 1 >= 30 && errors / (n + 1) > 0.3) {
+      if (!aborted) console.error(`ABORTADO: tasa de error ${(100 * errors / (n + 1)).toFixed(0)}% > 30%`);
+      aborted = true;
+    }
+  };
+  const queue = [...create];
+  await Promise.all(
+    Array.from({ length: 4 }, async () => {
+      while (queue.length && !aborted) await processOne(queue.shift()!);
+    })
+  );
+  const after = await withDbRetry(() => prisma.product.count());
   writeFileSync(`backups/import-yupoo-${stamp}.json`, JSON.stringify({ ...report, before, after, results }, null, 1));
   console.log(`\n✓ Catálogo: ${before} → ${after} (+${after - before}). Errores: ${errors}.`);
   console.log(`Detalle: backups/import-yupoo-${stamp}.json`);

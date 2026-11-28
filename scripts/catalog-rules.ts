@@ -36,6 +36,10 @@ export const NOISE = [
   "awa", "hom", "kits", "tracksuits", "tracksuit", "cheap", "wholesale", "yupoo", "yu", "clothes",
   // Importación Pandasport (2026-11-27): "Woman crop top", "Long-Sleeve", "Venezia FC".
   "woman", "crop", "top", "long-sleeve", "long-sleeved", "sleeved", "shorts", "short", "fc", "cf",
+  // Importación todojerseys (2026-11-28).
+  "sets", "set", "street", "girl", "girls", "shirts", "shisrts", "jersyes", "vesion", "versio", "pv",
+  "anniverasjerseys", "souvenir", "with", "sponsor", "sponsors", "sponsers", "without", "full",
+  "add", "authentic", "uniform", "adults", "youth", "and", "cropped", "cr7", "ucl", "last",
 ];
 
 /** Texto de mayorista que nunca debería verse en la tienda. */
@@ -136,7 +140,7 @@ export function audience(name: string): string {
   const n = strip(name);
   if (/\b(baby|infant|bebe)\b/.test(n)) return "Bebé";
   if (/\bkids?\b|\bnin[oa]s?\b|size 1\d/.test(n)) return "Niño";
-  if (/\bwom[ae]n'?s?\b|\bmujer\b|\blady\b|\bfemale\b/.test(n)) return "Mujer";
+  if (/\bwom[ae]n'?s?\b|\bmujer\b|\blady\b|\bfemale\b|\bgirls?\b/.test(n)) return "Mujer";
   return "Adulto";
 }
 
