@@ -34,6 +34,12 @@ export const NOISE = [
   "navy", "pink", "maroon", "beige", "orange", "stripe",
   // Truncados y texto de mayorista que llegó en algunos nombres de proveedor.
   "awa", "hom", "kits", "tracksuits", "tracksuit", "cheap", "wholesale", "yupoo", "yu", "clothes",
+  // Importación Pandasport (2026-11-27): "Woman crop top", "Long-Sleeve", "Venezia FC".
+  "woman", "crop", "top", "long-sleeve", "long-sleeved", "sleeved", "shorts", "short", "fc", "cf",
+  // Importación todojerseys (2026-11-28).
+  "sets", "set", "street", "girl", "girls", "shirts", "shisrts", "jersyes", "vesion", "versio", "pv",
+  "anniverasjerseys", "souvenir", "with", "sponsor", "sponsors", "sponsers", "without", "full",
+  "add", "authentic", "uniform", "adults", "youth", "and", "cropped", "cr7", "ucl", "last",
 ];
 
 /** Texto de mayorista que nunca debería verse en la tienda. */
@@ -97,7 +103,25 @@ export function canonicalTeam(team: string, name: string): { team: string; resol
     if (TEAM_ALIASES[prefix]) return { team: TEAM_ALIASES[prefix], resolved: true };
   }
   const looksClean = /^[\p{L} .'-]+$/u.test(key) && words.length <= 4;
-  return { team: titleCase(key), resolved: looksClean };
+  return { team: prettyFromOriginal(team, key) ?? titleCase(key), resolved: looksClean };
+}
+
+/**
+ * Nombre de equipo con la grafía ORIGINAL del proveedor (siglas y tildes):
+ * "SV Elversberg", "CD Castellón", "AEK Athens", "El Salvador" — en vez de
+ * la clave en minúsculas ("sv elversberg"). Solo se usa si conserva las
+ * mismas palabras que la clave limpia.
+ */
+function prettyFromOriginal(original: string, key: string): string | null {
+  const keyWords = key.split(" ");
+  const out: string[] = [];
+  for (const tok of original.replace(/[_/()]/g, " ").split(/\s+/)) {
+    const s = strip(tok);
+    if (keyWords.includes(s) && !out.some((o) => strip(o) === s)) {
+      out.push(/^[a-zà-ÿ]/.test(tok) ? tok[0].toUpperCase() + tok.slice(1) : tok);
+    }
+  }
+  return out.length === keyWords.length ? out.join(" ") : null;
 }
 
 export function garmentKind(name: string): string {
@@ -116,7 +140,7 @@ export function audience(name: string): string {
   const n = strip(name);
   if (/\b(baby|infant|bebe)\b/.test(n)) return "Bebé";
   if (/\bkids?\b|\bnin[oa]s?\b|size 1\d/.test(n)) return "Niño";
-  if (/\bwom[ae]n'?s?\b|\bmujer\b|\blady\b|\bfemale\b/.test(n)) return "Mujer";
+  if (/\bwom[ae]n'?s?\b|\bmujer\b|\blady\b|\bfemale\b|\bgirls?\b/.test(n)) return "Mujer";
   return "Adulto";
 }
 
@@ -253,7 +277,7 @@ const DESCRIPTOR_STOP = new Set([
   "quality", "players", "fc", "co", "branded", "version", "jerseys", "shirt", "edicion",
   "especial", "local", "visitante", "tercera", "portero", "entrenamiento", "partido",
   "jugador", "player", "nino", "nina", "mujer", "bebe", "s", "xxl", "xl", "l", "m",
-  "sleeved", "sleeves", "original",
+  "sleeved", "sleeves", "original", "womens", "woman", "crop", "top", "shorts", "short",
   // Nombres de equipo en cualquier idioma ("Spain" cuando el equipo ya es "España").
   ...Object.keys(TEAM_ALIASES).flatMap((k) => k.split(" ")),
 ]);
@@ -276,7 +300,8 @@ export function descriptor(originalName: string, team: string): string {
     if (t && !out.includes(t)) out.push(t);
     if (out.length === 3) break;
   }
-  return out.join(" ");
+  // "Navy Blue" → "Azul marino", no "Azul marino Azul".
+  return out.filter((w) => !(w === "Azul" && out.includes("Azul marino"))).join(" ");
 }
 
 /**
