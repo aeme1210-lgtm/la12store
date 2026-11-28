@@ -8,6 +8,7 @@ import { FadeInUp } from "@/components/ui/ScrollAnimations";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { resolveSearchTerms } from "@/lib/search";
+import { GUAYOS, isGuayosUnlocked } from "@/lib/launches";
 import { buildTaxonomyIndex } from "@/lib/taxonomy";
 
 export const metadata: Metadata = {
@@ -53,6 +54,7 @@ const slugToLeague: Record<string, string> = {
   "mundial-fifa-2026": "Mundial FIFA 2026",
   "liga-argentina": "Liga Argentina",
   "temporada-26-27": "Temporada 26/27",
+  guayos: "Guayos",
   // aliases legacy
   "liga-espanola": "La Liga",
   "ligas-sudamericanas": "Retro",
@@ -83,6 +85,8 @@ function buildWhere(
     const leagueName = slugToLeague[params.liga];
     if (leagueName) and.push({ league: leagueName });
   }
+  // Guayos del aniversario: invisibles en catálogo y búsqueda hasta la apertura.
+  if (!isGuayosUnlocked()) and.push({ league: { not: GUAYOS.league } });
   // "tipo" y "color" llegan normalizados en español (ver lib/taxonomy.ts) — se
   // traducen de vuelta a los valores crudos de `type` que hay en la BD.
   const typeFilters: string[][] = [];
@@ -179,7 +183,8 @@ export default async function CatalogoPage({
       prisma.product.groupBy({ by: ["league"], where: { isActive: true } }),
       prisma.product.groupBy({ by: ["type"], where: { isActive: true } }),
     ]);
-    leagues = fetchedLeagues;
+    // El filtro de ligas no muestra "Guayos" hasta la apertura.
+    leagues = isGuayosUnlocked() ? fetchedLeagues : fetchedLeagues.filter((l) => l.league !== GUAYOS.league);
     taxonomy = buildTaxonomyIndex(fetchedRawTypes.map((t) => t.type));
 
     // Búsqueda sin tildes vía la extensión `unaccent` (instalada en la BD, ver

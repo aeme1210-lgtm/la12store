@@ -1,7 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
+import { GUAYOS, isGuayosUnlocked } from "@/lib/launches";
 import SLUG_REDIRECTS from "@/lib/slug-redirects.json";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await prisma.product.findUnique({ where: { slug } });
   if (!product) return { title: "Producto no encontrado" };
+  if (product.league === GUAYOS.league && !isGuayosUnlocked()) return { title: "Aniversario La 12 Store" };
 
   const price = getStartingPrice(product);
   const description = `${displayName(product.name)} - ${product.type} ${product.season ?? ""}. ${formatCOP(price)} COP. Calidad premium con acabados profesionales.`;
@@ -61,6 +63,8 @@ export default async function ProductPage({ params }: Props) {
     if (target && target !== slug) permanentRedirect(`/catalogo/${target}`);
     notFound();
   }
+  // Guayos del aniversario: ni por URL directa antes de la apertura.
+  if (product.league === GUAYOS.league && !isGuayosUnlocked()) redirect("/guayos");
 
   const related = await prisma.product.findMany({
     where: {

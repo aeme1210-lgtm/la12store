@@ -11,6 +11,7 @@ import { EstrenosSection } from "@/components/home/EstrenosSection";
 import { WorldsGrid, type World } from "@/components/home/WorldsGrid";
 import { KIDS_NAME_FRAGMENTS } from "@/lib/product-rules";
 import { TrustBar } from "@/components/home/TrustBar";
+import { GuayosLaunch } from "@/components/home/GuayosLaunch";
 import { Manifesto } from "@/components/home/Manifesto";
 import { Lookbook } from "@/components/home/Lookbook";
 import { VersionGuide } from "@/components/home/VersionGuide";
@@ -84,6 +85,9 @@ export default async function HomePage() {
 
       {/* ── PROMESAS — redesign-v3 ── */}
       <TrustBar />
+
+      {/* ── ANIVERSARIO: GUAYOS (con candado hasta la apertura, lib/launches.ts) ── */}
+      <GuayosLaunch />
 
       {/* ── COLECCIONES EDITORIALES — redesign-v3: la marca guía, no el listado ── */}
       <section className="py-16 md:py-24 px-3 md:px-6 max-w-7xl mx-auto">

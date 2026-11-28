@@ -48,6 +48,8 @@ export function ProductDetail({ product }: { product: Product }) {
   // Producto que solo existe en versión Jugador: no se ofrece "Fan" (antes se
   // vendía a $150.000 por defecto — fuga de margen de $30.000 por unidad).
   const playerOnly = isPlayerOnly(product);
+  // Calzado (sección Guayos): sin dorsal/parches ni guía de tallas de camisetas.
+  const isFootwear = product.league === "Guayos";
   const [version, setVersion] = useState<"Fan" | "Player">(playerOnly ? "Player" : "Fan");
   const sizes = product.isRetro ? rawSizes : availableSizesFor(rawSizes, version);
   const [dorsalName, setDorsalName] = useState("");
@@ -218,8 +220,8 @@ export function ProductDetail({ product }: { product: Product }) {
             {formatCOP(getPrice())}
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
-            <span className="text-[#22C55E] text-xs font-semibold">✓ Dorsal gratis</span>
-            <span className="text-[#22C55E] text-xs font-semibold">✓ Parches incluidos</span>
+            {!isFootwear && <span className="text-[#22C55E] text-xs font-semibold">✓ Dorsal gratis</span>}
+            {!isFootwear && <span className="text-[#22C55E] text-xs font-semibold">✓ Parches incluidos</span>}
             <span className="text-[#22C55E] text-xs font-semibold">✓ Envío gratis</span>
           </div>
           {/* Plazo real — antes decía "✓ En stock" en todo el catálogo, que es
@@ -285,19 +287,26 @@ export function ProductDetail({ product }: { product: Product }) {
             >
               Talla
             </p>
-            <button
-              onClick={() => setGuideOpen(true)}
-              className="flex items-center gap-1 text-[#A47C42] text-xs hover:text-[#C4A06A] transition-colors"
-            >
-              <Info size={12} />
-              Ver guía de tallas
-            </button>
+            {!isFootwear && (
+              <button
+                onClick={() => setGuideOpen(true)}
+                className="flex items-center gap-1 text-[#A47C42] text-xs hover:text-[#C4A06A] transition-colors"
+              >
+                <Info size={12} />
+                Ver guía de tallas
+              </button>
+            )}
           </div>
           <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Talla" aria-required="true">
             {sizes.map((size) => (
               <button
                 key={size}
-                onClick={() => { setPendingSize(size); setSizeError(false); }}
+                onClick={() => {
+                  setSizeError(false);
+                  // Calzado: talla EU directa (la guía con confirmación es de camisetas).
+                  if (isFootwear) setSelectedSize(size);
+                  else setPendingSize(size);
+                }}
                 role="radio"
                 aria-checked={selectedSize === size}
                 className={`w-14 py-2 rounded-lg font-bold uppercase text-sm transition-all duration-200 ${
@@ -318,15 +327,17 @@ export function ProductDetail({ product }: { product: Product }) {
           )}
         </div>
 
-        <SizeGuideSheet
-          open={guideOpen || pendingSize !== null}
-          pendingSize={pendingSize}
-          onClose={() => { setGuideOpen(false); setPendingSize(null); }}
-          onConfirm={(size) => { setSelectedSize(size); setPendingSize(null); setSizeError(false); }}
-        />
+        {!isFootwear && (
+          <SizeGuideSheet
+            open={guideOpen || pendingSize !== null}
+            pendingSize={pendingSize}
+            onClose={() => { setGuideOpen(false); setPendingSize(null); }}
+            onConfirm={(size) => { setSelectedSize(size); setPendingSize(null); setSizeError(false); }}
+          />
+        )}
 
-        {/* Dorsal */}
-        <div className="bg-[#141414] rounded-xl p-4 border border-[#8A6435]/10">
+        {/* Dorsal (no aplica a calzado) */}
+        <div className={`bg-[#141414] rounded-xl p-4 border border-[#8A6435]/10 ${isFootwear ? "hidden" : ""}`}>
           <p
             className="text-[#A0A0A0] text-xs uppercase tracking-wider mb-3"
             style={{ fontFamily: "var(--font-inter)" }}
@@ -445,8 +456,10 @@ export function ProductDetail({ product }: { product: Product }) {
         {/* Confianza — solo compromisos reales y verificables, no cifras inventadas */}
         <div className="grid grid-cols-3 gap-4 text-center border-t border-[#8A6435]/10 pt-6">
           <div>
-            <p className="text-xl" aria-hidden="true">👚</p>
-            <p className="text-xs text-[#9CA3AF] mt-1">Dorsal y parches gratis</p>
+            <p className="text-xl" aria-hidden="true">{isFootwear ? "🚚" : "👚"}</p>
+            <p className="text-xs text-[#9CA3AF] mt-1">
+              {isFootwear ? "Envío gratis a toda Colombia" : "Dorsal y parches gratis"}
+            </p>
           </div>
           <div>
             <p className="text-xl" aria-hidden="true">🔄</p>
@@ -467,16 +480,18 @@ export function ProductDetail({ product }: { product: Product }) {
           )}
           <AccordionItem title="Versión y ajuste">
             <p>
-              {product.isRetro
+              {isFootwear
+                ? "Tallas en numeración europea (EU). Si estás entre dos tallas, pide la mayor. Escríbenos por WhatsApp si tienes dudas con la horma."
+                : product.isRetro
                 ? "Corte clásico retro, ajuste regular. Tela técnica transpirable."
                 : "Versión Fan: ajuste regular, cómoda para uso diario. Versión Jugador: corte más entallado, tela técnica de mayor compresión, igual a la usada en cancha."}
             </p>
           </AccordionItem>
           <AccordionItem title="Materiales y cuidados">
             <p>
-              Tela técnica transpirable con acabados profesionales. Lavar a máquina con agua fría,
-              del revés, sin blanqueador. Secar a la sombra — no usar secadora ni planchar
-              directamente sobre el estampado o el dorsal.
+              {isFootwear
+                ? "Limpiar con un paño húmedo y cepillo suave. No meter a la lavadora ni a la secadora; secar a la sombra con papel adentro para conservar la forma."
+                : "Tela técnica transpirable con acabados profesionales. Lavar a máquina con agua fría, del revés, sin blanqueador. Secar a la sombra — no usar secadora ni planchar directamente sobre el estampado o el dorsal."}
             </p>
           </AccordionItem>
           <AccordionItem title="Envíos y cambios">
@@ -493,10 +508,12 @@ export function ProductDetail({ product }: { product: Product }) {
             </p>
           </AccordionItem>
           <AccordionItem title="Preguntas frecuentes">
-            <p className="mb-2">
-              <strong className="text-white">¿El dorsal y los parches tienen costo?</strong> No,
-              van incluidos gratis en cada pedido.
-            </p>
+            {!isFootwear && (
+              <p className="mb-2">
+                <strong className="text-white">¿El dorsal y los parches tienen costo?</strong> No,
+                van incluidos gratis en cada pedido.
+              </p>
+            )}
             <p>
               Más preguntas en nuestra{" "}
               <Link href="/faq" className="text-[#A47C42] hover:underline">
