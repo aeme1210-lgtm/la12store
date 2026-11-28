@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { COLLECTIONS } from "@/lib/collections";
+import { GUAYOS, isGuayosUnlocked } from "@/lib/launches";
 
 const BASE_URL = "https://la12store.vercel.app";
 
@@ -22,7 +23,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Solo campos mínimos (slug/updatedAt) — no se trae el catálogo completo
   // al cliente, esto corre en el servidor durante la generación del sitemap.
   const products = await prisma.product.findMany({
-    where: { isActive: true },
+    // Los guayos del aniversario no se anuncian a Google antes de la apertura.
+    where: isGuayosUnlocked() ? { isActive: true } : { isActive: true, league: { not: GUAYOS.league } },
     select: { slug: true, updatedAt: true },
   });
 
